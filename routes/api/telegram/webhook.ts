@@ -32,7 +32,7 @@ export const handler: Handlers = {
       }
 
       console.info('Webhook set successfully')
-      return new Response('Webhook set successfully', { status: 200 })
+      return new Response(`Webhook set successfully to ${webhookDomain}/telegram/webhook`, { status: 200 })
     } catch (err) {
       console.error(err)
       return new Response('Error setting webhook', { status: 500 })
