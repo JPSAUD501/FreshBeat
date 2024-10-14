@@ -5,11 +5,12 @@
     "cli": "echo \"import '\\$fresh/src/dev/cli.ts'\" | deno run --unstable -A -",
     "manifest": "deno task cli manifest $(pwd)",
     "start": "deno run -A --watch=static/,routes/ dev.ts",
-    "build": "deno run -A dev.ts build",
+    "fresh:build": "deno run -A dev.ts build",
     "preview": "deno run -A main.ts",
-    "update": "deno run -A -r https://fresh.deno.dev/update .",
+    "fresh:update": "deno run -A -r https://fresh.deno.dev/update .",
     "setup:webhook": "deno run ./utils/setup/webhook.ts",
-    "translate": "deno run -A --unstable ./translations/runModule.ts"
+    "setup:translate": "deno run -A --unstable ./translations/runModule.ts",
+    "setup:build": "deno task fresh:build && deno task setup:translate"
   },
   "lint": {
     "rules": {
