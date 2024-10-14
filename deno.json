@@ -10,7 +10,8 @@
     "fresh:update": "deno run -A -r https://fresh.deno.dev/update .",
     "setup:webhook": "deno run ./utils/setup/webhook.ts",
     "setup:translate": "deno run -A --unstable ./translations/runModule.ts",
-    "setup:build": "deno task fresh:build && deno task setup:translate"
+    "setup:build": "deno task fresh:build && deno task setup:translate",
+    "build": "deno run -A dev.ts build"
   },
   "lint": {
     "rules": {
@@ -49,5 +50,5 @@
     "jsx": "react-jsx",
     "jsxImportSource": "preact"
   },
-  "nodeModulesDir": "auto"
+  "nodeModulesDir": true
 }
