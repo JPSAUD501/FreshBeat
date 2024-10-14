@@ -5,6 +5,7 @@ import { config } from '../../../config.ts'
 export const handler: Handlers = {
   POST: async (req) => {
     try {
+      console.debug('Received webhook update')
       return await handle(req)
     } catch (err) {
       console.error(err)
