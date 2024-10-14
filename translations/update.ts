@@ -12,13 +12,12 @@ export async function updateTranslations(): Promise<void> {
     const { translationsApi } = new crowdin.default({
       token: config.CROWDIN_TOKEN
     })
-    const langs = [58]
+    const langs = ['en']
     for (const lang of langs) {
       const result = await translationsApi.buildProjectFileTranslation(config.CROWDIN_PROJECT_ID, config.CROWDIN_FILE_ID, {
-        targetLanguageId: lang.toString(),
+        targetLanguageId: lang
       })
       const fileUrl = result.data.url
-      console.debug(`(${lang}) File URL: ${fileUrl}`)
       const response = await fetch(fileUrl, { method: 'GET' })
       const responseJson = await response.json()
       const json = responseJson as Record<string, string>
