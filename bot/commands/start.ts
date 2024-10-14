@@ -1,6 +1,6 @@
 import { Context } from 'grammy'
 import { registerCommand } from '../index.ts'
-import { lang } from '../../translations/base.ts'
+import { lang } from '../../translation/base.ts'
 
 registerCommand({
   name: 'start',
