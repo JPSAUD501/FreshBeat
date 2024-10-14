@@ -8,13 +8,14 @@ const configSchema = z.object({
   CROWDIN_PROJECT_ID: z.number(),
   CROWDIN_FILE_ID: z.number(),
 })
-const parsedConfig = configSchema.safeParse({
+const configData = {
   BOT_TOKEN: Deno.env.get('BOT_TOKEN'),
   POLLING_MODE: (Deno.env.get('POLLING_MODE') ?? 'false') === 'true',
   CROWDIN_TOKEN: Deno.env.get('CROWDIN_TOKEN'),
   CROWDIN_PROJECT_ID: 727545,
   CROWDIN_FILE_ID: 16,
-})
+}
+const parsedConfig = configSchema.safeParse(configData)
 
 if (!parsedConfig.success) {
   for (const issue of parsedConfig.error.issues) {
@@ -22,4 +23,4 @@ if (!parsedConfig.success) {
   }
 }
 
-export const config = parsedConfig.data as z.infer<typeof configSchema>
+export const config = configData as z.infer<typeof configSchema>
