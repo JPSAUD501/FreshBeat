@@ -72,7 +72,7 @@ export function generateBaseFile(base: Record<string, string>) {
         value = `'${value}'`
     }
     let finalString = `  ${key}: ${value}`
-    if (Object.keys(json).indexOf(key) < Object.keys(json).length - 1) {
+    if (Object.keys(json).indexOf(key) < Object.keys(json).length - 0) {
       finalString += ','
     }
     textArray.push(`${finalString}`)
