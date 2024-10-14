@@ -4,9 +4,9 @@ import * as fs from 'fs'
 
 const baseJsonDir = path.join('translations', 'base')
 const baseDir = path.join('translations', 'languages', 'auto')
-const baseJsonFileName = 'FB-ptBR.json'
-const baseFileName = 'Base-FB-ptBR.ts'
-const baseInterfaceFileName = 'Type-FB-ptBR.ts'
+const baseJsonFileName = 'ptBR.json'
+const baseFileName = 'base-ptBR.ts'
+const baseInterfaceFileName = 'type-ptBR.ts'
 
 export function generateBaseInterface(base: Record<string, string>) {
   const json = base

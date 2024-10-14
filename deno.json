@@ -9,7 +9,7 @@
     "preview": "deno run -A main.ts",
     "fresh:update": "deno run -A -r https://fresh.deno.dev/update .",
     "setup:webhook": "deno run ./utils/setup/webhook.ts",
-    "setup:translate": "deno run -A --unstable ./translations/runModule.ts",
+    "setup:translate": "deno run -A --unstable ./translations/run.ts",
     "setup:build": "deno task fresh:build && deno task setup:translate",
     "build": "deno run -A dev.ts build"
   },
@@ -29,22 +29,7 @@
     "singleQuote": true,
     "exclude": ["translations/languages/*", "translations/base/*", "**/_fresh/*"]
   },
-  "imports": {
-    "$fresh/": "https://deno.land/x/fresh@1.7.2/",
-    "preact": "https://esm.sh/preact@10.22.0",
-    "preact/": "https://esm.sh/preact@10.22.0/",
-    "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2",
-    "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.5.1",
-    "tailwindcss": "npm:tailwindcss@3.4.1",
-    "tailwindcss/": "npm:/tailwindcss@3.4.1/",
-    "tailwindcss/plugin": "npm:/tailwindcss@3.4.1/plugin.js",
-    "$std/": "https://deno.land/std@0.216.0/",
-    "grammy": "https://deno.land/x/grammy@v1.30.0/mod.ts",
-    "zod": "https://deno.land/x/zod@v3.23.8/mod.ts",
-    "fs": "jsr:@std/fs",
-    "path": "jsr:@std/path",
-    "dotenv": "jsr:@std/dotenv/load"
-  },
+  "imports": { "$fresh/": "https://deno.land/x/fresh@1.7.2/", "$std/": "https://deno.land/std@0.216.0/", "@crowdin/crowdin-api-client": "npm:@crowdin/crowdin-api-client@^1.37.1", "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2", "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.5.1", "dotenv": "jsr:@std/dotenv/load", "fs": "jsr:@std/fs", "grammy": "https://deno.land/x/grammy@v1.30.0/mod.ts", "path": "jsr:@std/path", "preact": "https://esm.sh/preact@10.22.0", "preact/": "https://esm.sh/preact@10.22.0/", "tailwindcss": "npm:tailwindcss@3.4.1", "tailwindcss/": "npm:/tailwindcss@3.4.1/", "tailwindcss/plugin": "npm:/tailwindcss@3.4.1/plugin.js", "zod": "https://deno.land/x/zod@v3.23.8/mod.ts" },
   "compilerOptions": {
     "jsx": "react-jsx",
     "jsxImportSource": "preact"

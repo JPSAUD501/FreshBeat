@@ -1,34 +1,27 @@
 // deno-lint-ignore-file
 import * as fs from 'fs'
 import * as path from 'path'
-import { baseLang } from './languages/auto/Base-FB-ptBR.ts'
+import { baseLang } from './languages/auto/base-ptBR.ts'
+import crowdin from '@crowdin/crowdin-api-client';
+import { config } from '../config.ts'
 
 const translationsDir = path.join('translations', 'languages')
 
 export async function updateTranslations(): Promise<void> {
   try {
-    const urls: Record<string, string> = {
-      en: 'https://raw.githubusercontent.com/JPSAUD501/FreshBeat/Crowdin/en.json',
-    }
-
-    for (const lang in urls) {
-      // const response = await fetch(urls[lang]).then(res => {
-      //   if (!res.ok) {
-      //     throw new Error(`HTTP error! status: ${res.status}`);
-      //   }
-      //   return res.json();
-      // }).catch((error: any) => {
-      //   return new Error(error);
-      // });
-      // if (response instanceof Error) {
-      //   return {
-      //     success: false,
-      //     error: `Error on updating translations: ${response.message}`
-      //   }
-      // }
-      const response = { data: {} }
-
-      const json = response.data as Record<string, string>
+    const { translationsApi } = new crowdin.default({
+      token: config.CROWDIN_TOKEN
+    })
+    const langs = [58]
+    for (const lang of langs) {
+      const result = await translationsApi.buildProjectFileTranslation(config.CROWDIN_PROJECT_ID, config.CROWDIN_FILE_ID, {
+        targetLanguageId: lang.toString(),
+      })
+      const fileUrl = result.data.url
+      console.debug(`(${lang}) File URL: ${fileUrl}`)
+      const response = await fetch(fileUrl, { method: 'GET' })
+      const responseJson = await response.json()
+      const json = responseJson as Record<string, string>
       const textArray: string[] = []
       textArray.push(`export const ${lang} = {`)
       for (const key in json) {

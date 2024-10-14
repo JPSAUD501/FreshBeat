@@ -1,5 +1,5 @@
-import { baseLang } from './languages/auto/Base-FB-ptBR.ts'
-import type { BaseLang } from './languages/auto/Type-FB-ptBR.ts'
+import { baseLang } from './languages/auto/base-ptBR.ts'
+import type { BaseLang } from './languages/auto/type-ptBR.ts'
 import { en } from './languages/en.ts'
 
 export type Language = typeof baseLang

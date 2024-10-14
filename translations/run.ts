@@ -4,7 +4,7 @@ import { getAllLangKeys } from './getAllLangKeys.ts'
 import { generateBase } from './generateBase.ts'
 import { updateTranslations } from './update.ts'
 
-const jsonBaseFileDir = path.join('translations', 'base', 'FB-ptBR.json')
+const jsonBaseFileDir = path.join('translations', 'base', 'ptBR.json')
 
 async function runTranslationModule() {
   console.log('Starting translation module...')

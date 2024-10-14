@@ -64,7 +64,7 @@ function getModuleObjects(item: object): object[] {
 }
 
 export function getAllLangKeys(code: string[]): Promise<Record<string, string>> {
-  const modules: swc.ModuleItem[] = []
+  const modules: object[] = []
   for (const file of code) {
     const ast = swc.parseSync(file, {
       syntax: 'typescript',
