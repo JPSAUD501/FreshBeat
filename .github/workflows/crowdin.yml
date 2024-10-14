@@ -2,13 +2,13 @@ name: Crowdin Action
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   synchronize-with-crowdin:
     runs-on: ubuntu-latest
 
-    permissions: 
+    permissions:
       id-token: write
       contents: read
 

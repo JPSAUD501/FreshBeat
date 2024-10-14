@@ -2,7 +2,7 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import { baseLang } from './languages/auto/base-ptBR.ts'
-import crowdin from '@crowdin/crowdin-api-client';
+import crowdin from '@crowdin/crowdin-api-client'
 import { config } from '../config.ts'
 
 const translationsDir = path.join('translations', 'languages')
@@ -10,12 +10,12 @@ const translationsDir = path.join('translations', 'languages')
 export async function updateTranslations(): Promise<void> {
   try {
     const { translationsApi } = new crowdin.default({
-      token: config.CROWDIN_TOKEN
+      token: config.CROWDIN_TOKEN,
     })
     const langs = ['en']
     for (const lang of langs) {
       const result = await translationsApi.buildProjectFileTranslation(config.CROWDIN_PROJECT_ID, config.CROWDIN_FILE_ID, {
-        targetLanguageId: lang
+        targetLanguageId: lang,
       })
       const fileUrl = result.data.url
       const response = await fetch(fileUrl, { method: 'GET' })
