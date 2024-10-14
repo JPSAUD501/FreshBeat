@@ -11,7 +11,6 @@ const baseInterfaceFileName = 'type-ptBR.ts'
 export function generateBaseInterface(base: Record<string, string>) {
   const json = base
   const textArray: string[] = []
-  textArray.push('export type BaseLang =')
   for (const key in json) {
     let value: string = json[key]
     value = value.replaceAll('\n', '\\n')
@@ -28,14 +27,10 @@ export function generateBaseInterface(base: Record<string, string>) {
       default:
         value = `'${value}'`
     }
-    let finalString = `  { key: '${key}', value: ${value} }`
-    if (Object.keys(json).indexOf(key) < Object.keys(json).length - 1) {
-      finalString += ' |'
-    }
+    const finalString = `{ key: '${key}'; value: ${value} }`
     textArray.push(`${finalString}`)
   }
-  textArray.push('')
-  const text = textArray.join('\n')
+  const text = `export type BaseLang =\n  | ${textArray.join('\n  | ')}\n`
   if (!fs.existsSync(path.join(baseDir))) {
     Deno.mkdirSync(path.join(baseDir))
   }

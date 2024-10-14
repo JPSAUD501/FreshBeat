@@ -23,7 +23,7 @@ async function runTranslationModule() {
   console.log('Keys in new but not in old:')
   console.log(keysInNewButNotInOld)
   const finalJsonBase = { ...oldJsonBase, ...allLangKeys }
-  Deno.writeFileSync(jsonBaseFileDir, new TextEncoder().encode(JSON.stringify(finalJsonBase, null, 2)))
+  Deno.writeFileSync(jsonBaseFileDir, new TextEncoder().encode(JSON.stringify(finalJsonBase, null, 2) + '\n'))
   await new Promise((resolve) => setTimeout(resolve, 1000))
   generateBase()
   await updateTranslations()
