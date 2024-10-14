@@ -24,7 +24,7 @@ export const handler: Handlers = {
         return new Response('WEBHOOK_DOMAIN must be set in the environment variables', { status: 400 })
       }
 
-      const apiUrl = `https://api.telegram.org/bot${config.BOT_TOKEN}/setWebhook?url=${webhookDomain}/telegram/webhook`
+      const apiUrl = `https://api.telegram.org/bot${config.BOT_TOKEN}/setWebhook?url=https://${webhookDomain}/telegram/webhook`
       const response = await fetch(apiUrl, { method: 'GET' })
 
       if (!response.ok) {
@@ -32,7 +32,7 @@ export const handler: Handlers = {
       }
 
       console.info('Webhook set successfully')
-      return new Response(`Webhook set successfully to ${webhookDomain}/telegram/webhook`, { status: 200 })
+      return new Response(`Webhook set successfully to https://${webhookDomain}/telegram/webhook`, { status: 200 })
     } catch (err) {
       console.error(err)
       return new Response('Error setting webhook', { status: 500 })
