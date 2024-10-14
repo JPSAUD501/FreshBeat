@@ -1,4 +1,4 @@
-import 'jsr:@std/dotenv/load'
+import 'dotenv'
 
 const webhookDomain = Deno.args[0]
 const botToken = Deno.args[1]

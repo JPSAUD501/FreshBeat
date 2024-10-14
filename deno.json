@@ -42,7 +42,8 @@
     "grammy": "https://deno.land/x/grammy@v1.30.0/mod.ts",
     "zod": "https://deno.land/x/zod@v3.23.8/mod.ts",
     "fs": "jsr:@std/fs",
-    "path": "jsr:@std/path"
+    "path": "jsr:@std/path",
+    "dotenv": "jsr:@std/dotenv/load"
   },
   "compilerOptions": {
     "jsx": "react-jsx",
