@@ -5,7 +5,6 @@ import { config } from '../../../config.ts'
 export const handler: Handlers = {
   POST: async (req) => {
     try {
-      console.debug('Received webhook update')
       return await handle(req)
     } catch (err) {
       console.error(err)
@@ -25,15 +24,15 @@ export const handler: Handlers = {
         return new Response('WEBHOOK_DOMAIN must be set in the environment variables', { status: 400 })
       }
 
-      const apiUrl = `https://api.telegram.org/bot${config.BOT_TOKEN}/setWebhook?url=https://${webhookDomain}/telegram/webhook`
-      const response = await fetch(apiUrl, { method: 'GET' })
+      const webhookUrl = `https://${webhookDomain}/api/telegram/webhook`
+      const response = await fetch(`https://api.telegram.org/bot${config.BOT_TOKEN}/setWebhook?url=${webhookUrl}`, { method: 'GET' })
 
       if (!response.ok) {
         return new Response(`Failed to set webhook: ${await response.text()}`, { status: 500 })
       }
 
       console.info('Webhook set successfully')
-      return new Response(`Webhook set successfully to https://${webhookDomain}/telegram/webhook`, { status: 200 })
+      return new Response(`Webhook set successfully to ${webhookUrl}`, { status: 200 })
     } catch (err) {
       console.error(err)
       return new Response('Error setting webhook', { status: 500 })
