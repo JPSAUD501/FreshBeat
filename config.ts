@@ -16,5 +16,4 @@ if (!parsedConfig.success) {
   throw new Error('Invalid environment values')
 }
 
-
 export const config: z.infer<typeof configSchema> = parsedConfig.data

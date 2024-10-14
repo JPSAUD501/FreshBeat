@@ -26,11 +26,9 @@
     "useTabs": false,
     "indentWidth": 2,
     "lineWidth": 9999,
-    "singleQuote": true
+    "singleQuote": true,
+    "exclude": ["translations/languages/*", "translations/base/*", "**/_fresh/*"]
   },
-  "exclude": [
-    "**/_fresh/*"
-  ],
   "imports": {
     "$fresh/": "https://deno.land/x/fresh@1.7.2/",
     "preact": "https://esm.sh/preact@10.22.0",
