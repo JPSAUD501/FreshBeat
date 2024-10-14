@@ -14,7 +14,6 @@ if (!parsedConfig.success) {
   for (const issue of parsedConfig.error.issues) {
     console.error(`Invalid environment value for ${issue.path.join()} (${issue.message})`)
   }
-  throw new Error(`Invalid environment values: ${parsedConfig.error.issues.map((issue) => issue.path.join()).join(', ')}`)
 }
 
-export const config: z.infer<typeof configSchema> = parsedConfig.data
+export const config = parsedConfig.data as z.infer<typeof configSchema>
