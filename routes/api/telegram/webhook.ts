@@ -37,5 +37,5 @@ export const handler: Handlers = {
       console.error(err)
       return new Response('Error setting webhook', { status: 500 })
     }
-  }
+  },
 }
