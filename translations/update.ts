@@ -57,7 +57,7 @@ export async function updateTranslations(): Promise<void> {
       if (fs.existsSync(translationFileDir)) {
         const content = new TextDecoder().decode(Deno.readFileSync(translationFileDir))
         if (content === text) {
-          console.log(`File ${translationFileDir} is already up to date!`)
+          console.log(`Translation for [${lang}] is already up to date!`)
           continue
         }
       }

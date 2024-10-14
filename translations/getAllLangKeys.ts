@@ -81,7 +81,7 @@ export function getAllLangKeys(code: string[]): Promise<Record<string, string>> 
       objectsFounded++
     }
   }
-  console.log(`In ${code.length} files and ${modules.length} valid modules, founded ${objectsFounded} possible objects`)
+  console.log(`Found ${objectsFounded} possible objects in ${code.length} files and ${modules.length} valid modules!`)
   const validObjects: ValidLangFunction[] = []
   const progressBar = new cliProgress.SingleBar({
     align: 'left',
@@ -93,6 +93,7 @@ export function getAllLangKeys(code: string[]): Promise<Record<string, string>> 
     linewrap: true,
     format: '[{bar} {percentage}%] | {value}/{total} | {duration_formatted}',
   }, cliProgress.Presets.shades_grey)
+  console.log('Searching for valid lang calls...')
   progressBar.start(Object.keys(allObjects).length, 0)
   let processedObjects = 0
   for (const object of Object.values(allObjects)) {

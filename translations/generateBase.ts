@@ -38,12 +38,12 @@ export function generateBaseInterface(base: Record<string, string>) {
   if (fs.existsSync(baseInterfaceFileDir)) {
     const content = new TextDecoder().decode(Deno.readFileSync(baseInterfaceFileDir))
     if (content === text) {
-      console.log(`File ${baseInterfaceFileDir} is already up to date!`)
+      console.log(`Base interface [${baseInterfaceFileName}] is already up to date!`)
       return
     }
   }
   Deno.writeFileSync(baseInterfaceFileDir, new TextEncoder().encode(text))
-  console.log(`File ${baseInterfaceFileDir} was updated!`)
+  console.log(`Base interface [${baseInterfaceFileName}] was updated!`)
 }
 
 export function generateBaseFile(base: Record<string, string>) {
@@ -82,12 +82,12 @@ export function generateBaseFile(base: Record<string, string>) {
   if (fs.existsSync(baseFileDir)) {
     const content = new TextDecoder().decode(Deno.readFileSync(baseFileDir))
     if (content === text) {
-      console.log(`File ${baseFileDir} is already up to date!`)
+      console.log(`Base file [${baseFileName}] is already up to date!`)
       return
     }
   }
   Deno.writeFileSync(baseFileDir, new TextEncoder().encode(text))
-  console.log(`File ${baseFileDir} was updated!`)
+  console.log(`Base file [${baseFileName}] was updated!`)
   return
 }
 
