@@ -5,7 +5,7 @@ import { baseLang } from './languages/auto/base-ptBR.ts'
 import crowdin from '@crowdin/crowdin-api-client'
 import { config } from '../config.ts'
 
-const translationsDir = path.join('translations', 'languages')
+const languagesDir = path.join('localization', 'languages')
 
 export async function updateTranslations(): Promise<void> {
   try {
@@ -50,10 +50,10 @@ export async function updateTranslations(): Promise<void> {
       textArray.push('}')
       textArray.push('')
       const text = textArray.join('\n')
-      if (!fs.existsSync(translationsDir)) {
-        Deno.mkdirSync(translationsDir)
+      if (!fs.existsSync(languagesDir)) {
+        Deno.mkdirSync(languagesDir)
       }
-      const translationFileDir = path.join(translationsDir, `${lang}.ts`)
+      const translationFileDir = path.join(languagesDir, `${lang}.ts`)
       if (fs.existsSync(translationFileDir)) {
         const content = new TextDecoder().decode(Deno.readFileSync(translationFileDir))
         if (content === text) {

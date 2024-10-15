@@ -1,6 +1,6 @@
 import { Context } from 'grammy'
 import { getCommandList, registerCommand } from '../index.ts'
-import { lang } from '../../translation/base.ts'
+import { lang } from '../../localization/base.ts'
 
 registerCommand({
   name: 'help',

@@ -2,8 +2,8 @@ import z from 'zod'
 import * as path from 'path'
 import * as fs from 'fs'
 
-const baseJsonDir = path.join('translations', 'base')
-const baseDir = path.join('translations', 'languages', 'auto')
+const baseJsonDir = path.join('localization', 'base')
+const baseDir = path.join('localization', 'languages', 'auto')
 const baseJsonFileName = 'ptBR.json'
 const baseFileName = 'base-ptBR.ts'
 const baseInterfaceFileName = 'type-ptBR.ts'

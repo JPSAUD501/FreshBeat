@@ -1,4 +1,4 @@
-name: Crowdin Action
+name: Crowdin
 
 on:
   push:
@@ -6,6 +6,7 @@ on:
 
 jobs:
   synchronize-with-crowdin:
+    name: Synchronize with Crowdin
     runs-on: ubuntu-latest
 
     permissions:
@@ -21,7 +22,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: crowdin action
+      - name: Upload sources to Crowdin
         uses: crowdin/github-action@v2
         with:
           upload_sources: true

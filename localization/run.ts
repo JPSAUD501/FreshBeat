@@ -4,7 +4,7 @@ import { getAllLangKeys } from './getAllLangKeys.ts'
 import { generateBase } from './generateBase.ts'
 import { updateTranslations } from './update.ts'
 
-const jsonBaseFileDir = path.join('translations', 'base', 'ptBR.json')
+const jsonBaseFileDir = path.join('localization', 'base', 'ptBR.json')
 
 async function runTranslationModule() {
   console.log('Scanning all code files...')

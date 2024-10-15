@@ -5,7 +5,7 @@ import { setupCommands } from './index.ts'
 import './commands/start.ts'
 import './commands/help.ts'
 
-const bot = new Bot(config.BOT_TOKEN)
+export const bot = new Bot(config.BOT_TOKEN)
 
 setupCommands(bot)
 
