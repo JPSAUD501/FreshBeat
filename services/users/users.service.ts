@@ -31,4 +31,8 @@ export class UsersService {
     const parsed = ZodUser.parse(data)
     return parsed
   }
+
+  async delete(uuid: string): Promise<void> {
+    await kv.delete([this.repository, uuid])
+  }
 }
