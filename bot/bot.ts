@@ -1,9 +1,11 @@
 import { Bot, webhookCallback } from 'grammy'
 import { config } from '../config.ts'
 import { setupCommands } from './index.ts'
+import * as startCommand from './commands/start/start.ts'
+import * as helpCommand from './commands/help/help.ts'
 
-import './commands/start.ts'
-import './commands/help.ts'
+startCommand.register()
+helpCommand.register()
 
 export const bot = new Bot(config.BOT_TOKEN)
 
