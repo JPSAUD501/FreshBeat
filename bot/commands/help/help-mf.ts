@@ -1,7 +1,7 @@
 import { lang } from '../../../localization/base.ts'
 import type { MsgFabricOutput } from '../../types.ts'
 
-export function mfHelp (langCode: string | undefined, props: {
+export function mfHelp(langCode: string | undefined, props: {
   command_list: Array<{
     command: string
     description: string
@@ -13,6 +13,6 @@ export function mfHelp (langCode: string | undefined, props: {
     textArray.push(`/${command}`)
   }
   return {
-    message: textArray.join('\n')
+    message: textArray.join('\n'),
   }
 }
