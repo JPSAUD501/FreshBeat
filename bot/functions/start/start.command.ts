@@ -14,7 +14,7 @@ export const register = () => (
       await new Promise((resolve) => setTimeout(resolve, 3000))
       if (ctx.chat === undefined) return
       const mfResponse = mfStart(langCode)
-      const inlineKeyboard = new InlineKeyboard().webApp('Logar', `http://www.last.fm/api/auth/?api_key=4f52c86c1bc1b5870c1e35227dddcc03`)
+      const inlineKeyboard = new InlineKeyboard().webApp('Logar', `https://www.last.fm/api/auth/?api_key=4f52c86c1bc1b5870c1e35227dddcc03`)
       await ctx.reply(`${config.APP_DOMAIN}`)
       await ctx.api.editMessageText(ctx.chat.id, reply.message_id, mfResponse, {
         reply_markup: {
