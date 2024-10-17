@@ -1,9 +1,5 @@
 import { Context } from 'grammy'
 
-export type MsgFabricOutput = {
-  message: string
-}
-
 export interface BotCommand {
   name: string
   description: (langCode: string | undefined) => string

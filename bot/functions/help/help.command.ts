@@ -11,7 +11,7 @@ export const register = () => (
       const langCode = ctx.message?.from.language_code
       const commandList = getCommandList().map((cmd) => ({ command: cmd.command, description: cmd.description(langCode) }))
       const mfResponse = mfHelp(langCode, { command_list: commandList })
-      ctx.reply(mfResponse.message)
+      ctx.reply(mfResponse)
     },
   })
 )

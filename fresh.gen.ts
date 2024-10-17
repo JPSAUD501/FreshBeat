@@ -6,8 +6,9 @@ import * as $_404 from './routes/_404.tsx'
 import * as $_app from './routes/_app.tsx'
 import * as $api_telegram_webhook from './routes/api/telegram/webhook.ts'
 import * as $index from './routes/index.tsx'
-import * as $lastfm_create_account from './routes/lastfm/create-account.tsx'
+import * as $lastfm_webhook from './routes/lastfm/webhook.tsx'
 import * as $Counter from './islands/Counter.tsx'
+import * as $WebView from './islands/WebView.tsx'
 import type { Manifest } from '$fresh/server.ts'
 
 const manifest = {
@@ -16,10 +17,11 @@ const manifest = {
     './routes/_app.tsx': $_app,
     './routes/api/telegram/webhook.ts': $api_telegram_webhook,
     './routes/index.tsx': $index,
-    './routes/lastfm/create-account.tsx': $lastfm_create_account,
+    './routes/lastfm/webhook.tsx': $lastfm_webhook,
   },
   islands: {
     './islands/Counter.tsx': $Counter,
+    './islands/WebView.tsx': $WebView,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest
