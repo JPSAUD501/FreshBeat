@@ -3,10 +3,10 @@ import { useEffect } from "preact/hooks";
 
 export default function MiniappCallback(props: { data: Record<string, unknown> }) {
   useEffect(() => {
-    (globalThis as any).Telegram.WebApp.sendData(JSON.stringify({
-      lastfm_token: props.data.token,
-    }));
-    (globalThis as any).Telegram.WebApp.close();
+    (globalThis as any).Telegram.WebApp.sendData({
+      data: JSON.stringify({ token: props.data.token }),
+      button_text: "Logar"
+    });
   }, [props.data.token]);
   return null;
 }
