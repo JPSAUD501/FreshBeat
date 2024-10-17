@@ -8,7 +8,7 @@ import * as $api_telegram_webhook from './routes/api/telegram/webhook.ts'
 import * as $index from './routes/index.tsx'
 import * as $lastfm_webhook from './routes/lastfm/webhook.tsx'
 import * as $Counter from './islands/Counter.tsx'
-import * as $WebView from './islands/WebView.tsx'
+import * as $MiniappCallback from './islands/MiniappCallback.tsx'
 import type { Manifest } from '$fresh/server.ts'
 
 const manifest = {
@@ -21,7 +21,7 @@ const manifest = {
   },
   islands: {
     './islands/Counter.tsx': $Counter,
-    './islands/WebView.tsx': $WebView,
+    './islands/MiniappCallback.tsx': $MiniappCallback,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest
