@@ -6,6 +6,7 @@ export default function MiniappCallback(props: { data: Record<string, unknown> }
     (globalThis as any).Telegram.WebApp.sendData(JSON.stringify({
       lastfm_token: props.data.token,
     }));
+    (globalThis as any).Telegram.WebApp.close();
   }, [props.data.token]);
   return null;
 }
