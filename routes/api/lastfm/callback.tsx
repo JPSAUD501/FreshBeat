@@ -1,21 +1,26 @@
-import { PageProps } from "$fresh/server.ts";
-import { Head } from '$fresh/runtime.ts'
-import MiniappCallback from '../../../islands/MiniappCallback.tsx'
+import Redirect from '../../../islands/Redirect.tsx'
 
-export default function Webhook(props: PageProps) {
-  const token = props.url.searchParams.get("token");
+export default function RedirectPage() {
+  const searchParams = new URLSearchParams(globalThis.location.search);
+  const token = searchParams.get('token');
+
+  const url = `https://telegram.me/bot?start=${token}`;
+
   return (
-    <div>
-      <Head>
-        <script src="https://telegram.org/js/telegram-web-app.js" async></script>
-      </Head>
-      <div class="flex flex-col items-center justify-center">
-        <h1 class="text-4xl font-bold">Last.fm Authorization</h1>
-        <p class="my-4">
-          Please wait while we send your token to Telegram.
-        </p>
-        <MiniappCallback data={{ token }} />
-      </div>
+    <div class="flex flex-col items-center justify-center h-screen bg-gray-100 text-center p-6">
+      <h1 class="text-2xl font-bold mb-4 text-gray-800">
+        Você está sendo redirecionado para o Telegram...
+      </h1>
+      <p class="text-lg text-gray-600 mb-8">
+        Caso não seja redirecionado automaticamente, clique{" "}
+        <a href={url} class="text-blue-500 underline hover:text-blue-700">
+          aqui
+        </a>.
+      </p>
+      <p class="text-sm text-gray-500 mb-12">
+        Após o Telegram abrir, você pode fechar esta página com segurança.
+      </p>
+      <Redirect url={url} delay={250} />
     </div>
   );
 }
