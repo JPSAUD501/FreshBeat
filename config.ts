@@ -7,6 +7,7 @@ const configSchema = z.object({
   CROWDIN_TOKEN: z.string(),
   CROWDIN_PROJECT_ID: z.number(),
   CROWDIN_FILE_ID: z.number(),
+  APP_DOMAIN: z.string()
 })
 const configData = {
   BOT_TOKEN: Deno.env.get('BOT_TOKEN'),
@@ -14,6 +15,7 @@ const configData = {
   CROWDIN_TOKEN: Deno.env.get('CROWDIN_TOKEN'),
   CROWDIN_PROJECT_ID: 727545,
   CROWDIN_FILE_ID: 18,
+  APP_DOMAIN: 'http://localhost:8000'
 }
 const parsedConfig = configSchema.safeParse(configData)
 

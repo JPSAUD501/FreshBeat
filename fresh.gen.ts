@@ -5,8 +5,8 @@
 import * as $_404 from './routes/_404.tsx'
 import * as $_app from './routes/_app.tsx'
 import * as $api_telegram_webhook from './routes/api/telegram/webhook.ts'
-import * as $greet_name_ from './routes/greet/[name].tsx'
 import * as $index from './routes/index.tsx'
+import * as $lastfm_create_account from './routes/lastfm/create-account.tsx'
 import * as $Counter from './islands/Counter.tsx'
 import type { Manifest } from '$fresh/server.ts'
 
@@ -15,8 +15,8 @@ const manifest = {
     './routes/_404.tsx': $_404,
     './routes/_app.tsx': $_app,
     './routes/api/telegram/webhook.ts': $api_telegram_webhook,
-    './routes/greet/[name].tsx': $greet_name_,
     './routes/index.tsx': $index,
+    './routes/lastfm/create-account.tsx': $lastfm_create_account,
   },
   islands: {
     './islands/Counter.tsx': $Counter,

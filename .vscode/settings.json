@@ -21,10 +21,13 @@
     "asynciterable",
     "barsize",
     "crowdin",
+    "daisyui",
     "denokv",
     "grammy",
     "jpsaud",
+    "lastfm",
     "linewrap",
-    "preact"
+    "preact",
+    "rippleui"
   ]
 }

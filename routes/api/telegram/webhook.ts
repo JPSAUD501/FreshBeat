@@ -1,5 +1,5 @@
 import { Handlers } from '$fresh/server.ts'
-import { handle } from '../../../bot/bot.ts'
+import { botConfig, handle } from '../../../bot/bot.ts'
 import { config } from '../../../config.ts'
 import { TelegramServices } from '../../../services/telegram/telegram.service.ts'
 
@@ -8,6 +8,7 @@ const telegramServices = new TelegramServices()
 export const handler: Handlers = {
   POST: async (req) => {
     try {
+      botConfig.setDomain(new URL(req.url).hostname)
       return await handle(req)
     } catch (err) {
       console.error(err)

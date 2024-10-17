@@ -5,12 +5,10 @@
     "cli": "echo \"import '\\$fresh/src/dev/cli.ts'\" | deno run --unstable -A -",
     "manifest": "deno task cli manifest $(pwd)",
     "start": "deno run -A --watch=static/,routes/ dev.ts",
-    "fresh:build": "deno run -A dev.ts build",
+    "setup:build": "deno run -A dev.ts build",
     "preview": "deno run -A main.ts",
     "fresh:update": "deno run -A -r https://fresh.deno.dev/update .",
-    "setup:translate": "deno run -A --unstable ./localization/run.ts",
-    "setup:build": "deno task fresh:build",
-    "build": "deno run -A dev.ts build"
+    "setup:translate": "deno run -A --unstable ./localization/run.ts"
   },
   "lint": {
     "rules": {
@@ -36,6 +34,7 @@
     "@crowdin/crowdin-api-client": "npm:@crowdin/crowdin-api-client@^1.37.1",
     "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2",
     "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.5.1",
+    "daisyui": "npm:daisyui@^4.12.13",
     "dotenv": "jsr:@std/dotenv/load",
     "fs": "jsr:@std/fs",
     "grammy": "https://deno.land/x/grammy@v1.30.0/mod.ts",
@@ -55,5 +54,7 @@
     ]
   },
   "nodeModulesDir": "auto",
-  "unstable": ["kv"]
+  "unstable": [
+    "kv"
+  ]
 }

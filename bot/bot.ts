@@ -1,8 +1,26 @@
 import { Bot, webhookCallback } from 'grammy'
 import { config } from '../config.ts'
 import { setupCommands } from './index.ts'
-import * as startCommand from './commands/start/start.ts'
-import * as helpCommand from './commands/help/help.ts'
+import * as startCommand from './functions/start/start.command.ts'
+import * as helpCommand from './functions/help/help.command.ts'
+
+export class BotConfigService {
+  private domain: string
+
+  constructor() {
+    this.domain = config.APP_DOMAIN
+  }
+
+  getDomain(): string {
+    return this.domain
+  }
+
+  setDomain(domain: string): void {
+    this.domain = domain
+  }
+}
+
+export const botConfig = new BotConfigService()
 
 startCommand.register()
 helpCommand.register()
@@ -13,9 +31,9 @@ setupCommands(bot)
 
 if (config.POLLING_MODE) {
   console.log('Starting bot in polling mode')
-  bot.start()
-} else {
-  console.log('Bot configured for webhook mode')
+  bot.start({
+    drop_pending_updates: true,
+  })
 }
 
 export const handle = webhookCallback(bot, 'std/http')
