@@ -1,6 +1,8 @@
 import { Head } from '$fresh/runtime.ts'
+import type { PageProps } from '$fresh/server.ts'
 
-export default function Error404() {
+export default function Error404(props: PageProps) {
+  const url = props.url.href
   return (
     <>
       <Head>
@@ -17,7 +19,7 @@ export default function Error404() {
           />
           <h1 class='text-4xl font-bold'>404 - Page not found</h1>
           <p class='my-4'>
-            The page you were looking for doesn't exist.
+            The page <code>{url}</code> doesn't exist.
           </p>
           <a href='/' class='underline'>Go back home</a>
         </div>
