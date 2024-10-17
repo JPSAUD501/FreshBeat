@@ -4,9 +4,9 @@
 
 import * as $_404 from './routes/_404.tsx'
 import * as $_app from './routes/_app.tsx'
+import * as $api_lastfm_webhook from './routes/api/lastfm/webhook.tsx'
 import * as $api_telegram_webhook from './routes/api/telegram/webhook.ts'
 import * as $index from './routes/index.tsx'
-import * as $lastfm_webhook from './routes/lastfm/webhook.tsx'
 import * as $Counter from './islands/Counter.tsx'
 import * as $MiniappCallback from './islands/MiniappCallback.tsx'
 import type { Manifest } from '$fresh/server.ts'
@@ -15,9 +15,9 @@ const manifest = {
   routes: {
     './routes/_404.tsx': $_404,
     './routes/_app.tsx': $_app,
+    './routes/api/lastfm/webhook.tsx': $api_lastfm_webhook,
     './routes/api/telegram/webhook.ts': $api_telegram_webhook,
     './routes/index.tsx': $index,
-    './routes/lastfm/webhook.tsx': $lastfm_webhook,
   },
   islands: {
     './islands/Counter.tsx': $Counter,

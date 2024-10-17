@@ -1,5 +1,5 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
-import MiniappCallback from '../../islands/MiniappCallback.tsx'
+import MiniappCallback from '../../../islands/MiniappCallback.tsx'
 
 export const handler: Handlers = {
   GET(req, ctx) {
