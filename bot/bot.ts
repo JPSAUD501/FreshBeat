@@ -4,24 +4,6 @@ import { setupCommands } from './index.ts'
 import * as startCommand from './functions/start/start.command.ts'
 import * as helpCommand from './functions/help/help.command.ts'
 
-export class BotConfigService {
-  private domain: string
-
-  constructor() {
-    this.domain = config.APP_DOMAIN
-  }
-
-  getDomain(): string {
-    return this.domain
-  }
-
-  setDomain(domain: string): void {
-    this.domain = domain
-  }
-}
-
-export const botConfig = new BotConfigService()
-
 startCommand.register()
 helpCommand.register()
 

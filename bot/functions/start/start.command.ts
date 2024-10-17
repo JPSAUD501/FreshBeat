@@ -3,7 +3,6 @@ import { lang } from '../../../localization/base.ts'
 import { mfStart } from './start-mf.ts'
 import { config } from '../../../config.ts'
 import { registerCommand } from '../../index.ts'
-import { botConfig } from '../../bot.ts'
 
 export const register = () => (
   registerCommand({
@@ -15,7 +14,7 @@ export const register = () => (
       await new Promise((resolve) => setTimeout(resolve, 3000))
       if (ctx.chat === undefined) return
       const mfResponse = mfStart(langCode)
-      const inlineKeyboard = new InlineKeyboard().webApp('Teste!', `${botConfig.getDomain()}/lastfm/create-account`)
+      const inlineKeyboard = new InlineKeyboard().webApp('Teste!', `https://freshbeat.deno.dev/lastfm/create-account`)
       await ctx.reply(`${config.APP_DOMAIN}`)
       await ctx.api.editMessageText(ctx.chat.id, reply.message_id, mfResponse.message, {
         reply_markup: {
