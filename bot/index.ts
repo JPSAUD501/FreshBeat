@@ -7,15 +7,13 @@ export function registerCommand(command: BotCommand) {
   commands.push(command)
 }
 
-export async function setupCommands(bot: Bot) {
-  const botUser = await bot.api.getMe()
-  const botName = botUser.username
+export function setupCommands(bot: Bot) {
   for (const command of commands) {
-    bot.command(command.name, command.execute)
-    bot.command(`${command.name}@${botName}`, command.execute)
+    bot.on('message').command(command.name, command.execute)
   }
   bot.on(':web_app_data', (ctx) => {
-    console.log('AAAAAAAAA' + ctx.update)
+    console.log('web_app_data')
+    console.log(ctx.update)
   })
   console.info(`Registered ${commands.length} commands`)
   bot.api.setMyCommands(commands.map((cmd) => ({ command: cmd.name, description: cmd.description('en') })))

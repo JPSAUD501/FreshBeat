@@ -11,7 +11,7 @@ helpCommand.register()
 
 export const bot = new Bot(config.BOT_TOKEN)
 
-await setupCommands(bot)
+setupCommands(bot)
 
 if (config.POLLING_MODE) {
   console.log('Starting bot in polling mode')
