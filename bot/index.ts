@@ -9,7 +9,7 @@ export function registerCommand(command: BotCommand) {
 
 export function setupCommands(bot: Bot) {
   for (const command of commands) {
-    bot.on('message').command(command.name, command.execute)
+    bot.command(command.name, command.execute)
   }
   bot.on(':web_app_data', (ctx) => {
     console.log('web_app_data')
