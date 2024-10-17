@@ -7,9 +7,12 @@ export function registerCommand(command: BotCommand) {
   commands.push(command)
 }
 
-export function setupCommands(bot: Bot) {
+export async function setupCommands(bot: Bot) {
+  const botUser = await bot.api.getMe()
+  const botName = botUser.username
   for (const command of commands) {
     bot.command(command.name, command.execute)
+    bot.command(`${command.name}@${botName}`, command.execute)
   }
   bot.on(':web_app_data', (ctx) => {
     console.log('AAAAAAAAA' + ctx.update)

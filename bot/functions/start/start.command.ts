@@ -1,4 +1,4 @@
-import { Context, InlineKeyboard, Keyboard } from 'grammy'
+import { Context, Keyboard } from 'grammy'
 import { lang } from '../../../localization/base.ts'
 import { mfStart } from './start-mf.ts'
 import { registerCommand } from '../../index.ts'
@@ -11,12 +11,11 @@ export const register = () => (
     execute: async (ctx: Context) => {
       const langCode = ctx.message?.from.language_code
       const mfResponse = mfStart(langCode)
-      const keyboard = new Keyboard().webApp('Logar', 'https://www.last.fm/api/auth/?api_key=4f52c86c1bc1b5870c1e35227dddcc03')
-      const inlineKeyboard = new InlineKeyboard().webApp('Logar', `https://www.last.fm/api/auth/?api_key=4f52c86c1bc1b5870c1e35227dddcc03`)
-      await ctx.reply(mfResponse + `${botDomain}`, {
+      const keyboard = new Keyboard().webApp('Last.fm', 'https://www.last.fm/api/auth/?api_key=4f52c86c1bc1b5870c1e35227dddcc03').resized().oneTime().placeholder('Cadastre-se com o Last.fm!').selected()
+      await ctx.reply(mfResponse + ` tg://user?id=${(await ctx.getAuthor()).user.id} `  + `${botDomain}`, {
+        parse_mode: 'MarkdownV2',
         reply_markup: {
-          keyboard: keyboard.keyboard,
-          inline_keyboard: inlineKeyboard.inline_keyboard
+          keyboard: keyboard.keyboard
         },
       })
     },
