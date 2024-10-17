@@ -8,7 +8,7 @@ const telegramServices = new TelegramServices()
 export const handler: Handlers = {
   POST: async (req) => {
     try {
-      return await handle(req)
+      return await handle(req, new URL(req.url))
     } catch (err) {
       console.error(err)
       return Response.json(err, { status: 500 })

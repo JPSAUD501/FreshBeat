@@ -14,8 +14,7 @@ const configData = {
   POLLING_MODE: (Deno.env.get('POLLING_MODE') ?? 'false') === 'true',
   CROWDIN_TOKEN: Deno.env.get('CROWDIN_TOKEN'),
   CROWDIN_PROJECT_ID: 727545,
-  CROWDIN_FILE_ID: 18,
-  APP_DOMAIN: 'http://localhost:8000'
+  CROWDIN_FILE_ID: 18
 }
 const parsedConfig = configSchema.safeParse(configData)
 

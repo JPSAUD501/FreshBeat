@@ -4,6 +4,8 @@ import { setupCommands } from './index.ts'
 import * as startCommand from './functions/start/start.command.ts'
 import * as helpCommand from './functions/help/help.command.ts'
 
+export let botDomain = config.APP_DOMAIN
+
 startCommand.register()
 helpCommand.register()
 
@@ -18,7 +20,10 @@ if (config.POLLING_MODE) {
   })
 }
 
-export const handle = webhookCallback(bot, 'std/http')
+export const handle = async (req: Request, url: URL): Promise<Response> => {
+  botDomain = url.hostname
+  return await webhookCallback(bot, 'std/http')(req)
+}
 
 export async function startPolling() {
   if (config.POLLING_MODE) {
