@@ -5,11 +5,7 @@ export const handler: Handlers = {
   GET(req, ctx) {
     const url = new URL(req.url);
     const token = url.searchParams.get("token");
-
-    if (!token) {
-      return new Response("Token not provided", { status: 400 });
-    }
-
+    console.log("Token:", token);
     return ctx.render({ token });
   },
 };
