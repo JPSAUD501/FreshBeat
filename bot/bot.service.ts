@@ -35,6 +35,11 @@ export class TelegramBotService {
     }
   }
 
+  async getBot() {
+    await this.bot.init()
+    return this.bot.botInfo
+  }
+
   getCommands() {
     return this.bot.api.getMyCommands()
   }

@@ -1,12 +1,20 @@
 import { Head } from '$fresh/runtime.ts'
+import { encodeBase64Url } from '@std/encoding'
+import { TelegramBotService } from '../../../bot/bot.service.ts'
 import MiniappCallback from '../../../islands/MiniappCallback.tsx'
 import Redirect from '../../../islands/Redirect.tsx'
 
-export default function RedirectPage() {
-  const searchParams = new URLSearchParams(globalThis.location.search)
-  const token = searchParams.get('token')
-
-  const url = `https://telegram.me/bot?start=${token}`
+export default async function RedirectPage(req: Request) {
+  const url = new URL(req.url)
+  const token = url.searchParams.get('token')
+  const telegramBotService = new TelegramBotService({ domain: url.hostname })
+  const botInfo = await telegramBotService.getBot()
+  const botUser = botInfo.username
+  const startData = {
+    token,
+  }
+  const startDataString = encodeBase64Url(JSON.stringify(startData))
+  const redirectUrl = `https://telegram.me/${botUser}?start=${startDataString}`
 
   return (
     <>
@@ -19,7 +27,7 @@ export default function RedirectPage() {
         </h1>
         <p class='text-lg text-gray-600 mb-8'>
           Caso não seja redirecionado automaticamente, clique{' '}
-          <a href={url} class='text-blue-500 underline hover:text-blue-700'>
+          <a href={redirectUrl} class='text-blue-500 underline hover:text-blue-700'>
             aqui
           </a>.
         </p>
@@ -27,7 +35,7 @@ export default function RedirectPage() {
           Após o Telegram abrir, você pode fechar esta página com segurança.
         </p>
         <MiniappCallback data={{ token }} />
-        <Redirect url={url} delay={250} />
+        <Redirect url={redirectUrl} delay={250} />
       </div>
     </>
   )
