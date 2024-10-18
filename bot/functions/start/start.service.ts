@@ -4,12 +4,14 @@ import type { BotCommand, BotConfig } from '../../types.ts'
 import { config } from '../../../config.ts'
 import { z } from 'zod'
 import { decodeBase64Url, encodeBase64Url } from '@std/encoding'
+import type { LastFmService } from '../../../services/lastfm/lastfm.service.ts'
 
 export class StartComposer {
   private readonly composer = new Composer()
 
   constructor(
     private readonly botConfig: BotConfig,
+    private readonly lastfmService: LastFmService
   ) {
     this.composer.command('start', this.start.bind(this))
     this.composer.on(':web_app_data', this.loginWebAppHandler.bind(this))
@@ -45,7 +47,7 @@ export class StartComposer {
     }
     const startProps = this.getStartProps(ctx)
     const messageAuthor = ctx.message?.from
-    await ctx.reply(`Eae <a href="tg://user?id=${messageAuthor?.id}">${messageAuthor?.username}</a>!`, {
+    await ctx.reply(`Eae <a href="tg://user?id=${messageAuthor?.id}">${messageAuthor?.username}</a>! Tudo bem?!`, {
       parse_mode: 'HTML',
       reply_markup: {
         remove_keyboard: true,
@@ -57,7 +59,7 @@ export class StartComposer {
     const privateChatResponse = () => {
       switch (true) {
         case (fromChatTitle !== undefined): {
-          return `Olá! Você foi redirecionado do chat ${fromChatTitle}! Para vincular sua conta do Last.fm, clique no botão que apareceu abaixo!`
+          return `Olá! Você foi redirecionado do chat <b>${fromChatTitle}</b>! Para vincular sua conta do Last.fm, clique no botão que apareceu abaixo!`
         }
         default: {
           return `Olá! Para vincular sua conta do Last.fm, clique no botão abaixo!`
@@ -96,7 +98,18 @@ export class StartComposer {
   }
 
   async loginWebAppHandler(ctx: Context) {
-    await ctx.reply('Web app data received!')
-    await ctx.reply(JSON.stringify(ctx, null, 2))
+    await ctx.reply('Que legal! Acabei de receber algumas informações! Deixa eu dar uma olhada aqui...', {
+      reply_markup: {
+        remove_keyboard: true,
+      }
+    })
+    const webAppData = ctx.message?.web_app_data
+    if (webAppData === undefined) {
+      await ctx.reply('Procurei pelas suas informações, mas não encontrei nada! Tente novamente!')
+      return
+    }
+    const { token } = JSON.parse(webAppData.data)
+    const sessionData = await this.lastfmService.auth.getSession({ token })
+    ctx.reply(JSON.stringify(sessionData, null, 2))
   }
 }
