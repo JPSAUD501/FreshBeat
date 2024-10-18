@@ -24,7 +24,7 @@ Deno.test({
   name: 'getSession returns session data',
   fn: async () => {
     const lastfmService = new LastFmService({ apiKey: config.LASTFM_API_KEY, apiSecret: config.LASTFM_API_SECRET })
-    const token = 'yyyyyy'
+    const token = 'UxpzTVkC_TdIn6KekS9T_bx_CNdZxdxQ'
     const response = await lastfmService.auth.getSession({ token })
     console.log(response)
   },

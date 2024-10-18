@@ -11,6 +11,7 @@
     "setup:translate": "deno run -A --unstable ./localization/run.ts"
   },
   "lint": {
+    "report": "pretty",
     "rules": {
       "tags": [
         "fresh",

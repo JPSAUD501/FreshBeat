@@ -8,12 +8,13 @@ class Auth {
 
   async getSignature(props: {
     parameters: Record<string, string>
-  }) {
+  }): Promise<string> {
     const keys = Object.keys(props.parameters).sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }))
     const excludedKeys = ['format', 'callback']
     const filteredKeys = keys.filter((key) => !excludedKeys.includes(key))
     const parameterString = filteredKeys.map((key) => `${key}${props.parameters[key]}`).join('')
     const preHashSignature = `${parameterString}${this.apiSecret}`
+    console.log(preHashSignature)
     const hashBuffer = await crypto.subtle.digest('MD5', new TextEncoder().encode(preHashSignature))
     const hashArray = Array.from(new Uint8Array(hashBuffer))
     const signature = hashArray.map((byte) => byte.toString(16).padStart(2, '0')).join('')
@@ -28,7 +29,7 @@ class Auth {
       method: 'auth.getSession',
       token: props.token,
     }
-    const apiSig = this.getSignature({ parameters })
+    const apiSig = await this.getSignature({ parameters })
     const queryParameters = new URLSearchParams({
       ...parameters,
     }).toString()
