@@ -47,7 +47,7 @@ export class StartComposer {
     }
     const startProps = this.getStartProps(ctx)
     const messageAuthor = ctx.message?.from
-    await ctx.reply(`Eae <href="tg://user?id=${messageAuthor?.id}">${messageAuthor?.username}</a>!`, {
+    await ctx.reply(`Eae <a href="tg://user?id=${messageAuthor?.id}">${messageAuthor?.username}</a>!`, {
       parse_mode: 'HTML',
       reply_markup: {
         remove_keyboard: true,
