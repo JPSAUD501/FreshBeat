@@ -110,7 +110,6 @@ export class StartComposer {
       await ctx.reply('Procurei pelas suas informações, mas não encontrei nada! Tente novamente!')
       return
     }
-    await ctx.reply(JSON.stringify(webAppData, null, 2))
     const { token } = JSON.parse(webAppData.data)
     await ctx.reply(`Pelo menos já identifiquei seu token! Estou coletando o restante das informações...\n\nToken: ${token}`)
     const sessionData = await this.lastfmService.auth.getSession({ token })
