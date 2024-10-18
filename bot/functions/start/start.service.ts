@@ -4,13 +4,15 @@ import type { BotCommand, BotConfig } from '../../types.ts'
 import { config } from '../../../config.ts'
 import { z } from 'zod'
 import { decodeBase64Url, encodeBase64Url } from '@std/encoding'
+import type { UsersService } from '../../../services/users/users.service.ts'
 
 export class StartComposer {
   private readonly composer = new Composer()
-  private readonly config: BotConfig
 
-  constructor(config: BotConfig) {
-    this.config = config
+  constructor(
+    private readonly botConfig: BotConfig,
+    private readonly usersService: UsersService,
+  ) {
     this.composer.command('start', this.start.bind(this))
     this.composer.on(':web_app_data', this.loginWebAppHandler.bind(this))
   }
@@ -21,38 +23,48 @@ export class StartComposer {
 
   commands(): BotCommand[] {
     return [
-      { name: 'start', description: (langCode: string | undefined) => lang(langCode, { key: 'start_command_description', value: 'Bem vindo ao FreshBeat!' }) }
+      { name: 'start', description: (langCode: string | undefined) => lang(langCode, { key: 'start_command_description', value: 'Bem vindo ao FreshBeat!' }) },
     ]
   }
 
+  getStartProps(ctx: Context): { from_chat_id: number } | null {
+    const rawStartProp = ctx.message?.text?.split(' ')[1]
+    if (rawStartProp === undefined) return null
+    const startPropJson = JSON.parse(new TextDecoder().decode(decodeBase64Url(rawStartProp)))
+    const parsedStartProps = z.object({
+      from_chat_id: z.number(),
+    }).safeParse(startPropJson)
+    if (!parsedStartProps.success) return null
+    return parsedStartProps.data
+  }
+
   async start(ctx: Context) {
-    const langCode = ctx.message?.from.language_code
+    // const langCode = ctx.message?.from.language_code
     const chatId = ctx.chat?.id
     if (chatId === undefined) {
       ctx.reply('Chat ID is undefined!')
       return
     }
-    const rawStartProp = ctx.message?.text?.split(' ')[1]
-    let startPropJson: string | undefined = undefined
-    if (rawStartProp !== undefined) {
-      startPropJson = JSON.parse(new TextDecoder().decode(decodeBase64Url(rawStartProp)))
-
-    }
-    console.log('startPropJson', startPropJson)
-    const parsedStartProps = z.object({
-      fromChatId: z.number()
-    }).safeParse(startPropJson)
-    const startProps = parsedStartProps.data
-    console.log('startProps', startProps)
-    const fromChatData = startProps !== undefined ? await ctx.api.getChat(startProps.fromChatId) : undefined
+    const startProps = this.getStartProps(ctx)
+    // const fbUser = await this.usersService.findOne()
+    const fromChatData = startProps !== null ? await ctx.api.getChat(startProps.from_chat_id) : undefined
     const fromChatTitle = fromChatData?.title
-    const nonPrivateChatResponse = lang(langCode, { key: 'start_non_private_chat_response', value: 'Olá! Para vincular sua conta do Last.fm, clique no botão abaixo!' })
-    const privateChatResponse = fromChatTitle !== undefined ? lang(langCode, { key: 'start_private_chat_from_another_chat_response', value: 'Olá! Você foi redirecionado do chat {{from_chat_tittle}}! Para vincular sua conta do Last.fm, clique no botão  que apareceu abaixo!' }, { from_chat_tittle: fromChatTitle }) : lang(langCode, { key: 'start_private_chat_response', value: 'Olá! Para vincular sua conta do Last.fm, clique no botão abaixo!' })
+    const messageAuthor = ctx.message?.from
+    const nonPrivateChatResponse = `'Eae <href="tg://user?id=${messageAuthor?.id}">${messageAuthor?.username}</a>! Verifiquei aqui que você ainda não vinculou sua conta do Last.fm! Para vincular sua conta, clique no botão abaixo! E não se preocupe, se voce ainda não tem uma eu vou te ajudar a criar!`
+    const privateChatResponse = () => {
+      switch (true) {
+        case (fromChatTitle !== undefined): {
+          return `Olá! Você foi redirecionado do chat ${fromChatTitle}! Para vincular sua conta do Last.fm, clique no botão que apareceu abaixo!`
+        }
+        default: {
+          return `Olá! Para vincular sua conta do Last.fm, clique no botão abaixo!`
+        }
+      }
+    }
     const webappId = 'Login!'
     const miniAppUrl = `https://www.last.fm/api/auth/?api_key=${config.LASTFM_API_KEY}`
-    const encodedStartProps = encodeBase64Url(JSON.stringify({ fromChatId: chatId }))
+    const encodedStartProps = encodeBase64Url(JSON.stringify({ from_chat_id: chatId }))
     const goToPrivateUrl = `https://telegram.me/${ctx.me.username}?start=${encodeURIComponent(encodedStartProps)}`
-    console.log('goToPrivateUrl', goToPrivateUrl)
     const nonPrivateInlineKeyboard = new InlineKeyboard()
       .url('Vincular Last.fm!', goToPrivateUrl)
     const privateKeyboard = new Keyboard()
@@ -64,15 +76,15 @@ export class StartComposer {
       case (chatType !== 'private'): {
         await ctx.reply(nonPrivateChatResponse, {
           reply_markup: {
-            inline_keyboard: nonPrivateInlineKeyboard.inline_keyboard
-          },	
+            inline_keyboard: nonPrivateInlineKeyboard.inline_keyboard,
+          },
         })
         return
       }
       default: {
-        await ctx.reply(privateChatResponse, {
+        await ctx.reply(privateChatResponse(), {
           reply_markup: {
-            keyboard: privateKeyboard.keyboard
+            keyboard: privateKeyboard.keyboard,
           },
         })
         return

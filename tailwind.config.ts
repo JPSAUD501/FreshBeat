@@ -4,7 +4,7 @@ import daisyui from 'daisyui'
 export default {
   plugins: [
     // @ts-expect-error: daisyui does not have type definitions
-    daisyui
+    daisyui,
   ],
   theme: {
     extend: {},
