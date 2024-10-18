@@ -13,6 +13,5 @@ export default function Redirect({ url, delay }: RedirectProps) {
 
     return () => clearTimeout(timer)
   }, [url, delay])
-
-  return <p>Redirecionando...</p>
+  return null
 }
