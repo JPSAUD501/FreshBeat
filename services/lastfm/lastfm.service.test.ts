@@ -27,5 +27,5 @@ Deno.test({
     const token = 'yyyyyy'
     const response = await lastfmService.auth.getSession({ token })
     console.log(response)
-  }
+  },
 })
