@@ -67,7 +67,7 @@ export class StartComposer {
       }
     }
     const webappId = 'Login!'
-    const miniAppUrl = `${this.botConfig.domain}/api/go?to=${encodeURIComponent(`https://www.last.fm/api/auth/?api_key=${config.LASTFM_API_KEY}`)}`
+    const miniAppUrl = `https://${this.botConfig.domain}/api/go?to=${encodeURIComponent(`https://www.last.fm/api/auth/?api_key=${config.LASTFM_API_KEY}`)}`
     const encodedStartProps = encodeBase64Url(JSON.stringify({ from_chat_id: chatId }))
     const goToPrivateUrl = `https://telegram.me/${ctx.me.username}?start=${encodeURIComponent(encodedStartProps)}`
     const nonPrivateInlineKeyboard = new InlineKeyboard()
