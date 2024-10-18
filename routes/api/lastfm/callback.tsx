@@ -28,7 +28,7 @@ export default async function RedirectPage(req: Request) {
             Redirecionando para o Telegram
           </h1>
           <p class='text-base text-gray-400 mb-4'>
-            Caso não seja redirecionado automaticamente em { redirectDelay / 1000 } segundos, clique no botão abaixo.
+            Caso não seja redirecionado automaticamente em {redirectDelay / 1000} segundos, clique no botão abaixo.
           </p>
           <a href={redirectUrl} class='btn btn-outline btn-sm text-white border-white hover:bg-yellow-600 hover:text-white w-full mb-4 no-animation'>
             Abrir no Telegram

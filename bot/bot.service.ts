@@ -18,7 +18,7 @@ export class TelegramBotService {
     this.composers = [
       new StartComposer(
         this.getConfig(),
-        this.lastfmService
+        this.lastfmService,
       ),
     ]
     this.useComposers()

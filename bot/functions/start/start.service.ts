@@ -11,7 +11,7 @@ export class StartComposer {
 
   constructor(
     private readonly botConfig: BotConfig,
-    private readonly lastfmService: LastFmService
+    private readonly lastfmService: LastFmService,
   ) {
     this.composer.command('start', this.start.bind(this))
     this.composer.on(':web_app_data', this.loginWebAppHandler.bind(this))
@@ -51,7 +51,7 @@ export class StartComposer {
       parse_mode: 'HTML',
       reply_markup: {
         remove_keyboard: true,
-      }
+      },
     })
     const fromChatData = startProps !== null ? await ctx.api.getChat(startProps.from_chat_id) : undefined
     const fromChatTitle = fromChatData?.title
@@ -103,7 +103,7 @@ export class StartComposer {
     await ctx.reply('Que legal! Acabei de receber algumas informações! Deixa eu dar uma olhada aqui...', {
       reply_markup: {
         remove_keyboard: true,
-      }
+      },
     })
     const webAppData = ctx.message?.web_app_data
     if (webAppData === undefined) {

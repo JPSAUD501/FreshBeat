@@ -13,6 +13,6 @@ export default {
     '{routes,islands,components}/**/*.{ts,tsx,js,jsx}',
   ],
   daisyui: {
-    themes: []
-  }
+    themes: [],
+  },
 } satisfies Config
