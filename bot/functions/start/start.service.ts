@@ -46,11 +46,16 @@ export class StartComposer {
       return
     }
     const startProps = this.getStartProps(ctx)
-    // const fbUser = await this.usersService.findOne()
+    const messageAuthor = ctx.message?.from
+    await ctx.reply(`Eae <href="tg://user?id=${messageAuthor?.id}">${messageAuthor?.username}</a>!`, {
+      parse_mode: 'HTML',
+      reply_markup: {
+        remove_keyboard: true,
+      }
+    })
     const fromChatData = startProps !== null ? await ctx.api.getChat(startProps.from_chat_id) : undefined
     const fromChatTitle = fromChatData?.title
-    const messageAuthor = ctx.message?.from
-    const nonPrivateChatResponse = `'Eae <href="tg://user?id=${messageAuthor?.id}">${messageAuthor?.username}</a>! Verifiquei aqui que você ainda não vinculou sua conta do Last.fm! Para vincular sua conta, clique no botão abaixo! E não se preocupe, se voce ainda não tem uma eu vou te ajudar a criar!`
+    const nonPrivateChatResponse = 'Verifiquei aqui que você ainda não vinculou sua conta do Last.fm! Para vincular sua conta, clique no botão abaixo! E não se preocupe, se voce ainda não tem uma eu vou te ajudar a criar!'
     const privateChatResponse = () => {
       switch (true) {
         case (fromChatTitle !== undefined): {
