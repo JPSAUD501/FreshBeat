@@ -9,6 +9,7 @@ const configSchema = z.object({
   CROWDIN_FILE_ID: z.number(),
   LASTFM_API_KEY: z.string(),
   LASTFM_API_SECRET: z.string(),
+  DENO_KV_URL: z.string().optional(),
 })
 const configData = {
   BOT_TOKEN: Deno.env.get('BOT_TOKEN'),
@@ -18,6 +19,7 @@ const configData = {
   CROWDIN_FILE_ID: 18,
   LASTFM_API_KEY: Deno.env.get('LASTFM_API_KEY'),
   LASTFM_API_SECRET: Deno.env.get('LASTFM_API_SECRET'),
+  DENO_KV_URL: Deno.env.get('DENO_KV_URL'),
 }
 const parsedConfig = configSchema.safeParse(configData)
 
