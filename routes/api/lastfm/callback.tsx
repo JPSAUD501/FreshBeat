@@ -21,21 +21,26 @@ export default async function RedirectPage(req: Request) {
       <Head>
         <script src='https://telegram.org/js/telegram-web-app.js'></script>
       </Head>
-      <div class='flex flex-col items-center justify-center h-screen bg-gray-100 text-center p-6'>
-        <h1 class='text-2xl font-bold mb-4 text-gray-800'>
-          Você está sendo redirecionado para o Telegram...
-        </h1>
-        <p class='text-lg text-gray-600 mb-8'>
-          Caso não seja redirecionado automaticamente, clique{' '}
-          <a href={redirectUrl} class='text-blue-500 underline hover:text-blue-700'>
-            aqui
-          </a>.
-        </p>
-        <p class='text-sm text-gray-500 mb-12'>
-          Após o Telegram abrir, você pode fechar esta página com segurança.
-        </p>
+      <div class='flex flex-col items-center justify-start h-screen bg-base-200 text-center p-4 mt-4'>
+        <div class='bg-white shadow-lg rounded-lg p-6 w-full max-w-md'>
+          <div class="flex items-center justify-center mb-4">
+            <img src="https://telegram.org/img/t_logo.png" alt="Telegram Logo" class="w-10 h-10 mr-2" />
+            <h1 class='text-xl font-bold text-blue-600'>
+              Redirecionando para o Telegram
+            </h1>
+          </div>
+          <p class='text-base text-gray-600 mb-4'>
+            Caso não seja redirecionado automaticamente, clique no botão abaixo.
+          </p>
+          <a href={redirectUrl} class='btn btn-outline btn-sm text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white w-full mb-4'>
+            Abrir no Telegram
+          </a>
+          <p class='text-sm text-gray-500'>
+            Após o Telegram abrir, você pode fechar esta página com segurança.
+          </p>
+        </div>
         <MiniappCallback data={{ token }} />
-        <Redirect url={redirectUrl} delay={1000} />
+        <Redirect url={redirectUrl} delay={20000} />
       </div>
     </>
   )
