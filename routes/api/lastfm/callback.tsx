@@ -3,11 +3,11 @@ import { encodeBase64Url } from '@std/encoding'
 import { TelegramBotService } from '../../../bot/bot.service.ts'
 import MiniappCallback from '../../../islands/MiniappCallback.tsx'
 import Redirect from '../../../islands/Redirect.tsx'
+import type { PageProps } from '$fresh/server.ts'
 
-export default async function RedirectPage(req: Request) {
-  const url = new URL(req.url)
-  const token = url.searchParams.get('token')
-  const telegramBotService = new TelegramBotService({ domain: url.hostname })
+export default async function RedirectPage(props: PageProps) {
+  const token = props.url.searchParams.get('token')
+  const telegramBotService = new TelegramBotService({ domain: props.url.hostname })
   const botInfo = await telegramBotService.getBot()
   const botUser = botInfo.username
   const startData = {
