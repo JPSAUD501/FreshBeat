@@ -80,6 +80,7 @@ export class StartComposer {
     switch (true) {
       case (chatType !== 'private'): {
         await ctx.reply(nonPrivateChatResponse, {
+          parse_mode: 'HTML',
           reply_markup: {
             inline_keyboard: nonPrivateInlineKeyboard.inline_keyboard,
           },
@@ -88,6 +89,7 @@ export class StartComposer {
       }
       default: {
         await ctx.reply(privateChatResponse(), {
+          parse_mode: 'HTML',
           reply_markup: {
             keyboard: privateKeyboard.keyboard,
           },
@@ -109,6 +111,7 @@ export class StartComposer {
       return
     }
     const { token } = JSON.parse(webAppData.data)
+    await ctx.reply(`Pelo menos já identifiquei seu token! Estou coletando o restante das informações...\n\nToken: ${token}`)
     const sessionData = await this.lastfmService.auth.getSession({ token })
     ctx.reply(JSON.stringify(sessionData, null, 2))
   }

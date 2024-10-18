@@ -32,6 +32,7 @@ class Auth {
     const queryParameters = new URLSearchParams({
       ...parameters,
     }).toString()
+    console.log(queryParameters)
     const response = await fetch(`https://ws.audioscrobbler.com/2.0/?${queryParameters}&format=json&api_sig=${apiSig}`)
     const data = await response.json()
     console.log(data)
