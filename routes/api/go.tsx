@@ -6,7 +6,7 @@ import Redirect from '../../islands/Redirect.tsx'
 export default function GotoPage(props: PageProps) {
   const goTo = new URL(props.url).searchParams.get('to')
   if (goTo === null) return Response.redirect('/', 302)
-  const url = new URL(goTo)
+  const url = new URL(decodeURIComponent(goTo))
   const redirectDelay = 2000
 
   return (
