@@ -3,7 +3,6 @@ import { config } from '../config.ts'
 import { StartComposer } from './functions/start/start.service.ts'
 import type { BotCommand, BotConfig } from './types.ts'
 import type { SetWebhookRequesDto, SetWebhookResponseDto } from './dto/set.dto.ts'
-import { UsersService } from '../services/users/users.service.ts'
 
 export class TelegramBotService {
   private readonly bot = new Bot(config.BOT_TOKEN)
@@ -11,14 +10,12 @@ export class TelegramBotService {
   private readonly commands: BotCommand[] = []
   private config: BotConfig
   private readonly acceptedLanguages = ['en', 'pt']
-  private readonly usersService = new UsersService()
 
   constructor(config: BotConfig) {
     this.config = config
     this.composers = [
       new StartComposer(
-        this.getConfig(),
-        this.usersService,
+        this.getConfig()
       ),
     ]
     this.useComposers()

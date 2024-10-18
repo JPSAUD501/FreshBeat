@@ -4,14 +4,12 @@ import type { BotCommand, BotConfig } from '../../types.ts'
 import { config } from '../../../config.ts'
 import { z } from 'zod'
 import { decodeBase64Url, encodeBase64Url } from '@std/encoding'
-import type { UsersService } from '../../../services/users/users.service.ts'
 
 export class StartComposer {
   private readonly composer = new Composer()
 
   constructor(
     private readonly botConfig: BotConfig,
-    private readonly usersService: UsersService,
   ) {
     this.composer.command('start', this.start.bind(this))
     this.composer.on(':web_app_data', this.loginWebAppHandler.bind(this))
