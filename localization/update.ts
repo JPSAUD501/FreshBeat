@@ -9,6 +9,9 @@ const languagesDir = path.join('localization', 'languages')
 
 export async function updateTranslations(): Promise<void> {
   try {
+    if (!config.CROWDIN_TOKEN) {
+      throw new Error('To update translations, you need to set the CROWDIN_TOKEN environment variable!')
+    }
     const { translationsApi } = new crowdin.default({
       token: config.CROWDIN_TOKEN,
     })

@@ -5,8 +5,6 @@ import MiniappCallback from '../../../islands/MiniappCallback.tsx'
 import Redirect from '../../../islands/Redirect.tsx'
 import type { PageProps } from '$fresh/server.ts'
 
-
-
 export default async function RedirectPage(props: PageProps) {
   const token = new URL(props.url).searchParams.get('token')
   const telegramBotService = new TelegramBotService({ domain: props.url.hostname })

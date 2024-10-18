@@ -4,7 +4,7 @@ import 'dotenv'
 const configSchema = z.object({
   BOT_TOKEN: z.string(),
   POLLING_MODE: z.boolean(),
-  CROWDIN_TOKEN: z.string(),
+  CROWDIN_TOKEN: z.string().optional(),
   CROWDIN_PROJECT_ID: z.number(),
   CROWDIN_FILE_ID: z.number(),
   LASTFM_API_KEY: z.string(),

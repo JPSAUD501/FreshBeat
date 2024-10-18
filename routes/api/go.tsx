@@ -1,8 +1,6 @@
 import type { PageProps } from '$fresh/server.ts'
 import Redirect from '../../islands/Redirect.tsx'
 
-
-
 export default function GotoPage(props: PageProps) {
   const goTo = new URL(props.url).searchParams.get('to')
   if (goTo === null) return Response.redirect('/', 302)
@@ -19,7 +17,7 @@ export default function GotoPage(props: PageProps) {
           <p class='text-base text-gray-400 mb-4'>
             Caso não seja redirecionado automaticamente em {redirectDelay / 1000} segundos, clique no botão abaixo.
           </p>
-          <a href={ url.toString() } class='btn btn-outline btn-sm text-white border-white hover:bg-yellow-600 hover:text-white w-full mb-4 no-animation'>
+          <a href={url.toString()} class='btn btn-outline btn-sm text-white border-white hover:bg-yellow-600 hover:text-white w-full mb-4 no-animation'>
             Ir para {url.hostname}
           </a>
         </div>
