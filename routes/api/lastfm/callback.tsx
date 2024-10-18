@@ -35,7 +35,7 @@ export default async function RedirectPage(req: Request) {
           Após o Telegram abrir, você pode fechar esta página com segurança.
         </p>
         <MiniappCallback data={{ token }} />
-        <Redirect url={redirectUrl} delay={250} />
+        <Redirect url={redirectUrl} delay={1000} />
       </div>
     </>
   )
