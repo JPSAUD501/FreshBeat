@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import '@std/dotenv/load'
+import 'dotenv/config'
 
 const configSchema = z.object({
   PRODUCTION_DOMAIN: z.string(),

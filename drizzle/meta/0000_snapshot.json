@@ -1,9 +1,62 @@
 {
-  "id": "c6cc7d8b-38ae-4acd-b3bf-e8ffbabc51e7",
+  "id": "61406781-0a04-4b42-a214-951dd8fb12e4",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.error": {
+      "name": "error",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "always",
+            "name": "error_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "composer": {
+          "name": "composer",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ctx": {
+          "name": "ctx",
+          "type": "varchar(5000)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "error": {
+          "name": "error",
+          "type": "varchar(5000)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'now()'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
     "public.user": {
       "name": "user",
       "schema": "",
@@ -24,12 +77,6 @@
             "cache": "1",
             "cycle": false
           }
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true
         },
         "bio": {
           "name": "bio",
@@ -61,7 +108,7 @@
           "type": "date",
           "primaryKey": false,
           "notNull": true,
-          "default": "'now()'"
+          "default": "now()"
         }
       },
       "indexes": {},
