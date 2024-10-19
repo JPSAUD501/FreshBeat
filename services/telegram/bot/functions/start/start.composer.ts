@@ -74,6 +74,10 @@ export class StartComposer {
       })
       await ctx.reply(lang(ctxLangCode(ctx), { key: 'start_command_what_i_do', value: 'Eu sou o FreshBeat! Te ajudo a acompanhar sua vida musical junto com o Last.fm e utilizo inteligência artificial para criar novas experiências musicais para você!' }))
     }
+    const miniAppUrl = `https://${config.PRODUCTION_DOMAIN}/api/go?to=${encodeURIComponent(`https://www.last.fm/api/auth/?api_key=${config.LASTFM_API_KEY}`)}`
+    const miniAppKeyboard = new Keyboard()
+    .webApp(lang(ctxLangCode(ctx), { key: 'start_command_link_lastfm_account_keyboard_button', value: 'Vincular Last.fm!' }), miniAppUrl)
+    .resized().oneTime(true).selected()
     switch (true) {
       case (startProps?.token !== undefined): {
         const { token } = startProps
@@ -100,14 +104,10 @@ export class StartComposer {
             inline_keyboard: inlineKeyboard.inline_keyboard,
           },
         })
-        const miniAppUrl = `https://${config.PRODUCTION_DOMAIN}/api/go?to=${encodeURIComponent(`https://www.last.fm/api/auth/?api_key=${config.LASTFM_API_KEY}`)}`
-        const keyboard = new Keyboard()
-          .webApp(lang(ctxLangCode(ctx), { key: 'start_command_link_lastfm_account_keyboard_button', value: 'Vincular Last.fm!' }), miniAppUrl)
-          .resized().oneTime(true).selected()
         await ctx.reply(lang(ctxLangCode(ctx), { key: 'start_command_link_lastfm_account', value: 'Vincule sua conta do telegram <a href="tg://user?id={{user_id}}">{{user_name}}</a> com o Last.fm! Clique no botão abaixo para continuar!' }, { user_id: author.user.id.toString(), user_name: author.user.first_name }), {
           parse_mode: 'HTML',
           reply_markup: {
-            keyboard: keyboard.keyboard,
+            keyboard: miniAppKeyboard.keyboard,
           },
         })
         break
@@ -120,12 +120,18 @@ export class StartComposer {
             const url = `https://telegram.me/${ctx.me.username}?start=${props}`
             const inlineKeyboard = new InlineKeyboard()
               .url('Continuar!', url)
-            await ctx.reply(lang(ctxLangCode(ctx), { key: 'start_command_no_lastfm_account_non_private_chat', value: 'Por questões de privacidade, vou te puxar rapidinho para uma conversa privada. Clique no botão abaixo e em seguida em "Iniciar"!' }), {
+            return await ctx.reply(lang(ctxLangCode(ctx), { key: 'start_command_no_lastfm_account_non_private_chat', value: 'Por questões de privacidade, vou te puxar rapidinho para uma conversa privada. Clique no botão abaixo e em seguida em "Iniciar"!' }), {
               reply_markup: {
                 inline_keyboard: inlineKeyboard.inline_keyboard,
               },
             })
           }
+          await ctx.reply(lang(ctxLangCode(ctx), { key: 'start_command_link_lastfm_account', value: 'Vincule sua conta do telegram <a href="tg://user?id={{user_id}}">{{user_name}}</a> com o Last.fm! Clique no botão abaixo para continuar!' }, { user_id: author.user.id.toString(), user_name: author.user.first_name }), {
+            parse_mode: 'HTML',
+            reply_markup: {
+              keyboard: miniAppKeyboard.keyboard,
+            },
+          })
         }
         break
       }
