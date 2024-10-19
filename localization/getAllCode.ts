@@ -5,7 +5,7 @@ export function getAllCode(): {
   codeFiles: string[]
 } {
   const allCodeArray: string[] = []
-  const codeFolders = ['bot']
+  const codeFolders = ['services', 'islands', 'routes']
   for (const codeFolder of codeFolders) {
     const rootFolder = `${codeFolder}`
     const allFiles: string[] = []

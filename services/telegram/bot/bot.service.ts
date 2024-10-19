@@ -1,24 +1,31 @@
 import { Bot, webhookCallback } from 'grammy'
-import { config } from '../config.ts'
-import { StartComposer } from './functions/start/start.service.ts'
-import type { BotCommand, BotConfig } from './types.ts'
+import { config } from '../../../config.ts'
+import { StartComposer } from './functions/start/start.composer.ts'
+import type { TelegramBotCommand, TelegramBotConfig } from './types.ts'
 import type { SetWebhookRequesDto, SetWebhookResponseDto } from './dto/set.dto.ts'
-import { LastFmService } from '../services/lastfm/lastfm.service.ts'
+import { LastFmService } from '../../lastfm/lastfm.service.ts'
+import { DBService } from '../../db/db.service.ts'
+import { UsersService } from '../../users/users.service.ts'
+import { ErrorsService } from '../../errors/errors.service.ts'
 
 export class TelegramBotService {
   private readonly bot = new Bot(config.BOT_TOKEN)
   private readonly composers
-  private readonly commands: BotCommand[] = []
-  private config: BotConfig
+  private readonly commands: TelegramBotCommand[] = []
+  private config: TelegramBotConfig
   private readonly acceptedLanguages = ['en', 'pt']
   private readonly lastfmService = new LastFmService({ apiKey: config.LASTFM_API_KEY, apiSecret: config.LASTFM_API_SECRET })
 
-  constructor(config: BotConfig) {
+  constructor(config: TelegramBotConfig) {
     this.config = config
+    const dbService = new DBService()
+    const usersService = new UsersService(dbService)
+    const errorsService = new ErrorsService(dbService)
     this.composers = [
       new StartComposer(
-        this.getConfig(),
         this.lastfmService,
+        usersService,
+        errorsService,
       ),
     ]
     this.useComposers()
@@ -36,7 +43,9 @@ export class TelegramBotService {
   }
 
   async getBot() {
-    await this.bot.init()
+    if (!this.bot.isInited()) {
+      await this.bot.init()
+    }
     return this.bot.botInfo
   }
 
@@ -44,11 +53,11 @@ export class TelegramBotService {
     return this.bot.api.getMyCommands()
   }
 
-  getConfig(): BotConfig {
+  getConfig(): TelegramBotConfig {
     return this.config
   }
 
-  setConfig(config: BotConfig) {
+  setConfig(config: TelegramBotConfig) {
     this.config = config
   }
 

@@ -1,8 +1,8 @@
-export type BotCommand = {
+export type TelegramBotCommand = {
   name: string
   description: (langCode: string | undefined) => string
 }
 
-export type BotConfig = {
+export type TelegramBotConfig = {
   domain: string
 }

@@ -1,19 +1,18 @@
 import { Head } from '$fresh/runtime.ts'
-import { encodeBase64Url } from '@std/encoding'
-import { TelegramBotService } from '../../../bot/bot.service.ts'
+import { TelegramBotService } from '../../../services/telegram/bot/bot.service.ts'
 import MiniappCallback from '../../../islands/MiniappCallback.tsx'
 import Redirect from '../../../islands/Redirect.tsx'
 import type { PageProps } from '$fresh/server.ts'
+import { StartComposer } from '../../../services/telegram/bot/functions/start/start.composer.ts'
 
 export default async function RedirectPage(props: PageProps) {
   const token = new URL(props.url).searchParams.get('token')
   const telegramBotService = new TelegramBotService({ domain: props.url.hostname })
   const botInfo = await telegramBotService.getBot()
   const botUser = botInfo.username
-  const startData = {
-    token,
-  }
-  const startDataString = encodeBase64Url(JSON.stringify(startData))
+  const startDataString = StartComposer.encodeStartProps({
+    token: token ?? undefined,
+  })
   const redirectUrl = `https://telegram.me/${botUser}?start=${startDataString}`
   const redirectDelay = 2000
 

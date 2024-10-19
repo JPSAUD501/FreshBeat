@@ -8,7 +8,10 @@
     "setup:build": "deno run -A dev.ts build",
     "preview": "deno run -A main.ts",
     "fresh:update": "deno run -A -r https://fresh.deno.dev/update .",
-    "setup:translate": "deno run -A --unstable ./localization/run.ts"
+    "setup:localization": "deno run -A --unstable ./localization/run.ts",
+    "setup:loc": "deno task setup:localization",
+    "db:generate": "deno run -A npm:drizzle-kit generate",
+    "db:migrate": "deno run -A npm:drizzle-kit migrate"
   },
   "lint": {
     "report": "pretty",
@@ -37,18 +40,23 @@
     "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.5.1",
     "@std/assert": "jsr:@std/assert@^1.0.6",
     "@std/crypto": "jsr:@std/crypto@^1.0.3",
+    "@std/dotenv": "jsr:@std/dotenv@^0.225.2",
     "@std/encoding": "jsr:@std/encoding@^1.0.5",
     "daisyui": "npm:daisyui@^4.12.13",
-    "dotenv": "jsr:@std/dotenv/load",
+    "dotenv": "npm:dotenv@^16.4.5",
+    "drizzle-kit": "npm:drizzle-kit@^0.26.2",
+    "drizzle-orm": "npm:drizzle-orm@^0.35.2",
     "fs": "jsr:@std/fs",
     "grammy": "https://deno.land/x/grammy@v1.30.0/mod.ts",
     "path": "jsr:@std/path",
+    "postgres": "npm:postgres@^3.4.4",
     "preact": "https://esm.sh/preact@10.22.0",
     "preact/": "https://esm.sh/preact@10.22.0/",
     "tailwindcss": "npm:tailwindcss@3.4.1",
     "tailwindcss/": "npm:/tailwindcss@3.4.1/",
     "tailwindcss/plugin": "npm:/tailwindcss@3.4.1/plugin.js",
-    "zod": "https://deno.land/x/zod@v3.23.8/mod.ts"
+    "tsx": "npm:tsx@^4.19.1",
+    "zod": "npm:zod@^3.23.8"
   },
   "compilerOptions": {
     "jsx": "react-jsx",

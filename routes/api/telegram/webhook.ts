@@ -1,5 +1,5 @@
 import { Handlers } from '$fresh/server.ts'
-import { TelegramBotService } from '../../../bot/bot.service.ts'
+import { TelegramBotService } from '../../../services/telegram/bot/bot.service.ts'
 import { config } from '../../../config.ts'
 
 if (config.POLLING_MODE) {
