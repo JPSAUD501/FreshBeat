@@ -68,7 +68,9 @@ export class TelegramBotService {
   async start() {
     console.info('Starting bot in polling mode!')
     await this.bot.api.deleteWebhook()
-    void this.bot.start()
+    void this.bot.start({
+      drop_pending_updates: true,
+    })
   }
 
   async setWebhook(props: SetWebhookRequesDto): Promise<SetWebhookResponseDto> {
