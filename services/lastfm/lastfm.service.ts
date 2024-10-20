@@ -24,10 +24,11 @@ class Auth {
   async createSession(props: {
     token: string
   }) {
+    const method = 'auth.getSession'
     const parameters = {
       api_key: this.apiKey,
-      method: 'auth.getSession',
       token: props.token,
+      method,
     }
     const apiSig = await this.getSignature({ parameters })
     const queryParameters = new URLSearchParams({
