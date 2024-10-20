@@ -174,7 +174,7 @@ export class StartComposer {
     })
     const inlineKeyboard = new InlineKeyboard()
       .text('Conhecer funcionalidades', 'help')
-    await ctx.reply(lang(ctxLangCode(ctx), { key: 'webapp_lastfm_account_linked_ok', value: 'Sua conta <a href="https://www.last.fm/user/{{lastfm_username}}">{{lastfm_username}}</a> do Last.fm foi vinculada com sucesso! Agora você tem acesso a todas as funcionalidades do FreshBeat! Tente usar o botão abaixo para conferi-las! 🎉'}, { lastfm_username: sessionData.session.name }), {
+    await ctx.reply(lang(ctxLangCode(ctx), { key: 'webapp_lastfm_account_linked_ok', value: 'Sua conta <a href="https://www.last.fm/user/{{lastfm_username}}">{{lastfm_username}}</a> do Last.fm foi vinculada com sucesso! Agora você tem acesso a todas as funcionalidades do FreshBeat! Tente usar o botão abaixo para conferi-las! 🎉' }, { lastfm_username: sessionData.session.name }), {
       parse_mode: 'HTML',
       reply_markup: {
         remove_keyboard: true,
