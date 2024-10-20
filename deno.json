@@ -38,6 +38,7 @@
     "@crowdin/crowdin-api-client": "npm:@crowdin/crowdin-api-client@^1.37.1",
     "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2",
     "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.5.1",
+    "@react-spring/web": "npm:@react-spring/web@^9.7.5",
     "@std/assert": "jsr:@std/assert@^1.0.6",
     "@std/crypto": "jsr:@std/crypto@^1.0.3",
     "@std/encoding": "jsr:@std/encoding@^1.0.5",

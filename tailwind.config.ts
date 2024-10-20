@@ -6,9 +6,7 @@ export default {
     // @ts-expect-error: daisyui does not have type definitions
     daisyui,
   ],
-  theme: {
-    extend: {},
-  },
+  theme: {},
   content: [
     '{routes,islands,components}/**/*.{ts,tsx,js,jsx}',
   ],
