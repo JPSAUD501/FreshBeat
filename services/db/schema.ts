@@ -1,9 +1,9 @@
-import { date, integer, pgTable, varchar } from 'drizzle-orm/pg-core'
+import { bigint, date, integer, pgTable, varchar } from 'drizzle-orm/pg-core'
 
 export const userTable = pgTable('user', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   bio: varchar({ length: 255 }),
-  telegram_id: integer().notNull(),
+  telegram_id: bigint({ mode: 'number' }).notNull(),
   lastfm_username: varchar({ length: 255 }),
   lastfm_session_key: varchar({ length: 255 }),
   created_at: date().notNull().default('now()'),

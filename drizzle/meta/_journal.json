@@ -15,6 +15,13 @@
       "when": 1729382723468,
       "tag": "0001_parallel_sharon_carter",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1729383730675,
+      "tag": "0002_glossy_taskmaster",
+      "breakpoints": true
     }
   ]
 }

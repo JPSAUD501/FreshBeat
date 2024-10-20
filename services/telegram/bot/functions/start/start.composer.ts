@@ -35,7 +35,7 @@ export class StartComposer {
   async error(ctx: Context, error: Error) {
     console.error(error)
     const dbError = await this.errorsService.create({ composer: this.composerName, ctx: JSON.stringify(ctx, null, 2), error: error.message })
-    await ctx.reply(lang(ctxLangCode(ctx), { key: 'start_command_error', value: 'Tive um problema enquanto processava sua solicitação! Por favor, tente novamente! Se o problema persistir, entre em contato com o /suporte forneça o código de erro: {{error_id}}' }, { error_id: dbError.id.toString() }))
+    await ctx.reply(lang(ctxLangCode(ctx), { key: 'start_command_error_with_code', value: 'Tive um problema enquanto processava sua solicitação! Por favor, tente novamente! Se o problema persistir, entre em contato com o /suporte e forneça o código de erro: {{error_id}}' }, { error_id: dbError.id.toString() }))
   }
 
   commands(): TelegramBotCommand[] {
@@ -107,13 +107,8 @@ export class StartComposer {
       case (startProps?.from_chat_id !== undefined): {
         const fromChatData = await ctx.api.getChat(startProps.from_chat_id)
         const fromChatTitle = fromChatData.title ?? fromChatData.username ?? fromChatData.first_name
-        const inlineKeyboard = new InlineKeyboard()
-          .url('Voltar ao chat!', `https://t.me/c/${startProps.from_chat_id.toString()}`)
-        await ctx.reply(lang(ctxLangCode(ctx), { key: 'start_command_from_another_chat', value: 'Te trouxe aqui rapidinho por questões de privacidade! Assim que terminar de vincular sua conta do Last.fm, utilize o botão abaixo para voltar ao chat <b>{{from_chat_tittle}}</b>!' }, { from_chat_tittle: fromChatTitle }), {
+        await ctx.reply(lang(ctxLangCode(ctx), { key: 'start_command_from_another_chat_inform', value: 'Te trouxe aqui rapidinho por questões de privacidade! Assim que terminar de vincular sua conta do Last.fm você pode voltar ao chat <b>{{from_chat_tittle}}</b> sem problemas!' }, { from_chat_tittle: fromChatTitle }), {
           parse_mode: 'HTML',
-          reply_markup: {
-            inline_keyboard: inlineKeyboard.inline_keyboard,
-          },
         })
         await ctx.reply(lang(ctxLangCode(ctx), { key: 'start_command_link_lastfm_account', value: 'Vincule sua conta do telegram <a href="tg://user?id={{user_id}}">{{user_name}}</a> com o Last.fm! Clique no botão abaixo para continuar!' }, { user_id: author.user.id.toString(), user_name: author.user.first_name }), {
           parse_mode: 'HTML',
