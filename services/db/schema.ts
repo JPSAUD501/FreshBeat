@@ -4,6 +4,7 @@ export const userTable = pgTable('user', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   bio: varchar({ length: 255 }),
   telegram_id: integer().notNull(),
+  lastfm_username: varchar({ length: 255 }),
   lastfm_session_key: varchar({ length: 255 }),
   created_at: date().notNull().default('now()'),
   updated_at: date().notNull().default('now()').defaultNow().$onUpdateFn(() => 'now()'),

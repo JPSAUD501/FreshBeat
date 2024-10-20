@@ -1,0 +1,136 @@
+{
+  "id": "c36eca7c-2a98-4a61-8a26-175e7aa9ed2d",
+  "prevId": "61406781-0a04-4b42-a214-951dd8fb12e4",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.error": {
+      "name": "error",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "always",
+            "name": "error_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "composer": {
+          "name": "composer",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ctx": {
+          "name": "ctx",
+          "type": "varchar(5000)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "error": {
+          "name": "error",
+          "type": "varchar(5000)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'now()'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "public.user": {
+      "name": "user",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "always",
+            "name": "user_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "bio": {
+          "name": "bio",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "telegram_id": {
+          "name": "telegram_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lastfm_username": {
+          "name": "lastfm_username",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lastfm_session_key": {
+          "name": "lastfm_session_key",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'now()'"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

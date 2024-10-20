@@ -21,7 +21,7 @@ class Auth {
     return signature
   }
 
-  async getSession(props: {
+  async createSession(props: {
     token: string
   }) {
     const parameters = {

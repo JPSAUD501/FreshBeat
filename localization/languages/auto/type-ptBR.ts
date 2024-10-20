@@ -19,3 +19,5 @@ export type BaseLang =
   | { key: 'start_command_link_lastfm_account_keyboard_button'; value: 'Vincular Last.fm!' }
   | { key: 'start_command_link_lastfm_account'; value: 'Vincule sua conta do telegram <a href="tg://user?id={{user_id}}">{{user_name}}</a> com o Last.fm! Clique no botão abaixo para continuar!' }
   | { key: 'webapp_lastfm_account_linked'; value: 'Sua conta <a href="https://www.last.fm/user/{{lastfm_username}}">{{lastfm_username}}</a> foi vinculada com sucesso!' }
+  | { key: 'webapp_lastfm_account_linked_success'; value: 'Sua conta <a href="https://www.last.fm/user/{{lastfm_username}}">{{lastfm_username}}</a> do Last.fm foi vinculada com sucesso! Agora você tem acesso a todas as funcionalidades do FreshBeat! 🎉\nTente usar o comando /help para conhecer algumas delas!' }
+  | { key: 'start_command_lastfm_account_already_linked'; value: 'Oi! Verifiquei aqui e vi que você já vinculou sua conta <a href="https://www.last.fm/user/{{lastfm_username}}">{{lastfm_username}}</a> do Last.fm ao FreshBeat! Se quiser vincular outra conta, basta clicar no botão abaixo!' }

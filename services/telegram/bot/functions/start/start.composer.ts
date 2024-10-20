@@ -74,14 +74,25 @@ export class StartComposer {
       })
       await ctx.reply(lang(ctxLangCode(ctx), { key: 'start_command_what_i_do', value: 'Eu sou o FreshBeat! Te ajudo a acompanhar sua vida musical junto com o Last.fm e utilizo inteligência artificial para criar novas experiências musicais para você!' }))
     }
+    if (dbUser.lastfm_username !== null) {
+      const inlineKeyboard = new InlineKeyboard()
+        .text('Trocar conta do Last.fm', 'fgm')
+      await ctx.reply(lang(ctxLangCode(ctx), { key: 'start_command_lastfm_account_already_linked', value: 'Oi! Verifiquei aqui e vi que você já vinculou sua conta <a href="https://www.last.fm/user/{{lastfm_username}}">{{lastfm_username}}</a> do Last.fm ao FreshBeat! Se quiser vincular outra conta, basta clicar no botão abaixo!' }, { lastfm_username: dbUser.lastfm_username }), {
+        parse_mode: 'HTML',
+        reply_markup: {
+          remove_keyboard: true,
+          inline_keyboard: inlineKeyboard.inline_keyboard,
+        },
+      })
+    }
     const miniAppUrl = `https://${config.PRODUCTION_DOMAIN}/api/go?to=${encodeURIComponent(`https://www.last.fm/api/auth/?api_key=${config.LASTFM_API_KEY}`)}`
     const miniAppKeyboard = new Keyboard()
-    .webApp(lang(ctxLangCode(ctx), { key: 'start_command_link_lastfm_account_keyboard_button', value: 'Vincular Last.fm!' }), miniAppUrl)
-    .resized().oneTime(true).selected()
+      .webApp(lang(ctxLangCode(ctx), { key: 'start_command_link_lastfm_account_keyboard_button', value: 'Vincular Last.fm!' }), miniAppUrl)
+      .resized().oneTime(true).selected()
     switch (true) {
       case (startProps?.token !== undefined): {
         const { token } = startProps
-        const sessionData = await this.lastfmService.auth.getSession({ token })
+        const sessionData = await this.lastfmService.auth.createSession({ token })
         await this.usersService.update(dbUser.id, {
           lastfm_session_key: sessionData.session.key,
         })
@@ -113,7 +124,7 @@ export class StartComposer {
         break
       }
       case (startProps === null): {
-        if (dbUser.lastfm_session_key === null) {
+        if (dbUser.lastfm_username === null) {
           await ctx.reply(lang(ctxLangCode(ctx), { key: 'start_command_no_lastfm_account', value: 'Para ter acesso a todas as funcionalidades do FreshBeat, você precisa vincular sua conta do Last.fm! Se você ainda não tem uma conta, fique tranquilo! Será possível criar ela na pagina de login!' }))
           if (chat.type !== 'private') {
             const props = StartComposer.encodeStartProps({ from_chat_id: chat.id })
@@ -147,7 +158,7 @@ export class StartComposer {
       throw new Error('WebApp data received is undefined!')
     }
     const { token } = JSON.parse(webAppData.data)
-    const sessionData = await this.lastfmService.auth.getSession({ token })
+    const sessionData = await this.lastfmService.auth.createSession({ token })
     const author = await ctx.getAuthor()
     let user = await this.usersService.findOneByTelegramId(author.user.id)
     if (user === null) {
@@ -156,9 +167,10 @@ export class StartComposer {
       })
     }
     await this.usersService.update(user.id, {
+      lastfm_username: sessionData.session.name,
       lastfm_session_key: sessionData.session.key,
     })
-    await ctx.reply(lang(ctxLangCode(ctx), { key: 'webapp_lastfm_account_linked', value: 'Sua conta <a href="https://www.last.fm/user/{{lastfm_username}}">{{lastfm_username}}</a> foi vinculada com sucesso!' }, { lastfm_username: sessionData.session.name }), {
+    await ctx.reply(lang(ctxLangCode(ctx), { key: 'webapp_lastfm_account_linked_success', value: 'Sua conta <a href="https://www.last.fm/user/{{lastfm_username}}">{{lastfm_username}}</a> do Last.fm foi vinculada com sucesso! Agora você tem acesso a todas as funcionalidades do FreshBeat! 🎉\nTente usar o comando /help para conhecer algumas delas!' }, { lastfm_username: sessionData.session.name }), {
       parse_mode: 'HTML',
       reply_markup: {
         remove_keyboard: true,
