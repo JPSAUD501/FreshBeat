@@ -7,6 +7,8 @@ import { LastFmService } from '../../lastfm/lastfm.service.ts'
 import { DBService } from '../../db/db.service.ts'
 import { UsersService } from '../../users/users.service.ts'
 import { ErrorsService } from '../../errors/errors.service.ts'
+import { ForgetMeComposer } from './functions/forgetme/forgetme.composer.ts'
+import { HelpComposer } from './functions/help/help.composer.ts'
 
 export class TelegramBotService {
   private readonly bot = new Bot(config.BOT_TOKEN)
@@ -27,6 +29,13 @@ export class TelegramBotService {
         usersService,
         errorsService,
       ),
+      new ForgetMeComposer(
+        usersService,
+        errorsService,
+      ),
+      new HelpComposer(
+        errorsService,
+      ),
     ]
     this.useComposers()
   }
@@ -36,9 +45,9 @@ export class TelegramBotService {
       this.bot.use(composer.get())
       this.commands.push(...composer.commands())
     }
-    this.bot.api.setMyCommands(this.commands.map((cmd) => ({ command: cmd.name, description: cmd.description('en') })))
+    this.bot.api.setMyCommands(this.commands.map((cmd) => ({ command: cmd.name, description: cmd.description(undefined) })))
     for (const lang of this.acceptedLanguages) {
-      this.bot.api.setMyCommands(this.commands.map((cmd) => ({ command: cmd.name, description: cmd.description(lang) })))
+      this.bot.api.setMyCommands(this.commands.map((cmd) => ({ command: cmd.name, description: cmd.description(lang) })), { language_code: lang as unknown as undefined })
     }
   }
 
@@ -47,10 +56,6 @@ export class TelegramBotService {
       await this.bot.init()
     }
     return this.bot.botInfo
-  }
-
-  getCommands() {
-    return this.bot.api.getMyCommands()
   }
 
   getConfig(): TelegramBotConfig {

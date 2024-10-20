@@ -22,6 +22,10 @@ export class StartComposer {
       ['start', 'login'],
       (ctx) => this.start(ctx).catch((error) => this.error(ctx, error)),
     )
+    this.composer.callbackQuery(
+      ['start'],
+      (ctx) => this.start(ctx).catch((error) => this.error(ctx, error)),
+    )
     this.composer.on(
       [':web_app_data'],
       (ctx) => this.loginWebAppDataHandler(ctx).catch((error) => this.error(ctx, error)),
@@ -58,6 +62,9 @@ export class StartComposer {
   }
 
   async start(ctx: Context) {
+    if (ctx.callbackQuery !== undefined) {
+      void ctx.answerCallbackQuery()
+    }
     const chat = await ctx.getChat()
     const author = await ctx.getAuthor()
     const startProps = this.getStartProps(ctx)
