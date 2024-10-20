@@ -13,11 +13,11 @@ export class HelpComposer {
   ) {
     this.composer.command(
       'help',
-      (ctx) => this.showHelp(ctx).catch((error) => this.error(ctx, error)),
+      (ctx) => this.help(ctx).catch((error) => this.error(ctx, error)),
     )
     this.composer.callbackQuery(
       'help',
-      (ctx) => this.showHelp(ctx).catch((error) => this.error(ctx, error)),
+      (ctx) => this.help(ctx).catch((error) => this.error(ctx, error)),
     )
   }
 
@@ -37,11 +37,13 @@ export class HelpComposer {
     ]
   }
 
-  async showHelp(ctx: Context) {
-    const langCode = ctxLangCode(ctx)
-    const commands = await ctx.api.getMyCommands({ language_code: lang(langCode, { key: 'two_letter_iso_lang_code', value: 'pt' }) as unknown as undefined })
+  async help(ctx: Context) {
+    if (ctx.callbackQuery !== undefined) {
+      void ctx.answerCallbackQuery()
+    }
+    const commands = await ctx.api.getMyCommands({ language_code: lang(ctxLangCode(ctx), { key: 'two_letter_iso_lang_code', value: 'pt' }) as unknown as undefined })
     const replyArray = [
-      lang(langCode, { key: 'help_command_description_text', value: 'Aqui está uma lista com os comandos disponíveis:' }),
+      lang(ctxLangCode(ctx), { key: 'help_command_description_text', value: 'Aqui está uma lista com os comandos disponíveis:' }),
     ]
     for (const command of commands) {
       replyArray.push(`<b>/${command.command}</b> - ${command.description}`)

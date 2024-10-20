@@ -6,7 +6,8 @@ export class DBService {
   readonly db
 
   constructor() {
-    const client = postgres(config.DATABASE_URL, { prepare: false })
+    const client = postgres(config.DATABASE_URL, { prepare: false, debug: false })
     this.db = drizzle(client)
+    console.log('Connected to database')
   }
 }

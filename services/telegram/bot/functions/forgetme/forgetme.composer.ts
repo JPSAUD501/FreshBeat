@@ -40,6 +40,9 @@ export class ForgetMeComposer {
   }
 
   async forgetMe(ctx: Context) {
+    if (ctx.callbackQuery !== undefined) {
+      void ctx.answerCallbackQuery()
+    }
     const author = await ctx.getAuthor()
     const dbUser = await this.usersService.findOneByTelegramId(author.user.id)
     const inlineKeyboard = new InlineKeyboard()

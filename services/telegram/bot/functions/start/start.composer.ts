@@ -172,10 +172,13 @@ export class StartComposer {
       lastfm_username: sessionData.session.name,
       lastfm_session_key: sessionData.session.key,
     })
-    await ctx.reply(lang(ctxLangCode(ctx), { key: 'webapp_lastfm_account_linked_success', value: 'Sua conta <a href="https://www.last.fm/user/{{lastfm_username}}">{{lastfm_username}}</a> do Last.fm foi vinculada com sucesso! Agora você tem acesso a todas as funcionalidades do FreshBeat! 🎉\nTente usar o comando /help para conhecer algumas delas!' }, { lastfm_username: sessionData.session.name }), {
+    const inlineKeyboard = new InlineKeyboard()
+      .text('Conhecer funcionalidades', 'help')
+    await ctx.reply(lang(ctxLangCode(ctx), { key: 'webapp_lastfm_account_linked_ok', value: 'Sua conta <a href="https://www.last.fm/user/{{lastfm_username}}">{{lastfm_username}}</a> do Last.fm foi vinculada com sucesso! Agora você tem acesso a todas as funcionalidades do FreshBeat! Tente usar o botão abaixo para conferi-las! 🎉'}, { lastfm_username: sessionData.session.name }), {
       parse_mode: 'HTML',
       reply_markup: {
         remove_keyboard: true,
+        inline_keyboard: inlineKeyboard.inline_keyboard,
       },
     })
   }

@@ -30,3 +30,4 @@ export type BaseLang =
   | { key: 'help_command_error_with_code'; value: 'Tive um problema enquanto processava sua solicitação! Por favor, tente novamente! Se o problema persistir, entre em contato com o /suporte e forneça o código de erro: {{error_id}}' }
   | { key: 'help_command_description_text'; value: 'Aqui está uma lista com os comandos disponíveis:' }
   | { key: 'two_letter_iso_lang_code'; value: 'pt' }
+  | { key: 'webapp_lastfm_account_linked_ok'; value: 'Sua conta <a href="https://www.last.fm/user/{{lastfm_username}}">{{lastfm_username}}</a> do Last.fm foi vinculada com sucesso! Agora você tem acesso a todas as funcionalidades do FreshBeat! Tente usar o botão abaixo para conferi-las! 🎉' }
