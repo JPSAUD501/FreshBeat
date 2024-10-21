@@ -95,7 +95,7 @@ export class StartComposer {
     const miniAppUrl = `https://${config.PRODUCTION_DOMAIN}/api/go?to=${encodeURIComponent(`https://www.last.fm/api/auth/?api_key=${config.LASTFM_API_KEY}`)}`
     const miniAppKeyboard = new Keyboard()
       .webApp(lang(ctxLangCode(ctx), { key: 'start_command_link_lastfm_account_keyboard_button', value: 'Vincular Last.fm!' }), miniAppUrl)
-      .resized().oneTime(true).selected()
+      .resized().selected()
     switch (true) {
       case (startProps?.token !== undefined): {
         const { token } = startProps
