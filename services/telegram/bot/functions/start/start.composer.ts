@@ -3,7 +3,7 @@ import { lang } from '../../../../../localization/base.ts'
 import type { TelegramBotCommand } from '../../types.ts'
 import { config } from '../../../../../config.ts'
 import { decodeBase64Url, encodeBase64Url } from '@std/encoding'
-import type { LastFmService } from '../../../../lastfm/lastfm.service.ts'
+import { LastFmService } from '../../../../lastfm/lastfm.service.ts'
 import { ctxLangCode } from '../../utils/langcode.ts'
 import { ErrorsService } from '../../../../errors/errors.service.ts'
 import type { UsersService } from '../../../../users/users.service.ts'
@@ -83,7 +83,7 @@ export class StartComposer {
     }
     if (dbUser.lastfm_username !== null) {
       const inlineKeyboard = new InlineKeyboard()
-        .text('Trocar conta do Last.fm', 'fgm')
+        .text('Trocar conta do Last.fm', 'forgetme')
       await ctx.reply(lang(ctxLangCode(ctx), { key: 'start_command_lastfm_account_already_linked', value: 'Oi! Verifiquei aqui e vi que você já vinculou sua conta <a href="https://www.last.fm/user/{{lastfm_username}}">{{lastfm_username}}</a> do Last.fm ao FreshBeat! Se quiser vincular outra conta, basta clicar no botão abaixo!' }, { lastfm_username: dbUser.lastfm_username }), {
         parse_mode: 'HTML',
         reply_markup: {
@@ -103,7 +103,21 @@ export class StartComposer {
         await this.usersService.update(dbUser.id, {
           lastfm_session_key: sessionData.session.key,
         })
-        await ctx.reply(lang(ctxLangCode(ctx), { key: 'webapp_lastfm_account_linked', value: 'Sua conta <a href="https://www.last.fm/user/{{lastfm_username}}">{{lastfm_username}}</a> foi vinculada com sucesso!' }, { lastfm_username: sessionData.session.name }), {
+        const userRecentTracks = await this.lastfmService.user.getRecentTracks({ username: sessionData.session.name, limit: '1', page: '1' })
+        if (userRecentTracks.recenttracks.track.length <= 0) {
+          const spotifyLinkUrl = `https://${config.PRODUCTION_DOMAIN}/api/go?to=${encodeURIComponent(`https://accounts.spotify.com/authorize?response_type=code&scope=user-read-playback-state+user-read-recently-played&client_id=69d19db6fcb441dd85023c7683c9f771&redirect_uri=https%3A%2F%2Fspotify-webhook.last.fm%2Fspotify-webhook%2Fauth-success&state=baF5hyi8b9RIdGwbx3Nm7shZRBhLaeCniZ1tgUrdZ6d3zcA30NYtLLaYHsIeBlF7D04AlER0YsqzrtqvIWeVcXejvyY%2F8%2BVrVnjNwkrbqGJVrev%2BBklPEU2t0%2Fb4tSvkGWUrejsSX2qp7KQTIP0JvaGxkQIYMBCTGL1a2iEo50D%2BsPVdLDpgdYLgXVSN3YC5lrYmFjFw3mPl3N4A3fvQ9c2swKIdFxLGyITAoxkLp98fZNbxjl4ktWS5lsPUudaOEJphT9fqQxmOk%2FjIybbzqzGil383M7VfSgVKDqSyh0A%3D`)}`
+          const inlineKeyboard = new InlineKeyboard()
+            .webApp(lang(ctxLangCode(ctx), { key: 'new_lastfm_account_linked_ok', value: 'Vincular Spotify' }), spotifyLinkUrl)
+          await ctx.reply(lang(ctxLangCode(ctx), { key: 'lastfm_new_account_inform', value: 'Estou finalizando a vinculação da sua nova conta ao FreshBeat! Não esqueça de clicar no botão abaixo para conectar sua conta do Spotify ao seu perfil do Last.fm enquanto termino de preparar tudo para você!' }), {
+            parse_mode: 'HTML',
+            reply_markup: {
+              inline_keyboard: inlineKeyboard.inline_keyboard,
+              remove_keyboard: true,
+            },
+          })
+          await new Promise((resolve) => setTimeout(resolve, 500))
+        }
+        await ctx.reply(lang(ctxLangCode(ctx), { key: 'lastfm_account_linked_ok', value: 'Sua conta <a href="https://www.last.fm/user/{{lastfm_username}}">{{lastfm_username}}</a> do Last.fm foi vinculada com sucesso! Agora você tem acesso a todas as funcionalidades do FreshBeat! Tente usar o botão abaixo para conferi-las! 🎉' }, { lastfm_username: sessionData.session.name }), {
           parse_mode: 'HTML',
           reply_markup: {
             remove_keyboard: true,
@@ -174,7 +188,21 @@ export class StartComposer {
     })
     const inlineKeyboard = new InlineKeyboard()
       .text('Conhecer funcionalidades', 'help')
-    await ctx.reply(lang(ctxLangCode(ctx), { key: 'webapp_lastfm_account_linked_ok', value: 'Sua conta <a href="https://www.last.fm/user/{{lastfm_username}}">{{lastfm_username}}</a> do Last.fm foi vinculada com sucesso! Agora você tem acesso a todas as funcionalidades do FreshBeat! Tente usar o botão abaixo para conferi-las! 🎉' }, { lastfm_username: sessionData.session.name }), {
+    const userRecentTracks = await this.lastfmService.user.getRecentTracks({ username: sessionData.session.name, limit: '1', page: '1' })
+    if (userRecentTracks.recenttracks.track.length <= 0) {
+      const spotifyLinkUrl = `https://${config.PRODUCTION_DOMAIN}/api/go?to=${encodeURIComponent(`https://accounts.spotify.com/authorize?response_type=code&scope=user-read-playback-state+user-read-recently-played&client_id=69d19db6fcb441dd85023c7683c9f771&redirect_uri=https%3A%2F%2Fspotify-webhook.last.fm%2Fspotify-webhook%2Fauth-success&state=baF5hyi8b9RIdGwbx3Nm7shZRBhLaeCniZ1tgUrdZ6d3zcA30NYtLLaYHsIeBlF7D04AlER0YsqzrtqvIWeVcXejvyY%2F8%2BVrVnjNwkrbqGJVrev%2BBklPEU2t0%2Fb4tSvkGWUrejsSX2qp7KQTIP0JvaGxkQIYMBCTGL1a2iEo50D%2BsPVdLDpgdYLgXVSN3YC5lrYmFjFw3mPl3N4A3fvQ9c2swKIdFxLGyITAoxkLp98fZNbxjl4ktWS5lsPUudaOEJphT9fqQxmOk%2FjIybbzqzGil383M7VfSgVKDqSyh0A%3D`)}`
+      const inlineKeyboard = new InlineKeyboard()
+        .webApp(lang(ctxLangCode(ctx), { key: 'new_lastfm_account_linked_ok', value: 'Vincular Spotify' }), spotifyLinkUrl)
+      await ctx.reply(lang(ctxLangCode(ctx), { key: 'lastfm_new_account_inform', value: 'Estou finalizando a vinculação da sua nova conta ao FreshBeat! Não esqueça de clicar no botão abaixo para conectar sua conta do Spotify ao seu perfil do Last.fm enquanto termino de preparar tudo para você!' }), {
+        parse_mode: 'HTML',
+        reply_markup: {
+          inline_keyboard: inlineKeyboard.inline_keyboard,
+          remove_keyboard: true,
+        },
+      })
+      await new Promise((resolve) => setTimeout(resolve, 5000))
+    }
+    await ctx.reply(lang(ctxLangCode(ctx), { key: 'lastfm_account_linked_ok', value: 'Sua conta <a href="https://www.last.fm/user/{{lastfm_username}}">{{lastfm_username}}</a> do Last.fm foi vinculada com sucesso! Agora você tem acesso a todas as funcionalidades do FreshBeat! Tente usar o botão abaixo para conferi-las! 🎉' }, { lastfm_username: sessionData.session.name }), {
       parse_mode: 'HTML',
       reply_markup: {
         remove_keyboard: true,

@@ -5,7 +5,7 @@ export default function GotoPage(props: PageProps) {
   const goTo = new URL(props.url).searchParams.get('to')
   if (goTo === null) return Response.redirect('/', 302)
   const url = new URL(decodeURIComponent(goTo))
-  const redirectDelay = 1500
+  const redirectDelay = 1000
 
   return (
     <>

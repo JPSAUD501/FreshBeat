@@ -13,10 +13,11 @@
   "start_command_what_i_do": "Eu sou o FreshBeat! Te ajudo a acompanhar sua vida musical junto com o Last.fm e utilizo inteligência artificial para criar novas experiências musicais para você!",
   "start_command_lastfm_account_already_linked": "Oi! Verifiquei aqui e vi que você já vinculou sua conta <a href=\"https://www.last.fm/user/{{lastfm_username}}\">{{lastfm_username}}</a> do Last.fm ao FreshBeat! Se quiser vincular outra conta, basta clicar no botão abaixo!",
   "start_command_link_lastfm_account_keyboard_button": "Vincular Last.fm!",
-  "webapp_lastfm_account_linked": "Sua conta <a href=\"https://www.last.fm/user/{{lastfm_username}}\">{{lastfm_username}}</a> foi vinculada com sucesso!",
+  "new_lastfm_account_linked_ok": "Vincular Spotify",
+  "lastfm_new_account_inform": "Estou finalizando a vinculação da sua nova conta ao FreshBeat! Não esqueça de clicar no botão abaixo para conectar sua conta do Spotify ao seu perfil do Last.fm enquanto termino de preparar tudo para você!",
+  "lastfm_account_linked_ok": "Sua conta <a href=\"https://www.last.fm/user/{{lastfm_username}}\">{{lastfm_username}}</a> do Last.fm foi vinculada com sucesso! Agora você tem acesso a todas as funcionalidades do FreshBeat! Tente usar o botão abaixo para conferi-las! 🎉",
   "start_command_from_another_chat_inform": "Te trouxe aqui rapidinho por questões de privacidade! Assim que terminar de vincular sua conta do Last.fm você pode voltar ao chat <b>{{from_chat_tittle}}</b> sem problemas!",
   "start_command_link_lastfm_account": "Vincule sua conta do telegram <a href=\"tg://user?id={{user_id}}\">{{user_name}}</a> com o Last.fm! Clique no botão abaixo para continuar!",
   "start_command_no_lastfm_account": "Para ter acesso a todas as funcionalidades do FreshBeat, você precisa vincular sua conta do Last.fm! Se você ainda não tem uma conta, fique tranquilo! Será possível criar ela na pagina de login!",
-  "start_command_no_lastfm_account_non_private_chat": "Por questões de privacidade, vou te puxar rapidinho para uma conversa privada. Clique no botão abaixo e em seguida em \"Iniciar\"!",
-  "webapp_lastfm_account_linked_ok": "Sua conta <a href=\"https://www.last.fm/user/{{lastfm_username}}\">{{lastfm_username}}</a> do Last.fm foi vinculada com sucesso! Agora você tem acesso a todas as funcionalidades do FreshBeat! Tente usar o botão abaixo para conferi-las! 🎉"
+  "start_command_no_lastfm_account_non_private_chat": "Por questões de privacidade, vou te puxar rapidinho para uma conversa privada. Clique no botão abaixo e em seguida em \"Iniciar\"!"
 }
