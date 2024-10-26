@@ -9,6 +9,7 @@ import { UsersService } from '../../users/users.service.ts'
 import { ErrorsService } from '../../errors/errors.service.ts'
 import { ForgetMeComposer } from './functions/forgetme/forgetme.composer.ts'
 import { HelpComposer } from './functions/help/help.composer.ts'
+import { KeyvalueService } from '../../keyvalue/keyvalue.service.ts'
 
 export class TelegramBotService {
   private readonly bot = new Bot(config.BOT_TOKEN)
@@ -23,11 +24,13 @@ export class TelegramBotService {
     const dbService = new DBService()
     const usersService = new UsersService(dbService)
     const errorsService = new ErrorsService(dbService)
+    const keyvalueService = new KeyvalueService(dbService)
     this.composers = [
       new StartComposer(
         this.lastfmService,
         usersService,
         errorsService,
+        keyvalueService,
       ),
       new ForgetMeComposer(
         usersService,

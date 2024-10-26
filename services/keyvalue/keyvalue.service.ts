@@ -1,9 +1,9 @@
 import type { DBService } from '../db/db.service.ts'
-import { userTable } from '../db/schema.ts'
 import { eq } from 'drizzle-orm'
+import { keyvalueTable } from '../db/schema.ts'
 
-export class UsersService {
-  private readonly table = userTable
+export class KeyvalueService {
+  private readonly table = keyvalueTable
 
   constructor(
     private readonly dbService: DBService,
@@ -15,16 +15,16 @@ export class UsersService {
     return queryResult[0]
   }
 
-  async findOneByTelegramId(telegramId: number) {
-    const queryResult = await this.dbService.db.select({ id: this.table.id }).from(this.table).where(eq(this.table.telegram_id, telegramId)).execute()
+  async findOneByKey(key: string) {
+    const queryResult = await this.dbService.db.select().from(this.table).where(eq(this.table.key, key)).execute()
     if (queryResult.length === 0) return null
-    return this.findOneById(queryResult[0].id)
+    return queryResult[0]
   }
 
   async create(props: typeof this.table.$inferInsert) {
     const result = await this.dbService.db.insert(this.table).values(props).returning({ id: this.table.id })
     const created = await this.findOneById(result[0].id)
-    if (created === null) throw new Error('Failed to create user')
+    if (created === null) throw new Error('Failed to create keyvalue')
     return created
   }
 

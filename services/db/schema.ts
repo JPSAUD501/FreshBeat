@@ -17,3 +17,9 @@ export const errorTable = pgTable('error', {
   error: varchar({ length: 5000 }).notNull(),
   created_at: date().notNull().default('now()'),
 })
+
+export const keyvalueTable = pgTable('key_value', {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  key: varchar({ length: 255 }).notNull().unique(),
+  value: varchar({ length: 5000 }).notNull(),
+})

@@ -8,6 +8,8 @@ import { ctxLangCode } from '../../utils/langcode.ts'
 import { ErrorsService } from '../../../../errors/errors.service.ts'
 import type { UsersService } from '../../../../users/users.service.ts'
 import { type StartCommandProps, zodStartCommandProps } from './types.ts'
+import { crypto } from '@std/crypto'
+import type { KeyvalueService } from '../../../../keyvalue/keyvalue.service.ts'
 
 export class StartComposer {
   private readonly composerName = 'start'
@@ -17,6 +19,7 @@ export class StartComposer {
     private readonly lastfmService: LastFmService,
     private readonly usersService: UsersService,
     private readonly errorsService: ErrorsService,
+    private readonly keyvalueService: KeyvalueService,
   ) {
     this.composer.command(
       ['start', 'login'],
@@ -190,7 +193,14 @@ export class StartComposer {
       .text('Conhecer funcionalidades', 'help')
     const userRecentTracks = await this.lastfmService.user.getRecentTracks({ username: sessionData.session.name, limit: '1', page: '1' })
     if (userRecentTracks.recenttracks.track.length <= 0) {
-      const spotifyLinkUrl = `https://${config.PRODUCTION_DOMAIN}/api/go?to=${encodeURIComponent(`https://accounts.spotify.com/authorize?response_type=code&scope=user-read-playback-state+user-read-recently-played&client_id=69d19db6fcb441dd85023c7683c9f771&redirect_uri=https%3A%2F%2Fspotify-webhook.last.fm%2Fspotify-webhook%2Fauth-success&state=baF5hyi8b9RIdGwbx3Nm7shZRBhLaeCniZ1tgUrdZ6d3zcA30NYtLLaYHsIeBlF7D04AlER0YsqzrtqvIWeVcXejvyY%2F8%2BVrVnjNwkrbqGJVrev%2BBklPEU2t0%2Fb4tSvkGWUrejsSX2qp7KQTIP0JvaGxkQIYMBCTGL1a2iEo50D%2BsPVdLDpgdYLgXVSN3YC5lrYmFjFw3mPl3N4A3fvQ9c2swKIdFxLGyITAoxkLp98fZNbxjl4ktWS5lsPUudaOEJphT9fqQxmOk%2FjIybbzqzGil383M7VfSgVKDqSyh0A%3D`)}`
+      const gotoUuid = crypto.randomUUID()
+      await this.keyvalueService.create({
+        key: gotoUuid,
+        value: JSON.stringify({
+          used: false,
+        }),
+      })
+      const spotifyLinkUrl = `https://${config.PRODUCTION_DOMAIN}/api/go?to=${encodeURIComponent(`https://accounts.spotify.com/authorize?response_type=code&scope=user-read-playback-state+user-read-recently-played&client_id=69d19db6fcb441dd85023c7683c9f771&redirect_uri=https%3A%2F%2Fspotify-webhook.last.fm%2Fspotify-webhook%2Fauth-success&state=baF5hyi8b9RIdGwbx3Nm7shZRBhLaeCniZ1tgUrdZ6d3zcA30NYtLLaYHsIeBlF7D04AlER0YsqzrtqvIWeVcXejvyY%2F8%2BVrVnjNwkrbqGJVrev%2BBklPEU2t0%2Fb4tSvkGWUrejsSX2qp7KQTIP0JvaGxkQIYMBCTGL1a2iEo50D%2BsPVdLDpgdYLgXVSN3YC5lrYmFjFw3mPl3N4A3fvQ9c2swKIdFxLGyITAoxkLp98fZNbxjl4ktWS5lsPUudaOEJphT9fqQxmOk%2FjIybbzqzGil383M7VfSgVKDqSyh0A%3D`)}&uuid=${encodeURIComponent(gotoUuid)}`
       const inlineKeyboard = new InlineKeyboard()
         .webApp(lang(ctxLangCode(ctx), { key: 'new_lastfm_account_linked_ok', value: 'Vincular Spotify' }), spotifyLinkUrl)
       await ctx.reply(lang(ctxLangCode(ctx), { key: 'lastfm_new_account_inform', value: 'Estou finalizando a vinculação da sua nova conta ao FreshBeat! Não esqueça de clicar no botão abaixo para conectar sua conta do Spotify ao seu perfil do Last.fm enquanto termino de preparar tudo para você!' }), {
@@ -200,6 +210,13 @@ export class StartComposer {
           remove_keyboard: true,
         },
       })
+      for (let i = 0; i < 7; i++) {
+        const dbKeyvalue = await this.keyvalueService.findOneByKey(gotoUuid)
+        if (dbKeyvalue === null) break
+        const value = JSON.parse(dbKeyvalue.value)
+        if (value.used === true) break
+        await new Promise((resolve) => setTimeout(resolve, 2000))
+      }
       await new Promise((resolve) => setTimeout(resolve, 5000))
     }
     await ctx.reply(lang(ctxLangCode(ctx), { key: 'lastfm_account_linked_ok', value: 'Sua conta <a href="https://www.last.fm/user/{{lastfm_username}}">{{lastfm_username}}</a> do Last.fm foi vinculada com sucesso! Agora você tem acesso a todas as funcionalidades do FreshBeat! Tente usar o botão abaixo para conferi-las! 🎉' }, { lastfm_username: sessionData.session.name }), {

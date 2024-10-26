@@ -1,11 +1,22 @@
 import type { PageProps } from '$fresh/server.ts'
 import Redirect from '../../islands/Redirect.tsx'
+import { DBService } from '../../services/db/db.service.ts'
+import { KeyvalueService } from '../../services/keyvalue/keyvalue.service.ts'
 
-export default function GotoPage(props: PageProps) {
+export default async function GotoPage(props: PageProps) {
   const goTo = new URL(props.url).searchParams.get('to')
   if (goTo === null) return Response.redirect('/', 302)
   const url = new URL(decodeURIComponent(goTo))
   const redirectDelay = 1000
+  const uuid = new URL(props.url).searchParams.get('uuid')
+  if (uuid !== null) {
+    const dbService = new DBService()
+    const keyvalueService = new KeyvalueService(dbService)
+    const dbKeyvalue = await keyvalueService.findOneByKey(uuid)
+    if (dbKeyvalue !== null) {
+      await keyvalueService.update(dbKeyvalue.id, { value: JSON.stringify({ used: true }) })
+    }
+  }
 
   return (
     <>
