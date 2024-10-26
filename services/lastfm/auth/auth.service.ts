@@ -35,7 +35,7 @@ export class Auth {
     const data = await response.json()
     const parsedData = LastFmAuthCreateSessionResponseSchema.safeParse(data)
     if (!parsedData.success) {
-      throw new Error(parsedData.error.errors.map((error) => error.message).join(', '))
+      throw new Error(parsedData.error.errors.map((error) => JSON.stringify(error, null, 2)).join('\n'))
     }
     return data
   }
