@@ -41,7 +41,7 @@ export class StartComposer {
 
   async error(ctx: Context, error: Error) {
     console.error(error)
-    const dbError = await this.errorsService.create({ composer: this.composerName, ctx: JSON.stringify(ctx, null, 2), error: error.message })
+    const dbError = await this.errorsService.create({ composer: this.composerName, ctx: JSON.stringify(ctx, null, 2), error: error.stack ?? error.message })
     await ctx.reply(lang(ctxLangCode(ctx), { key: 'start_command_error_with_code', value: 'Tive um problema enquanto processava sua solicitação! Por favor, tente novamente! Se o problema persistir, entre em contato com o /suporte e forneça o código de erro: {{error_id}}' }, { error_id: dbError.id.toString() }))
   }
 
