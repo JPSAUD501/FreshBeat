@@ -3,10 +3,11 @@ import { lang } from '../../../../../localization/base.ts'
 import type { TelegramBotCommand } from '../../types.ts'
 import { ctxLangCode } from '../../utils/langcode.ts'
 import { ErrorsService } from '../../../../errors/errors.service.ts'
+import type { CustomContext } from '../../bot.service.ts'
 
 export class HelpComposer {
   private readonly composerName = 'help'
-  private readonly composer = new Composer()
+  private readonly composer = new Composer<CustomContext>()
 
   constructor(
     private readonly errorsService: ErrorsService,
@@ -25,7 +26,7 @@ export class HelpComposer {
     return this.composer
   }
 
-  async error(ctx: Context, error: Error) {
+  async error(ctx: CustomContext, error: Error) {
     console.error(error)
     const dbError = await this.errorsService.create({ composer: this.composerName, ctx: JSON.stringify(ctx, null, 2), error: error.stack ?? error.message })
     await ctx.reply(lang(ctxLangCode(ctx), { key: 'help_command_error_with_code', value: 'Tive um problema enquanto processava sua solicitação! Por favor, tente novamente! Se o problema persistir, entre em contato com o /suporte e forneça o código de erro: {{error_id}}' }, { error_id: dbError.id.toString() }))
@@ -37,7 +38,7 @@ export class HelpComposer {
     ]
   }
 
-  async help(ctx: Context) {
+  async help(ctx: CustomContext) {
     if (ctx.callbackQuery !== undefined) {
       void ctx.answerCallbackQuery()
     }

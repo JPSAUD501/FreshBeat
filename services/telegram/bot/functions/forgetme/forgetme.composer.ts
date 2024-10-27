@@ -4,10 +4,11 @@ import type { TelegramBotCommand } from '../../types.ts'
 import { ctxLangCode } from '../../utils/langcode.ts'
 import { ErrorsService } from '../../../../errors/errors.service.ts'
 import type { UsersService } from '../../../../users/users.service.ts'
+import type { CustomContext } from '../../bot.service.ts'
 
 export class ForgetMeComposer {
   private readonly composerName = 'forgetme'
-  private readonly composer = new Composer()
+  private readonly composer = new Composer<CustomContext>()
 
   constructor(
     private readonly usersService: UsersService,
@@ -27,7 +28,7 @@ export class ForgetMeComposer {
     return this.composer
   }
 
-  async error(ctx: Context, error: Error) {
+  async error(ctx: CustomContext, error: Error) {
     console.error(error)
     const dbError = await this.errorsService.create({ composer: this.composerName, ctx: JSON.stringify(ctx, null, 2), error: error.stack ?? error.message })
     await ctx.reply(lang(ctxLangCode(ctx), { key: 'forgetme_command_error_with_code', value: 'Tive um problema enquanto processava sua solicitação! Por favor, tente novamente! Se o problema persistir, entre em contato com o /suporte e forneça o código de erro: {{error_id}}' }, { error_id: dbError.id.toString() }))
@@ -39,7 +40,7 @@ export class ForgetMeComposer {
     ]
   }
 
-  async forgetMe(ctx: Context) {
+  async forgetMe(ctx: CustomContext) {
     if (ctx.callbackQuery !== undefined) {
       void ctx.answerCallbackQuery()
     }

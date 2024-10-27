@@ -1,4 +1,4 @@
-import { Bot, webhookCallback } from 'grammy'
+import { Bot, webhookCallback, Api, Context } from 'grammy'
 import { config } from '../../../config.ts'
 import { StartComposer } from './functions/start/start.composer.ts'
 import type { TelegramBotCommand, TelegramBotConfig } from './types.ts'
@@ -10,9 +10,18 @@ import { ErrorsService } from '../../errors/errors.service.ts'
 import { ForgetMeComposer } from './functions/forgetme/forgetme.composer.ts'
 import { HelpComposer } from './functions/help/help.composer.ts'
 import { KeyvalueService } from '../../keyvalue/keyvalue.service.ts'
+import {
+  hydrateApi,
+  HydrateApiFlavor,
+  hydrateContext,
+  HydrateFlavor,
+} from "@grammyjs/hydrate";
+
+export type CustomContext = HydrateFlavor<Context>;
+export type CustomApi = HydrateApiFlavor<Api>;
 
 export class TelegramBotService {
-  private readonly bot = new Bot(config.BOT_TOKEN)
+  private readonly bot = new Bot<CustomContext, CustomApi>(config.BOT_TOKEN)
   private readonly composers
   private readonly commands: TelegramBotCommand[] = []
   private config: TelegramBotConfig
@@ -21,6 +30,8 @@ export class TelegramBotService {
 
   constructor(config: TelegramBotConfig) {
     this.config = config
+    this.bot.use(hydrateContext())
+    this.bot.api.config.use(hydrateApi());
     const dbService = new DBService()
     const usersService = new UsersService(dbService)
     const errorsService = new ErrorsService(dbService)

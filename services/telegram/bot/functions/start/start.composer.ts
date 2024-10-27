@@ -10,10 +10,11 @@ import type { UsersService } from '../../../../users/users.service.ts'
 import { type StartCommandProps, zodStartCommandProps } from './types.ts'
 import { crypto } from '@std/crypto'
 import type { KeyvalueService } from '../../../../keyvalue/keyvalue.service.ts'
+import type { CustomContext } from '../../bot.service.ts'
 
 export class StartComposer {
   private readonly composerName = 'start'
-  private readonly composer = new Composer()
+  private readonly composer = new Composer<CustomContext>()
 
   constructor(
     private readonly lastfmService: LastFmService,
@@ -39,7 +40,7 @@ export class StartComposer {
     return this.composer
   }
 
-  async error(ctx: Context, error: Error) {
+  async error(ctx: CustomContext, error: Error) {
     console.error(error)
     const dbError = await this.errorsService.create({ composer: this.composerName, ctx: JSON.stringify(ctx, null, 2), error: error.stack ?? error.message })
     await ctx.reply(lang(ctxLangCode(ctx), { key: 'start_command_error_with_code', value: 'Tive um problema enquanto processava sua solicitação! Por favor, tente novamente! Se o problema persistir, entre em contato com o /suporte e forneça o código de erro: {{error_id}}' }, { error_id: dbError.id.toString() }))
@@ -55,7 +56,7 @@ export class StartComposer {
     return encodeBase64Url(JSON.stringify(props))
   }
 
-  getStartProps(ctx: Context): StartCommandProps | null {
+  getStartProps(ctx: CustomContext): StartCommandProps | null {
     const rawStartProp = ctx.message?.text?.split(' ')[1]
     if (rawStartProp === undefined) return null
     const startPropJson = JSON.parse(new TextDecoder().decode(decodeBase64Url(rawStartProp)))
@@ -64,7 +65,7 @@ export class StartComposer {
     return parsedStartProps.data
   }
 
-  async start(ctx: Context) {
+  async start(ctx: CustomContext) {
     if (ctx.callbackQuery !== undefined) {
       void ctx.answerCallbackQuery()
     }
@@ -171,7 +172,7 @@ export class StartComposer {
     }
   }
 
-  async loginWebAppDataHandler(ctx: Context) {
+  async loginWebAppDataHandler(ctx: CustomContext) {
     const webAppData = ctx.message?.web_app_data
     if (webAppData === undefined) {
       throw new Error('WebApp data received is undefined!')
