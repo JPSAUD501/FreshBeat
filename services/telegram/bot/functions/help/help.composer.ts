@@ -1,4 +1,4 @@
-import { Composer, Context } from 'grammy'
+import { Composer } from 'grammy'
 import { lang } from '../../../../../localization/base.ts'
 import type { TelegramBotCommand } from '../../types.ts'
 import { ctxLangCode } from '../../utils/langcode.ts'

@@ -1,4 +1,4 @@
-import { Composer, Context, InlineKeyboard } from 'grammy'
+import { Composer, InlineKeyboard } from 'grammy'
 import { lang } from '../../../../../localization/base.ts'
 import type { TelegramBotCommand } from '../../types.ts'
 import { ctxLangCode } from '../../utils/langcode.ts'
