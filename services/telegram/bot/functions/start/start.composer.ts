@@ -109,7 +109,7 @@ export class StartComposer {
         })
         const userRecentTracks = await this.lastfmService.user.getRecentTracks({ username: sessionData.session.name, limit: '1', page: '1' })
         if (userRecentTracks.recenttracks.track.length <= 0) {
-          const spotifyLinkUrl = `https://${config.PRODUCTION_DOMAIN}/api/go?to=${encodeURIComponent(`https://accounts.spotify.com/authorize?response_type=code&scope=user-read-playback-state+user-read-recently-played&client_id=69d19db6fcb441dd85023c7683c9f771&redirect_uri=https%3A%2F%2Fspotify-webhook.last.fm%2Fspotify-webhook%2Fauth-success&state=baF5hyi8b9RIdGwbx3Nm7shZRBhLaeCniZ1tgUrdZ6d3zcA30NYtLLaYHsIeBlF7D04AlER0YsqzrtqvIWeVcXejvyY%2F8%2BVrVnjNwkrbqGJVrev%2BBklPEU2t0%2Fb4tSvkGWUrejsSX2qp7KQTIP0JvaGxkQIYMBCTGL1a2iEo50D%2BsPVdLDpgdYLgXVSN3YC5lrYmFjFw3mPl3N4A3fvQ9c2swKIdFxLGyITAoxkLp98fZNbxjl4ktWS5lsPUudaOEJphT9fqQxmOk%2FjIybbzqzGil383M7VfSgVKDqSyh0A%3D`)}`
+          const spotifyLinkUrl = `https://${config.PRODUCTION_DOMAIN}/api/go?to=${encodeURIComponent(`https://www.last.fm/settings/applications`)}`
           const inlineKeyboard = new InlineKeyboard()
             .webApp(lang(ctxLangCode(ctx), { key: 'new_lastfm_account_linked_ok', value: 'Vincular Spotify' }), spotifyLinkUrl)
           await ctx.reply(lang(ctxLangCode(ctx), { key: 'lastfm_new_account_inform', value: 'Estou finalizando a vinculação da sua nova conta ao FreshBeat! Não esqueça de clicar no botão abaixo para conectar sua conta do Spotify ao seu perfil do Last.fm enquanto termino de preparar tudo para você!' }), {
