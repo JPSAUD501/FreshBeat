@@ -27,17 +27,17 @@ export class Auth {
       token: props.token,
       method,
     }
-    const apiSig = (await this.getSignature({ parameters })).signature
+    const apiSig = await this.getSignature({ parameters })
     const queryParameters = new URLSearchParams({
       ...parameters,
     }).toString()
-    const response = await fetch(`https://ws.audioscrobbler.com/2.0/?format=json&api_sig=${apiSig}&${queryParameters}`)
+    const response = await fetch(`https://ws.audioscrobbler.com/2.0/?format=json&api_sig=${apiSig.signature}&${queryParameters}`)
     const data = await response.json()
     const parsedData = LastFmAuthCreateSessionResponseSchema.safeParse(data)
     if (!parsedData.success) {
       throw new Error(JSON.stringify({
         message: 'Error parsing response',
-        errors: parsedData.error.errors.map((error) => JSON.stringify(error, null, 2)),
+        errors: parsedData.error.formErrors,
         receivedData: data,
         requestParameters: parameters,
       }, null, 2))

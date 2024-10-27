@@ -70,7 +70,7 @@ export class TelegramBotService {
   }
 
   async handle(req: Request): Promise<Response> {
-    return await webhookCallback(this.bot, 'std/http')(req)
+    return await webhookCallback(this.bot, 'std/http', 'return')(req)
   }
 
   async start() {

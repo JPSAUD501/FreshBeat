@@ -21,7 +21,7 @@ export class User {
     if (!parsedData.success) {
       throw new Error(JSON.stringify({
         message: 'Error parsing response',
-        errors: parsedData.error.errors.map((error) => JSON.stringify(error, null, 2)),
+        errors: parsedData.error.formErrors,
         receivedData: data,
         requestParameters: parameters,
       }, null, 2))
@@ -48,7 +48,7 @@ export class User {
     if (!parsedData.success) {
       throw new Error(JSON.stringify({
         message: 'Error parsing response',
-        errors: parsedData.error.errors.map((error) => JSON.stringify(error, null, 2)),
+        errors: parsedData.error.formErrors,
         receivedData: data,
         requestParameters: parameters,
       }, null, 2))
@@ -74,7 +74,7 @@ export class User {
     if (!parsedData.success) {
       throw new Error(JSON.stringify({
         message: 'Error parsing response',
-        errors: parsedData.error.errors.map((error) => JSON.stringify(error, null, 2)),
+        errors: parsedData.error.formErrors,
         receivedData: data,
         requestParameters: parameters,
       }, null, 2))
@@ -100,7 +100,7 @@ export class User {
     if (!parsedData.success) {
       throw new Error(JSON.stringify({
         message: 'Error parsing response',
-        errors: parsedData.error.errors.map((error) => JSON.stringify(error, null, 2)),
+        errors: parsedData.error.formErrors,
         receivedData: data,
         requestParameters: parameters,
       }, null, 2))
@@ -126,7 +126,7 @@ export class User {
     if (!parsedData.success) {
       throw new Error(JSON.stringify({
         message: 'Error parsing response',
-        errors: parsedData.error.errors.map((error) => JSON.stringify(error, null, 2)),
+        errors: parsedData.error.formErrors,
         receivedData: data,
         requestParameters: parameters,
       }, null, 2))
@@ -151,7 +151,7 @@ export class User {
     if (!parsedData.success) {
       throw new Error(JSON.stringify({
         message: 'Error parsing response',
-        errors: parsedData.error.errors.map((error) => JSON.stringify(error, null, 2)),
+        errors: parsedData.error.formErrors,
         receivedData: data,
         requestParameters: parameters,
       }, null, 2))
