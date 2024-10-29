@@ -1,4 +1,5 @@
-import { bigint, date, integer, pgTable, varchar } from 'drizzle-orm/pg-core'
+import { bigint, date, integer, pgTable, uuid, varchar } from 'drizzle-orm/pg-core'
+import { sql } from 'drizzle-orm'
 
 export const userTable = pgTable('user', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -12,6 +13,7 @@ export const userTable = pgTable('user', {
 
 export const errorTable = pgTable('error', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  uuid: uuid().notNull().default(sql`uuid_generate_v4()`),
   composer: varchar({ length: 255 }),
   ctx: varchar({ length: 5000 }).notNull(),
   error: varchar({ length: 5000 }).notNull(),

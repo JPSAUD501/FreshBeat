@@ -43,6 +43,8 @@
     "mbid",
     "Miniapp",
     "nowplaying",
+    "opensearch",
+    "ossp",
     "playcount",
     "postgres",
     "postgresql",
@@ -56,6 +58,8 @@
     "topartists",
     "toptags",
     "toptracks",
-    "unixtime"
+    "unixtime",
+    "userloved",
+    "userplaycount"
   ]
 }

@@ -1,13 +1,11 @@
 export type BaseLang =
-  | { key: 'forgetme_command_error_with_code'; value: 'Tive um problema enquanto processava sua solicitação! Por favor, tente novamente! Se o problema persistir, entre em contato com o /suporte e forneça o código de erro: {{error_id}}' }
+  | { key: 'error_with_code'; value: 'Tive um problema enquanto processava sua solicitação! Por favor, tente novamente! Se o problema persistir, entre em contato com o suporte clicando em: /support_error_{{error_id}}' }
   | { key: 'forgetme_command_description'; value: 'Desvincular conta do Last.fm.' }
   | { key: 'forgetme_command_no_account_linked'; value: 'Não encontrei nenhuma conta Last.fm vinculada ao seu perfil. Parece que você já mandou eu esquecer antes ou nunca vinculou uma. Se quiser vincular uma nova conta, clique no botão abaixo.' }
   | { key: 'forgetme_command_success'; value: 'Sua conta Last.fm foi desvinculada com sucesso. Se quiser vincular outra conta, clique no botão abaixo.' }
-  | { key: 'help_command_error_with_code'; value: 'Tive um problema enquanto processava sua solicitação! Por favor, tente novamente! Se o problema persistir, entre em contato com o /suporte e forneça o código de erro: {{error_id}}' }
   | { key: 'help_command_description'; value: 'Mostrar ajuda e informações sobre o bot.' }
   | { key: 'two_letter_iso_lang_code'; value: 'pt' }
   | { key: 'help_command_description_text'; value: 'Aqui está uma lista com os comandos disponíveis:' }
-  | { key: 'start_command_error_with_code'; value: 'Tive um problema enquanto processava sua solicitação! Por favor, tente novamente! Se o problema persistir, entre em contato com o /suporte e forneça o código de erro: {{error_id}}' }
   | { key: 'start_command_description'; value: 'Bem vindo ao FreshBeat!' }
   | { key: 'start_command_first_time'; value: 'Olá! Que prazer em te conhecer <a href="tg://user?id={{user_id}}">{{user_name}}</a>! Tudo bem?!' }
   | { key: 'start_command_what_i_do'; value: 'Eu sou o FreshBeat! Te ajudo a acompanhar sua vida musical junto com o Last.fm e utilizo inteligência artificial para criar novas experiências musicais para você!' }
