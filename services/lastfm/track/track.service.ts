@@ -23,7 +23,7 @@ export class Track {
     if (!parsedData.success) {
       throw new Error(JSON.stringify(
         {
-          message: 'Error parsing track info response',
+          message: 'Error parsing response',
           errors: parsedData.error.formErrors,
           receivedData: data,
           requestParameters: parameters,
@@ -53,7 +53,7 @@ export class Track {
     if (!parsedData.success) {
       throw new Error(JSON.stringify(
         {
-          message: 'Error parsing track search response',
+          message: 'Error parsing response',
           errors: parsedData.error.formErrors,
           receivedData: data,
           requestParameters: parameters,
