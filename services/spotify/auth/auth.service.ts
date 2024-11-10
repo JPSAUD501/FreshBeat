@@ -1,13 +1,4 @@
-import {
-  Client,
-  clientCredentialsGrantRequest,
-  processClientCredentialsResponse,
-  AuthorizationServer,
-  discoveryRequest,
-  processDiscoveryResponse,
-  ClientSecretBasic,
-} from 'oauth4webapi'
-import { isOAuth2Error } from 'oauth4webapi/errors'
+import { AuthorizationServer, Client, clientCredentialsGrantRequest, ClientSecretBasic, discoveryRequest, processClientCredentialsResponse, processDiscoveryResponse } from 'oauth4webapi'
 import { SPOTIFY_AUTH_URL } from '@soundify/web-api/auth'
 import { SpotifyClient } from '@soundify/web-api'
 
@@ -48,10 +39,9 @@ export class Auth {
         res,
       )
 
-      if (isOAuth2Error(result)) {
+      if (result.error !== undefined) {
         throw new Error(
-          result.error +
-            (result.error_description ? ' : ' + result.error_description : ''),
+          result.error + (result.error_description ? ' : ' + result.error_description : ''),
         )
       }
       return result.access_token

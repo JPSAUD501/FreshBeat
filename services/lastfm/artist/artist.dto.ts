@@ -20,7 +20,7 @@ export const ArtistInfoResponseSchema = z.object({
     stats: z.object({
       listeners: z.string(),
       playcount: z.string(),
-      userplaycount: z.string().optional()
+      userplaycount: z.string().optional(),
     }),
     similar: z.object({
       artist: z.array(
@@ -28,11 +28,11 @@ export const ArtistInfoResponseSchema = z.object({
           name: z.string(),
           url: z.string(),
           image: z.array(z.object({ '#text': z.string(), size: z.string() })),
-        })
-      )
+        }),
+      ),
     }),
     tags: z.object({
-      tag: z.array(z.object({ name: z.string(), url: z.string() }))
+      tag: z.array(z.object({ name: z.string(), url: z.string() })),
     }),
     bio: z.object({
       links: z.object({
@@ -40,11 +40,11 @@ export const ArtistInfoResponseSchema = z.object({
           '#text': z.string(),
           rel: z.string(),
           href: z.string(),
-        })
+        }),
       }),
       published: z.string(),
       summary: z.string(),
-      content: z.string()
-    })
-  })
+      content: z.string(),
+    }),
+  }),
 })

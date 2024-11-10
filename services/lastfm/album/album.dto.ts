@@ -12,8 +12,8 @@ const zodTrack = z.object({
   artist: z.object({
     url: z.string(),
     name: z.string(),
-    mbid: z.string().optional()
-  })
+    mbid: z.string().optional(),
+  }),
 })
 
 export const AlbumInfoRequestSchema = z.object({
@@ -28,12 +28,12 @@ export const AlbumInfoResponseSchema = z.object({
     artist: z.string(),
     mbid: z.string().optional(),
     tags: z.object({
-      tag: z.array(z.object({ url: z.string(), name: z.string() }))
+      tag: z.array(z.object({ url: z.string(), name: z.string() })),
     }).or(z.string()).optional(),
     name: z.string(),
     image: z.array(z.object({ size: z.string(), '#text': z.string() })),
     tracks: z.object({
-      track: z.array(zodTrack).or(zodTrack)
+      track: z.array(zodTrack).or(zodTrack),
     }).optional(),
     url: z.string(),
     listeners: z.string(),
@@ -42,7 +42,7 @@ export const AlbumInfoResponseSchema = z.object({
     wiki: z.object({
       published: z.string(),
       summary: z.string(),
-      content: z.string()
-    }).optional()
-  })
+      content: z.string(),
+    }).optional(),
+  }),
 })

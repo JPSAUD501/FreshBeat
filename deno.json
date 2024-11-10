@@ -1,7 +1,7 @@
 {
   "lock": false,
   "tasks": {
-    "check": "deno fmt --check && deno lint && deno check .",
+    "check": "deno fmt --check && deno lint && deno check --allow-import .",
     "cli": "echo \"import '\\$fresh/src/dev/cli.ts'\" | deno run --unstable -A -",
     "manifest": "deno task cli manifest $(pwd)",
     "start": "deno run -A --watch=static/,routes/ dev.ts",
@@ -20,7 +20,10 @@
         "fresh",
         "recommended"
       ]
-    }
+    },
+    "exclude": [
+      "**/_fresh/*"
+    ]
   },
   "fmt": {
     "semiColons": false,
@@ -54,6 +57,7 @@
     "postgres": "npm:postgres@^3.4.4",
     "preact": "https://esm.sh/preact@10.22.0",
     "preact/": "https://esm.sh/preact@10.22.0/",
+    "scrape-youtube": "npm:scrape-youtube@^2.4.0",
     "tailwindcss": "npm:tailwindcss@3.4.1",
     "tailwindcss/": "npm:/tailwindcss@3.4.1/",
     "tailwindcss/plugin": "npm:/tailwindcss@3.4.1/plugin.js",
