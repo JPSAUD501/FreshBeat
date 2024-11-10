@@ -53,6 +53,7 @@
     "realname",
     "recenttracks",
     "rippleui",
+    "soundify",
     "spotify",
     "streamable",
     "topalbums",
@@ -61,6 +62,7 @@
     "toptracks",
     "unixtime",
     "userloved",
-    "userplaycount"
+    "userplaycount",
+    "webapi"
   ]
 }

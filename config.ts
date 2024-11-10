@@ -11,6 +11,8 @@ const configSchema = z.object({
   LASTFM_API_KEY: z.string(),
   LASTFM_API_SECRET: z.string(),
   DATABASE_URL: z.string(),
+  SPOTIFY_CLIENT_ID: z.string(),
+  SPOTIFY_CLIENT_SECRET: z.string(),
 })
 const configData = {
   PRODUCTION_DOMAIN: 'freshbeat.deno.dev',
@@ -22,6 +24,8 @@ const configData = {
   LASTFM_API_KEY: Deno.env.get('LASTFM_API_KEY'),
   LASTFM_API_SECRET: Deno.env.get('LASTFM_API_SECRET'),
   DATABASE_URL: Deno.env.get('DATABASE_URL'),
+  SPOTIFY_CLIENT_ID: Deno.env.get('SPOTIFY_CLIENT_ID'),
+  SPOTIFY_CLIENT_SECRET: Deno.env.get('SPOTIFY_CLIENT_SECRET'),
 }
 const parsedConfig = configSchema.safeParse(configData)
 
