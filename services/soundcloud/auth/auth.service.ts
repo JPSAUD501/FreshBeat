@@ -2,7 +2,7 @@ import { PromisePool } from '@supercharge/promise-pool'
 
 export class Auth {
   async getClientId(): Promise<string> {
-    const url = 'https://soundcloud.com/search?q=melodyscout'
+    const url = 'https://soundcloud.com/search?q=melodyscout+freshbeat'
     const response = await fetch(url)
     if (!response.ok) throw new Error('Failed to fetch SoundCloud API')
     const data = await response.text()
