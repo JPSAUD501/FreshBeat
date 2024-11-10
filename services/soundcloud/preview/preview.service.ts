@@ -37,12 +37,16 @@ export class Preview {
     const schema = z.object({ url: z.string() })
     const parsed = schema.safeParse(responseData)
     if (!parsed.success) {
-      throw new Error(JSON.stringify({
-        message: 'Error parsing response',
-        errors: parsed.error.formErrors,
-        receivedData: responseData,
-        requestParameters: props,
-      }, null, 2))
+      throw new Error(JSON.stringify(
+        {
+          message: 'Error parsing response',
+          errors: parsed.error.formErrors,
+          receivedData: responseData,
+          requestParameters: props,
+        },
+        null,
+        2,
+      ))
     }
     return parsed.data.url
   }
@@ -55,20 +59,24 @@ export class Preview {
     return response.text()
   }
 
-  private parseM3u8Response(m3u8Response: string, props: SearchTrackRequest): Array<{ duration: number, url: string }> {
+  private parseM3u8Response(m3u8Response: string, props: SearchTrackRequest): Array<{ duration: number; url: string }> {
     const schema = z.string()
     const parsed = schema.safeParse(m3u8Response)
     if (!parsed.success) {
-      throw new Error(JSON.stringify({
-        message: 'Error parsing response',
-        errors: parsed.error.formErrors,
-        receivedData: m3u8Response,
-        requestParameters: props,
-      }, null, 2))
+      throw new Error(JSON.stringify(
+        {
+          message: 'Error parsing response',
+          errors: parsed.error.formErrors,
+          receivedData: m3u8Response,
+          requestParameters: props,
+        },
+        null,
+        2,
+      ))
     }
 
     const m3u8Lines = parsed.data.split('\n')
-    const m3u8Parts: Array<{ duration: number, url: string }> = []
+    const m3u8Parts: Array<{ duration: number; url: string }> = []
     for (let i = 0; i < m3u8Lines.length; i++) {
       if (m3u8Lines[i].startsWith('#EXTINF:')) {
         const duration = Number(m3u8Lines[i].split('#EXTINF:')[1].split(',')[0])
@@ -79,24 +87,22 @@ export class Preview {
     return m3u8Parts
   }
 
-  private getPreviewUrl(m3u8Parts: Array<{ duration: number, url: string }>): string {
+  private getPreviewUrl(m3u8Parts: Array<{ duration: number; url: string }>): string {
     const previewMaxDuration = 30
     const fullMediaDuration = m3u8Parts.reduce((acc, cur) => acc + cur.duration, 0)
     const fullMediaMiddleIndex = Math.floor(fullMediaDuration / 2)
     const previewStartIndex = Math.max(0, fullMediaMiddleIndex - (previewMaxDuration / 2))
-    const fullMediaParsedParts: Array<{ start: number, duration: number, url: string }> = []
+    const fullMediaParsedParts: Array<{ start: number; duration: number; url: string }> = []
     let accumulatedDuration = 0
     for (const part of m3u8Parts) {
       fullMediaParsedParts.push({
         start: accumulatedDuration,
         duration: part.duration,
-        url: part.url
+        url: part.url,
       })
       accumulatedDuration += part.duration
     }
-    const previewParts = fullMediaParsedParts.filter(part => 
-      part.start >= previewStartIndex && part.start <= previewStartIndex + previewMaxDuration
-    )
+    const previewParts = fullMediaParsedParts.filter((part) => part.start >= previewStartIndex && part.start <= previewStartIndex + previewMaxDuration)
     const longestPreviewPart = previewParts.reduce((acc, cur) => acc.duration > cur.duration ? acc : cur)
     return longestPreviewPart.url
   }

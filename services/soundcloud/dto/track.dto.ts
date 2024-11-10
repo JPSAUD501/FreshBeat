@@ -38,7 +38,7 @@ export const TrackSchema = z.object({
     c_line: z.string().nullable().optional(),
     c_line_for_display: z.string().nullable().optional(),
     writer_composer: z.string().nullable().optional(),
-    release_title: z.string().nullable().optional()
+    release_title: z.string().nullable().optional(),
   }).nullable().optional(),
   purchase_title: z.string().nullable().optional(),
   purchase_url: z.string().nullable().optional(),
@@ -65,9 +65,9 @@ export const TrackSchema = z.object({
         duration: z.number(),
         snipped: z.boolean(),
         format: z.object({ protocol: z.string(), mime_type: z.string() }),
-        quality: z.string()
-      })
-    )
+        quality: z.string(),
+      }),
+    ),
   }).nullable().optional(),
   station_urn: z.string().nullable().optional(),
   station_permalink: z.string().nullable().optional(),
@@ -81,10 +81,10 @@ export const TrackSchema = z.object({
     country_code: z.string().nullable().optional(),
     created_at: z.string().nullable().optional(),
     creator_subscriptions: z.array(
-      z.object({ product: z.object({ id: z.string().nullable().optional() }).nullable().optional() }).nullable().optional()
+      z.object({ product: z.object({ id: z.string().nullable().optional() }).nullable().optional() }).nullable().optional(),
     ).nullable().optional(),
     creator_subscription: z.object({
-      product: z.object({ id: z.string().nullable().optional() }).nullable().optional()
+      product: z.object({ id: z.string().nullable().optional() }).nullable().optional(),
     }).nullable().optional(),
     description: z.string().nullable().optional(),
     followers_count: z.number().nullable().optional(),
@@ -114,18 +114,18 @@ export const TrackSchema = z.object({
         z.object({
           urn: z.string().nullable().optional(),
           entry_time: z.number().nullable().optional(),
-          visual_url: z.string().nullable().optional()
-        })
+          visual_url: z.string().nullable().optional(),
+        }),
       ).nullable().optional(),
-      tracking: z.null().optional()
+      tracking: z.null().optional(),
     }).nullable().optional(),
     badges: z.object({
       pro: z.boolean().nullable().optional(),
       pro_unlimited: z.boolean().nullable().optional(),
-      verified: z.boolean().nullable().optional()
+      verified: z.boolean().nullable().optional(),
     }),
     station_urn: z.string().nullable().optional(),
-    station_permalink: z.string().nullable().optional()
-  }).nullable().optional()
+    station_permalink: z.string().nullable().optional(),
+  }).nullable().optional(),
 })
 export type Track = z.infer<typeof TrackSchema>
