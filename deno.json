@@ -46,6 +46,7 @@
     "@std/assert": "jsr:@std/assert@^1.0.6",
     "@std/crypto": "jsr:@std/crypto@^1.0.3",
     "@std/encoding": "jsr:@std/encoding@^1.0.5",
+    "@supercharge/promise-pool": "npm:@supercharge/promise-pool@^3.2.0",
     "daisyui": "npm:daisyui@^4.12.13",
     "dotenv": "npm:dotenv@^16.4.5",
     "drizzle-kit": "npm:drizzle-kit@^0.26.2",
