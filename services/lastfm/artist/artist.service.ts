@@ -18,19 +18,7 @@ export class Artist {
     const queryParameters = new URLSearchParams(parameters).toString()
     const response = await fetch(`https://ws.audioscrobbler.com/2.0/?${queryParameters}`)
     const data = await response.json()
-    const parsedData = ArtistInfoResponseSchema.safeParse(data)
-    if (!parsedData.success) {
-      throw new Error(JSON.stringify(
-        {
-          message: 'Error parsing response',
-          errors: parsedData.error.formErrors,
-          receivedData: data,
-          requestParameters: parameters,
-        },
-        null,
-        2,
-      ))
-    }
-    return parsedData.data
+    const parsed = ArtistInfoResponseSchema.parse(data)
+    return parsed
   }
 }

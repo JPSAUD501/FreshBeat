@@ -1,9 +1,8 @@
-import { Resvg, initWasm } from "@resvg/resvg-wasm"
+import { initWasm, Resvg } from '@resvg/resvg-wasm'
 import jpeg from 'jpeg-js'
 
-export class Svg {
-  private initialized = false
-  private wasmUrl = "https://cdn.jsdelivr.net/npm/@resvg/resvg-wasm@2.6.2/index_bg.wasm"
+export class ConverterSvgService {
+  private wasmUrl = 'https://cdn.jsdelivr.net/npm/@resvg/resvg-wasm@2.6.2/index_bg.wasm'
   private svgContent: string
 
   constructor(svgContent: string) {
@@ -11,10 +10,7 @@ export class Svg {
   }
 
   private async initializeWasm() {
-    if (!this.initialized) {
-      await initWasm(this.wasmUrl)
-      this.initialized = true
-    }
+    await initWasm(this.wasmUrl).catch((_err) => {})
   }
 
   get to() {
@@ -22,10 +18,10 @@ export class Svg {
       jpeg: async (): Promise<Uint8Array> => {
         await this.initializeWasm()
         const resvg = new Resvg(this.svgContent, {
-          background: "white",
+          background: 'white',
           fitTo: {
-            mode: "original"
-          }
+            mode: 'original',
+          },
         })
         const image = resvg.render()
         const rgbaData = image.pixels
@@ -35,7 +31,7 @@ export class Svg {
         const rawImageData = {
           data: rgbaData,
           width,
-          height
+          height,
         }
 
         const jpegImageData = jpeg.encode(rawImageData, 90)
@@ -44,14 +40,14 @@ export class Svg {
       png: async (): Promise<Uint8Array> => {
         await this.initializeWasm()
         const resvg = new Resvg(this.svgContent, {
-          background: "transparent",
+          background: 'transparent',
           fitTo: {
-            mode: "original"
-          }
+            mode: 'original',
+          },
         })
         const pngData = resvg.render().asPng()
         return pngData
-      }
+      },
     }
   }
 }

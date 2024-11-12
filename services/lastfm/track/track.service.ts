@@ -19,20 +19,8 @@ export class Track {
     }).toString()
     const response = await fetch(`https://ws.audioscrobbler.com/2.0/?format=json&${queryParameters}`)
     const data = await response.json()
-    const parsedData = LastFmTrackInfoResponseSchema.safeParse(data)
-    if (!parsedData.success) {
-      throw new Error(JSON.stringify(
-        {
-          message: 'Error parsing response',
-          errors: parsedData.error.formErrors,
-          receivedData: data,
-          requestParameters: parameters,
-        },
-        null,
-        2,
-      ))
-    }
-    return parsedData.data
+    const parsed = LastFmTrackInfoResponseSchema.parse(data)
+    return parsed
   }
 
   async search(props: LastFmTrackSearchRequest): Promise<LastFmTrackSearchResponse> {
@@ -49,19 +37,7 @@ export class Track {
     }).toString()
     const response = await fetch(`https://ws.audioscrobbler.com/2.0/?format=json&${queryParameters}`)
     const data = await response.json()
-    const parsedData = LastFmTrackSearchResponseSchema.safeParse(data)
-    if (!parsedData.success) {
-      throw new Error(JSON.stringify(
-        {
-          message: 'Error parsing response',
-          errors: parsedData.error.formErrors,
-          receivedData: data,
-          requestParameters: parameters,
-        },
-        null,
-        2,
-      ))
-    }
-    return parsedData.data
+    const parsed = LastFmTrackSearchResponseSchema.parse(data)
+    return parsed
   }
 }

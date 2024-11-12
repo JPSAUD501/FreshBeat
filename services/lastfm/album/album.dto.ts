@@ -3,19 +3,6 @@ import { z } from 'zod'
 export type AlbumInfoRequest = z.infer<typeof AlbumInfoRequestSchema>
 export type AlbumInfoResponse = z.infer<typeof AlbumInfoResponseSchema>
 
-const zodTrack = z.object({
-  streamable: z.object({ fulltrack: z.string(), '#text': z.string() }),
-  duration: z.number().nullable(),
-  url: z.string(),
-  name: z.string(),
-  '@attr': z.object({ rank: z.number() }),
-  artist: z.object({
-    url: z.string(),
-    name: z.string(),
-    mbid: z.string().optional(),
-  }),
-})
-
 export const AlbumInfoRequestSchema = z.object({
   artist: z.string(),
   album: z.string(),
@@ -33,7 +20,33 @@ export const AlbumInfoResponseSchema = z.object({
     name: z.string(),
     image: z.array(z.object({ size: z.string(), '#text': z.string() })),
     tracks: z.object({
-      track: z.array(zodTrack).or(zodTrack),
+      track: z.array(
+        z.object({
+          streamable: z.object({ fulltrack: z.string(), '#text': z.string() }),
+          duration: z.number().nullable(),
+          url: z.string(),
+          name: z.string(),
+          '@attr': z.object({ rank: z.number() }),
+          artist: z.object({
+            url: z.string(),
+            name: z.string(),
+            mbid: z.string().optional(),
+          }),
+        }),
+      ).or(
+        z.object({
+          streamable: z.object({ fulltrack: z.string(), '#text': z.string() }),
+          duration: z.number().nullable(),
+          url: z.string(),
+          name: z.string(),
+          '@attr': z.object({ rank: z.number() }),
+          artist: z.object({
+            url: z.string(),
+            name: z.string(),
+            mbid: z.string().optional(),
+          }),
+        }),
+      ),
     }).optional(),
     url: z.string(),
     listeners: z.string(),

@@ -13,6 +13,7 @@ const configSchema = z.object({
   DATABASE_URL: z.string(),
   SPOTIFY_CLIENT_ID: z.string(),
   SPOTIFY_CLIENT_SECRET: z.string(),
+  GENIUS_ACCESS_TOKEN: z.string(),
 })
 const configData = {
   PRODUCTION_DOMAIN: 'freshbeat.deno.dev',
@@ -26,6 +27,7 @@ const configData = {
   DATABASE_URL: Deno.env.get('DATABASE_URL'),
   SPOTIFY_CLIENT_ID: Deno.env.get('SPOTIFY_CLIENT_ID'),
   SPOTIFY_CLIENT_SECRET: Deno.env.get('SPOTIFY_CLIENT_SECRET'),
+  GENIUS_ACCESS_TOKEN: Deno.env.get('GENIUS_ACCESS_TOKEN'),
 }
 const parsedConfig = configSchema.safeParse(configData)
 

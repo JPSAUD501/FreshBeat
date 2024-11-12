@@ -17,20 +17,9 @@ export class User {
     }).toString()
     const response = await fetch(`https://ws.audioscrobbler.com/2.0/?format=json&${queryParameters}`)
     const data = await response.json()
-    const parsedData = LastFmUserGetInfoResponseSchema.safeParse(data)
-    if (!parsedData.success) {
-      throw new Error(JSON.stringify(
-        {
-          message: 'Error parsing response',
-          errors: parsedData.error.formErrors,
-          receivedData: data,
-          requestParameters: parameters,
-        },
-        null,
-        2,
-      ))
-    }
-    return parsedData.data
+    const parsed = LastFmUserGetInfoResponseSchema.parse(data)
+
+    return parsed
   }
 
   async getRecentTracks(props: LastFmUserGetRecentTracksRequest): Promise<LastFmUserGetRecentTracksResponse> {
@@ -48,20 +37,8 @@ export class User {
     }).toString()
     const response = await fetch(`https://ws.audioscrobbler.com/2.0/?format=json&${queryParameters}`)
     const data = await response.json()
-    const parsedData = LastFmUserGetRecentTracksResponseSchema.safeParse(data)
-    if (!parsedData.success) {
-      throw new Error(JSON.stringify(
-        {
-          message: 'Error parsing response',
-          errors: parsedData.error.formErrors,
-          receivedData: data,
-          requestParameters: parameters,
-        },
-        null,
-        2,
-      ))
-    }
-    return parsedData.data
+    const parsed = LastFmUserGetRecentTracksResponseSchema.parse(data)
+    return parsed
   }
 
   async getTopAlbums(props: LastFmUserGetTopAlbumsRequest): Promise<LastFmUserGetTopAlbumsResponse> {
@@ -78,20 +55,8 @@ export class User {
     }).toString()
     const response = await fetch(`https://ws.audioscrobbler.com/2.0/?format=json&${queryParameters}`)
     const data = await response.json()
-    const parsedData = LastFmUserGetTopAlbumsResponseSchema.safeParse(data)
-    if (!parsedData.success) {
-      throw new Error(JSON.stringify(
-        {
-          message: 'Error parsing response',
-          errors: parsedData.error.formErrors,
-          receivedData: data,
-          requestParameters: parameters,
-        },
-        null,
-        2,
-      ))
-    }
-    return parsedData.data
+    const parsed = LastFmUserGetTopAlbumsResponseSchema.parse(data)
+    return parsed
   }
 
   async getTopArtists(props: LastFmUserGetTopArtistsRequest): Promise<LastFmUserGetTopArtistsResponse> {
@@ -108,20 +73,8 @@ export class User {
     }).toString()
     const response = await fetch(`https://ws.audioscrobbler.com/2.0/?format=json&${queryParameters}`)
     const data = await response.json()
-    const parsedData = LastFmUserGetTopArtistsResponseSchema.safeParse(data)
-    if (!parsedData.success) {
-      throw new Error(JSON.stringify(
-        {
-          message: 'Error parsing response',
-          errors: parsedData.error.formErrors,
-          receivedData: data,
-          requestParameters: parameters,
-        },
-        null,
-        2,
-      ))
-    }
-    return parsedData.data
+    const parsed = LastFmUserGetTopArtistsResponseSchema.parse(data)
+    return parsed
   }
 
   async getTopTracks(props: LastFmUserGetTopTracksRequest): Promise<LastFmUserGetTopTracksResponse> {
@@ -138,20 +91,8 @@ export class User {
     }).toString()
     const response = await fetch(`https://ws.audioscrobbler.com/2.0/?format=json&${queryParameters}`)
     const data = await response.json()
-    const parsedData = LastFmUserGetTopTracksResponseSchema.safeParse(data)
-    if (!parsedData.success) {
-      throw new Error(JSON.stringify(
-        {
-          message: 'Error parsing response',
-          errors: parsedData.error.formErrors,
-          receivedData: data,
-          requestParameters: parameters,
-        },
-        null,
-        2,
-      ))
-    }
-    return parsedData.data
+    const parsed = LastFmUserGetTopTracksResponseSchema.parse(data)
+    return parsed
   }
 
   async getTopTags(props: LastFmUserGetTopTagsRequest): Promise<LastFmUserGetTopTagsResponse> {
@@ -167,19 +108,7 @@ export class User {
     }).toString()
     const response = await fetch(`https://ws.audioscrobbler.com/2.0/?format=json&${queryParameters}`)
     const data = await response.json()
-    const parsedData = LastFmUserGetTopTagsResponseSchema.safeParse(data)
-    if (!parsedData.success) {
-      throw new Error(JSON.stringify(
-        {
-          message: 'Error parsing response',
-          errors: parsedData.error.formErrors,
-          receivedData: data,
-          requestParameters: parameters,
-        },
-        null,
-        2,
-      ))
-    }
-    return parsedData.data
+    const parsed = LastFmUserGetTopTagsResponseSchema.parse(data)
+    return parsed
   }
 }

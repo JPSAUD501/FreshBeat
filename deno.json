@@ -2,6 +2,7 @@
   "lock": false,
   "tasks": {
     "check": "deno fmt --check && deno lint && deno check --allow-import .",
+    "test": "deno test -A",
     "cli": "echo \"import '\\$fresh/src/dev/cli.ts'\" | deno run --unstable -A -",
     "manifest": "deno task cli manifest $(pwd)",
     "start": "deno run -A --watch=static/,routes/ dev.ts",
@@ -39,6 +40,7 @@
     "$fresh/": "https://deno.land/x/fresh@1.7.2/",
     "$std/": "https://deno.land/std@0.216.0/",
     "@crowdin/crowdin-api-client": "npm:@crowdin/crowdin-api-client@^1.37.1",
+    "@flytri/lyrics-finder": "npm:@flytri/lyrics-finder@^1.0.7",
     "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2",
     "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.5.1",
     "@react-spring/web": "npm:@react-spring/web@^9.7.5",
@@ -53,6 +55,7 @@
     "drizzle-kit": "npm:drizzle-kit@^0.26.2",
     "drizzle-orm": "npm:drizzle-orm@^0.35.2",
     "fs": "jsr:@std/fs",
+    "genius-lyrics": "npm:genius-lyrics@^4.4.7",
     "grammy": "https://deno.land/x/grammy@v1.30.0/mod.ts",
     "jpeg-js": "npm:jpeg-js@^0.4.4",
     "oauth4webapi": "npm:oauth4webapi@^3.1.2",
