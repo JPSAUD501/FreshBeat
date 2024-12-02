@@ -39,6 +39,8 @@
   "imports": {
     "$fresh/": "https://deno.land/x/fresh@1.7.2/",
     "$std/": "https://deno.land/std@0.216.0/",
+    "@ai-sdk/google": "npm:@ai-sdk/google@^1.0.4",
+    "@ai-sdk/openai": "npm:@ai-sdk/openai@^1.0.5",
     "@crowdin/crowdin-api-client": "npm:@crowdin/crowdin-api-client@^1.37.1",
     "@flytri/lyrics-finder": "npm:@flytri/lyrics-finder@^1.0.7",
     "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2",
@@ -50,6 +52,7 @@
     "@std/crypto": "jsr:@std/crypto@^1.0.3",
     "@std/encoding": "jsr:@std/encoding@^1.0.5",
     "@supercharge/promise-pool": "npm:@supercharge/promise-pool@^3.2.0",
+    "ai": "npm:ai@^4.0.9",
     "daisyui": "npm:daisyui@^4.12.13",
     "dotenv": "npm:dotenv@^16.4.5",
     "drizzle-kit": "npm:drizzle-kit@^0.26.2",
@@ -81,7 +84,5 @@
     ]
   },
   "nodeModulesDir": "auto",
-  "unstable": [
-    "kv"
-  ]
+  "unstable": []
 }

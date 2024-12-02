@@ -13,6 +13,6 @@ export const SearchTrackRequestSchema = z.object({
 export const SearchTrackResponseSchema = z.object({
   collection: z.array(TrackSchema),
   total_results: z.number(),
-  next_href: z.string(),
+  next_href: z.string().optional(),
   query_urn: z.string(),
 })
