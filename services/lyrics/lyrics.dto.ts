@@ -16,6 +16,7 @@ export const LyricsProviderSchema = z.object({
 
 export const LyricsDataSchema = z.object({
   lyrics: z.string(),
+  composers: z.string().optional(),
   url: z.string(),
   provider: LyricsProviderSchema,
 })

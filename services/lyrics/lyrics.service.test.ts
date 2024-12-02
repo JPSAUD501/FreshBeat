@@ -15,8 +15,8 @@ Deno.test('LyricsService', async (t) => {
   await t.step('should handle non-existent songs', async () => {
     try {
       await lyricsService.search({
-        track: 'Non-existent song',
-        artist: 'Non-existent artist',
+        track: 'ThisSongDoesNotExist123',
+        artist: 'ThisArtistDoesNotExist123',
       })
       assert(false, 'Should have thrown an error for non-existent song')
     } catch (error) {

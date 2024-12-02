@@ -58,6 +58,7 @@
     "genius-lyrics": "npm:genius-lyrics@^4.4.7",
     "grammy": "https://deno.land/x/grammy@v1.30.0/mod.ts",
     "jpeg-js": "npm:jpeg-js@^0.4.4",
+    "jsdom": "npm:jsdom@^25.0.1",
     "oauth4webapi": "npm:oauth4webapi@^3.1.2",
     "path": "jsr:@std/path",
     "postgres": "npm:postgres@^3.4.4",

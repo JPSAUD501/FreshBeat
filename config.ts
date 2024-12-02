@@ -14,6 +14,8 @@ const configSchema = z.object({
   SPOTIFY_CLIENT_ID: z.string(),
   SPOTIFY_CLIENT_SECRET: z.string(),
   GENIUS_ACCESS_TOKEN: z.string(),
+  ACRCLOUD_API_KEY: z.string(),
+  ACRCLOUD_API_SECRET: z.string(),
 })
 const configData = {
   PRODUCTION_DOMAIN: 'freshbeat.deno.dev',
@@ -28,6 +30,8 @@ const configData = {
   SPOTIFY_CLIENT_ID: Deno.env.get('SPOTIFY_CLIENT_ID'),
   SPOTIFY_CLIENT_SECRET: Deno.env.get('SPOTIFY_CLIENT_SECRET'),
   GENIUS_ACCESS_TOKEN: Deno.env.get('GENIUS_ACCESS_TOKEN'),
+  ACRCLOUD_API_KEY: Deno.env.get('ACRCLOUD_API_KEY'),
+  ACRCLOUD_API_SECRET: Deno.env.get('ACRCLOUD_API_SECRET'),
 }
 const parsedConfig = configSchema.safeParse(configData)
 
