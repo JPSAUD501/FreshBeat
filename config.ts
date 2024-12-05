@@ -16,6 +16,8 @@ const configSchema = z.object({
   GENIUS_ACCESS_TOKEN: z.string(),
   ACRCLOUD_API_KEY: z.string(),
   ACRCLOUD_API_SECRET: z.string(),
+  OPENAI_API_KEY: z.string(),
+  ANTHROPIC_API_KEY: z.string(),
 })
 const configData = {
   PRODUCTION_DOMAIN: 'freshbeat.deno.dev',
@@ -32,6 +34,8 @@ const configData = {
   GENIUS_ACCESS_TOKEN: Deno.env.get('GENIUS_ACCESS_TOKEN'),
   ACRCLOUD_API_KEY: Deno.env.get('ACRCLOUD_API_KEY'),
   ACRCLOUD_API_SECRET: Deno.env.get('ACRCLOUD_API_SECRET'),
+  OPENAI_API_KEY: Deno.env.get('OPENAI_API_KEY'),
+  ANTHROPIC_API_KEY: Deno.env.get('ANTHROPIC_API_KEY'),
 }
 const parsedConfig = configSchema.safeParse(configData)
 

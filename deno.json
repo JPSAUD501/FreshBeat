@@ -39,6 +39,7 @@
   "imports": {
     "$fresh/": "https://deno.land/x/fresh@1.7.2/",
     "$std/": "https://deno.land/std@0.216.0/",
+    "@ai-sdk/anthropic": "npm:@ai-sdk/anthropic@^1.0.2",
     "@ai-sdk/google": "npm:@ai-sdk/google@^1.0.4",
     "@ai-sdk/openai": "npm:@ai-sdk/openai@^1.0.5",
     "@crowdin/crowdin-api-client": "npm:@crowdin/crowdin-api-client@^1.37.1",
