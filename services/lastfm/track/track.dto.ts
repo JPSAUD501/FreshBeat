@@ -39,6 +39,7 @@ export const LastFmTrackSearchResponseSchema = z.object({
 })
 
 export const LastFmTrackInfoRequestSchema = z.object({
+  username: z.string().optional(),
   track: z.string(),
   artist: z.string(),
   mbid: z.string().optional(),
@@ -69,8 +70,8 @@ export const LastFmTrackInfoResponseSchema = z.object({
       image: z.array(z.object({ '#text': z.string(), size: z.string() })),
       '@attr': z.object({ position: z.string() }).optional(),
     }).optional(),
-    userplaycount: z.string(),
-    userloved: z.string(),
+    userplaycount: z.string().optional(),
+    userloved: z.string().optional(),
     toptags: z.object({
       tag: z.array(z.object({ name: z.string(), url: z.string() })),
     }),

@@ -21,7 +21,7 @@ export class TelegramBotService {
   private readonly commands: TelegramBotCommand[] = []
   private config: TelegramBotConfig
   private readonly acceptedLanguages = ['en', 'pt']
-  private readonly lastfmService = new LastFmService({ apiKey: config.LASTFM_API_KEY, apiSecret: config.LASTFM_API_SECRET })
+  private readonly lastfmService = new LastFmService()
 
   constructor(config: TelegramBotConfig) {
     this.config = config

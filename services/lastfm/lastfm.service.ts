@@ -3,6 +3,7 @@ import { User } from './user/user.service.ts'
 import { Artist } from './artist/artist.service.ts'
 import { Album } from './album/album.service.ts'
 import { Track } from './track/track.service.ts'
+import { config } from '../../config.ts'
 
 export class LastFmService {
   private readonly apiKey: string
@@ -13,9 +14,9 @@ export class LastFmService {
   readonly album: Album
   readonly track: Track
 
-  constructor(props: { apiKey: string; apiSecret: string }) {
-    this.apiKey = props.apiKey
-    this.apiSecret = props.apiSecret
+  constructor() {
+    this.apiKey = config.LASTFM_API_KEY
+    this.apiSecret = config.LASTFM_API_SECRET
     this.auth = new Auth(this.apiKey, this.apiSecret)
     this.user = new User(this.apiKey)
     this.artist = new Artist(this.apiKey)

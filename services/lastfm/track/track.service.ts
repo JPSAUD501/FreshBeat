@@ -9,6 +9,7 @@ export class Track {
     const method = 'track.getInfo'
     const parameters = {
       api_key: this.apiKey,
+      ...(props.username !== undefined && { username: props.username }),
       artist: props.artist,
       track: props.track,
       ...(props.mbid !== undefined && { mbid: props.mbid }),
