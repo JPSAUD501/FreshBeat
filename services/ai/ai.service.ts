@@ -5,13 +5,21 @@ import { config } from '../../config.ts'
 import { Imagine } from './prompts/imagine/imagine.service.ts'
 import { Explain } from './prompts/explain/explain.service.ts'
 
+const modelIds = {
+  'gpt-4o-mini': 'openai',
+  'gpt-4o': 'openai',
+  'claude-3-5-haiku-latest': 'anthropic',
+}
+type ModelId = keyof typeof modelIds
+
 export class AiService {
   readonly imagine: Imagine
   readonly explain: Explain
   private readonly model: ai.LanguageModelV1
 
+
   constructor(
-    private readonly modelId: string,
+    private readonly modelId: ModelId,
   ) {
     const openai = createOpenAI({
       apiKey: config.OPENAI_API_KEY,
@@ -19,21 +27,13 @@ export class AiService {
     const anthropic = createAnthropic({
       apiKey: config.ANTHROPIC_API_KEY,
     })
-    const modelIds = {
-      openai: [
-        'gpt-4o-mini',
-        'gpt-4o',
-      ],
-      anthropic: [
-        'claude-3-5-haiku-latest',
-      ],
-    }
+
     switch (true) {
-      case (modelIds.openai.includes(this.modelId)): {
+      case (modelIds[this.modelId] === 'openai'): {
         this.model = openai.languageModel(this.modelId)
         break
       }
-      case (modelIds.anthropic.includes(this.modelId)): {
+      case (modelIds[this.modelId] === 'anthropic'): {
         this.model = anthropic.languageModel(this.modelId)
         break
       }
