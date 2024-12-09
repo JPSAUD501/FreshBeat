@@ -10,11 +10,15 @@ export class Explain {
     const response = await ai.generateObject({
       model: this.model,
       system: systemPrompt,
-      prompt: JSON.stringify({
-        lyrics,
-        imageDescription,
-        outputLanguage,
-      }, null, 2),
+      prompt: JSON.stringify(
+        {
+          lyrics,
+          imageDescription,
+          outputLanguage,
+        },
+        null,
+        2,
+      ),
       schema: outputSchema,
       maxTokens: 2500,
     })

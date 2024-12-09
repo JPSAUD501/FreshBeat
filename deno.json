@@ -2,7 +2,7 @@
   "lock": false,
   "tasks": {
     "check": "deno fmt --check && deno lint && deno check --allow-import .",
-    "test": "deno test -A",
+    "test": "deno test -A --parallel",
     "cli": "echo \"import '\\$fresh/src/dev/cli.ts'\" | deno run --unstable -A -",
     "manifest": "deno task cli manifest $(pwd)",
     "start": "deno run -A --watch=static/,routes/ dev.ts",
@@ -68,6 +68,7 @@
     "postgres": "npm:postgres@^3.4.4",
     "preact": "https://esm.sh/preact@10.22.0",
     "preact/": "https://esm.sh/preact@10.22.0/",
+    "replicate": "npm:replicate@^1.0.1",
     "scrape-youtube": "npm:scrape-youtube@^2.4.0",
     "tailwindcss": "npm:tailwindcss@3.4.1",
     "tailwindcss/": "npm:/tailwindcss@3.4.1/",

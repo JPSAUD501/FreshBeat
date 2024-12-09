@@ -18,7 +18,7 @@ Follow these guidelines to create a prompt that encapsulates the song in visual 
 
 1. Subject: Identify the main elements, characters, or scenes described in the lyrics. Ensure that the subject is central to the image and clearly defined.
 
-2. Style: Create a style that complements the song's genre, era, or overall feel. Avoid realistic styles. Explore styles like 3D rendering, painterly style, anime, clay art, glitch art, fractals, abstract, etc.
+2. Style: Create a style that complements the song's genre, era, or overall feel. Avoid realistic styles. Explore styles like 3D rendering, painterly style, anime, clay art, glitch art, fractals, abstract, impasto, etc.
 
 3. Composition: Arrange the elements within the frame thoughtfully. Consider the song's narrative flow and how it might influence the composition. Use techniques like the rule of thirds, leading lines, or symmetry to create a visually engaging image.
 
