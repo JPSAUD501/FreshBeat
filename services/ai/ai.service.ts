@@ -17,7 +17,6 @@ export class AiService {
   readonly explain: Explain
   private readonly model: ai.LanguageModelV1
 
-
   constructor(
     private readonly modelId: ModelId,
   ) {
