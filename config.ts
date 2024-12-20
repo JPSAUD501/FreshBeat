@@ -19,6 +19,8 @@ const configSchema = z.object({
   OPENAI_API_KEY: z.string(),
   ANTHROPIC_API_KEY: z.string(),
   REPLICATE_API_TOKEN: z.string(),
+  SUPABASE_CLIENT_URL: z.string(),
+  SUPABASE_CLIENT_SECRET: z.string(),
 })
 const configData = {
   PRODUCTION_DOMAIN: 'freshbeat.deno.dev',
@@ -38,6 +40,8 @@ const configData = {
   OPENAI_API_KEY: Deno.env.get('OPENAI_API_KEY'),
   ANTHROPIC_API_KEY: Deno.env.get('ANTHROPIC_API_KEY'),
   REPLICATE_API_TOKEN: Deno.env.get('REPLICATE_API_TOKEN'),
+  SUPABASE_CLIENT_URL: Deno.env.get('SUPABASE_CLIENT_URL'),
+  SUPABASE_CLIENT_SECRET: Deno.env.get('SUPABASE_CLIENT_SECRET'),
 }
 const parsedConfig = configSchema.safeParse(configData)
 
