@@ -21,7 +21,7 @@ Deno.test('SupabaseService', { sanitizeResources: false, sanitizeOps: false }, a
 
   await t.step('should throw error when file does not exist', async () => {
     await assertRejects(
-      () => supabaseService.downloadFile('FreshBeat', 'test/hello.txt'),
+      () => supabaseService.downloadFile('FreshBeat', 'test/hello-null.txt'),
     )
   })
 })
