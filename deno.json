@@ -12,7 +12,8 @@
     "setup:localization": "deno run -A --unstable ./localization/run.ts",
     "setup:loc": "deno task setup:localization",
     "db:generate": "deno run -A npm:drizzle-kit generate",
-    "db:migrate": "deno run -A npm:drizzle-kit migrate"
+    "db:migrate": "deno run -A npm:drizzle-kit migrate",
+    "build": "deno run -A dev.ts build"
   },
   "lint": {
     "report": "pretty",
@@ -37,7 +38,7 @@
     ]
   },
   "imports": {
-    "$fresh/": "https://deno.land/x/fresh@1.7.2/",
+    "$fresh/": "https://deno.land/x/fresh@1.7.3/",
     "$std/": "https://deno.land/std@0.216.0/",
     "@ai-sdk/anthropic": "npm:@ai-sdk/anthropic@^1.0.2",
     "@ai-sdk/google": "npm:@ai-sdk/google@^1.0.4",
@@ -61,7 +62,7 @@
     "drizzle-orm": "npm:drizzle-orm@^0.35.2",
     "fs": "jsr:@std/fs",
     "genius-lyrics": "npm:genius-lyrics@^4.4.7",
-    "grammy": "https://deno.land/x/grammy@v1.32.0/mod.ts",
+    "grammy": "https://deno.land/x/grammy@v1.35.0/mod.ts",
     "jpeg-js": "npm:jpeg-js@^0.4.4",
     "jsdom": "npm:jsdom@^25.0.1",
     "oauth4webapi": "npm:oauth4webapi@^3.1.2",
@@ -87,5 +88,8 @@
     ]
   },
   "nodeModulesDir": "auto",
-  "unstable": []
+  "unstable": [],
+  "exclude": [
+    "**/_fresh/*"
+  ]
 }

@@ -6,7 +6,8 @@ Deno.test('SupabaseService', { sanitizeResources: false, sanitizeOps: false }, a
 
   await t.step('should upload file', async () => {
     const fileContent = new TextEncoder().encode('Hello from Supabase')
-    await supabaseService.uploadFile('FreshBeat', 'test/hello.txt', fileContent.buffer)
+    const arrayBuffer = new Uint8Array(fileContent).buffer
+    await supabaseService.uploadFile('FreshBeat', 'test/hello.txt', arrayBuffer)
   })
 
   await t.step('should download file', async () => {
