@@ -21,6 +21,7 @@ const configSchema = z.object({
   REPLICATE_API_TOKEN: z.string(),
   SUPABASE_CLIENT_URL: z.string(),
   SUPABASE_CLIENT_SECRET: z.string(),
+  GOOGLE_GENERATIVE_AI_API_KEY: z.string(),
 })
 const configData = {
   PRODUCTION_DOMAIN: 'freshbeat.deno.dev',
@@ -42,6 +43,7 @@ const configData = {
   REPLICATE_API_TOKEN: Deno.env.get('REPLICATE_API_TOKEN'),
   SUPABASE_CLIENT_URL: Deno.env.get('SUPABASE_CLIENT_URL'),
   SUPABASE_CLIENT_SECRET: Deno.env.get('SUPABASE_CLIENT_SECRET'),
+  GOOGLE_GENERATIVE_AI_API_KEY: Deno.env.get('GOOGLE_GENERATIVE_AI_API_KEY'),
 }
 const parsedConfig = configSchema.safeParse(configData)
 
