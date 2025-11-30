@@ -9,6 +9,7 @@ import { UsersService } from '../../users/users.service.ts'
 import { ErrorsService } from '../../errors/errors.service.ts'
 import { ForgetMeComposer } from './functions/forgetme/forgetme.composer.ts'
 import { HelpComposer } from './functions/help/help.composer.ts'
+import { PlayingComposer } from './functions/playing/playing.composer.ts'
 import { KeyvalueService } from '../../keyvalue/keyvalue.service.ts'
 import { hydrateApi, HydrateApiFlavor, hydrateContext, HydrateFlavor } from '@grammyjs/hydrate'
 
@@ -43,6 +44,11 @@ export class TelegramBotService {
         errorsService,
       ),
       new HelpComposer(
+        errorsService,
+      ),
+      new PlayingComposer(
+        this.lastfmService,
+        usersService,
         errorsService,
       ),
     ]

@@ -30,7 +30,7 @@
           "type": "uuid",
           "primaryKey": false,
           "notNull": true,
-          "default": "uuid_generate_v4()"
+          "default": "gen_random_uuid()"
         },
         "composer": {
           "name": "composer",

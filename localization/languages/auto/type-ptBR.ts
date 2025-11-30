@@ -18,3 +18,27 @@ export type BaseLang =
   | { key: 'start_command_link_lastfm_account'; value: 'Vincule sua conta do telegram <a href="tg://user?id={{user_id}}">{{user_name}}</a> com o Last.fm! Clique no botão abaixo para continuar!' }
   | { key: 'start_command_no_lastfm_account'; value: 'Para ter acesso a todas as funcionalidades do FreshBeat, você precisa vincular sua conta do Last.fm! Se você ainda não tem uma conta, fique tranquilo! Será possível criar ela na pagina de login!' }
   | { key: 'start_command_no_lastfm_account_non_private_chat'; value: 'Por questões de privacidade, vou te puxar rapidinho para uma conversa privada. Clique no botão abaixo e em seguida em "Iniciar"!' }
+  // Playing Now translations
+  | { key: 'playing_now_command_description'; value: 'Mostrar o que você está ouvindo agora.' }
+  | { key: 'playing_now_link_lastfm_button'; value: 'Vincular Last.fm' }
+  | { key: 'playing_now_no_lastfm_account'; value: 'Você precisa vincular sua conta do Last.fm primeiro! Clique no botão abaixo para começar.' }
+  | { key: 'playing_now_no_recent_tracks'; value: 'Parece que você ainda não ouviu nenhuma música no Last.fm! Que tal começar a ouvir algo agora?' }
+  | { key: 'playing_now_header_now_playing'; value: '<b><a href="{{userUrl}}">{{username}}</a> está ouvindo</b>' }
+  | { key: 'playing_now_header_last_track'; value: '<b><a href="{{userUrl}}">{{username}}</a> estava ouvindo</b>' }
+  | { key: 'playing_now_track_with_artist_info'; value: '<b>[🎧{{badge}}]</b> <a href="{{trackUrl}}"><b>{{trackName}}</b> por </a><a href="{{artistUrl}}"><b>{{artistName}}</b></a>' }
+  | { key: 'playing_now_album_name'; value: '- Álbum: <b><a href="{{albumUrl}}">{{albumName}}</a></b>' }
+  | { key: 'playing_now_scrobbles_title'; value: '<b>[📊] Scrobbles</b>' }
+  | { key: 'locale_lang_code'; value: 'pt-BR' }
+  | { key: 'playing_now_track_scrobbles'; value: '- Música: <b>{{trackPlaycount}}</b>' }
+  | { key: 'playing_now_album_scrobbles'; value: '- Álbum: <b>{{albumPlaycount}}</b>' }
+  | { key: 'playing_now_artist_scrobbles'; value: '- Artista: <b>{{artistPlaycount}}</b>' }
+  | { key: 'playing_now_info_title'; value: '<b>[ℹ️] Informações</b>' }
+  | { key: 'playing_now_info_track_playtime'; value: '- Você já ouviu essa música por <b>{{hours}} horas</b> e <b>{{minutes}} minutos</b>.' }
+  | { key: 'playing_now_info_track_popularity'; value: '- Popularidade no Spotify: <b>[{{popularity}}][{{stars}}]</b>' }
+  | { key: 'playing_now_info_track_album_percentage'; value: '- Essa música representa <b>{{percentage}}%</b> de todas suas reproduções desse álbum.' }
+  | { key: 'playing_now_info_track_artist_percentage'; value: '- Essa música representa <b>{{percentage}}%</b> de todas suas reproduções desse artista.' }
+  | { key: 'playing_now_info_album_artist_percentage'; value: '- Esse álbum representa <b>{{percentage}}%</b> de todas suas reproduções desse artista.' }
+  | { key: 'playing_now_info_artist_user_percentage'; value: '- Esse artista representa <b>{{percentage}}%</b> de todas suas reproduções.' }
+  | { key: 'playing_now_spotify_button'; value: '[🎧] Spotify' }
+  | { key: 'playing_now_deezer_button'; value: '[🎧] Deezer' }
+  | { key: 'playing_now_lastfm_button'; value: '[📊] Last.fm' }

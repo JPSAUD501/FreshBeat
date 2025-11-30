@@ -1,1 +1,1 @@
-ALTER TABLE "error" ADD COLUMN "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL;
+ALTER TABLE "error" ADD COLUMN "uuid" uuid DEFAULT gen_random_uuid() NOT NULL;
