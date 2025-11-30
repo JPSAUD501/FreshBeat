@@ -21,15 +21,15 @@ export default async function RedirectPage(props: PageProps) {
       <Head>
         <script src='https://telegram.org/js/telegram-web-app.js'></script>
       </Head>
-      <div class='flex flex-col items-center h-screen bg-gray-900 text-center p-4'>
-        <div class='bg-gray-800 shadow-lg rounded-lg p-6 w-full max-w-md mt-4'>
-          <h1 class='text-xl font-bold text-white mb-4'>
+      <div class='flex flex-col items-center justify-center h-screen bg-gray-900 text-center p-4'>
+        <div class='bg-gray-800 border border-gray-700 shadow-2xl rounded-xl p-8 w-full max-w-md'>
+          <h1 class='text-2xl font-bold text-white mb-6 tracking-wide'>
             Redirecionando para o Telegram
           </h1>
-          <p class='text-base text-gray-400 mb-4'>
-            Caso não seja redirecionado automaticamente em {redirectDelay / 1000} segundos, clique no botão abaixo.
+          <p class='text-base text-gray-400 mb-8 leading-relaxed'>
+            Caso não seja redirecionado automaticamente em <span class="font-semibold text-gray-300">{redirectDelay / 1000} segundos</span>, clique no botão abaixo.
           </p>
-          <a href={redirectUrl} class='btn btn-outline btn-sm text-white border-white hover:bg-yellow-600 hover:text-white w-full mb-4 no-animation'>
+          <a href={redirectUrl} class='btn btn-outline btn-md text-white border-gray-500 hover:bg-[#86efac] hover:text-gray-900 hover:border-[#86efac] w-full mb-6 no-animation transition-colors duration-300 rounded-lg font-semibold'>
             Abrir no Telegram
           </a>
           <p class='text-sm text-gray-500'>
