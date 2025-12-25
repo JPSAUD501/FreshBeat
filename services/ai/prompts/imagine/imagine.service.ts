@@ -3,7 +3,7 @@ import { outputSchema, systemPrompt } from './prompt.ts'
 
 export class Imagine {
   constructor(
-    private readonly model: ai.LanguageModelV1,
+    private readonly model: ai.LanguageModel,
   ) {}
 
   async lyricsImage(lyrics: string) {
@@ -12,7 +12,7 @@ export class Imagine {
       system: systemPrompt,
       prompt: lyrics,
       schema: outputSchema,
-      maxTokens: 2500,
+      maxOutputTokens: 2500,
     })
     return response.object
   }

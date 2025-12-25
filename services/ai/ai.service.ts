@@ -12,7 +12,7 @@ const openrouterProvider = createOpenRouter({
 export class AiService {
   readonly imagine: Imagine
   readonly explain: Explain
-  private readonly model: ai.LanguageModelV1
+  private readonly model: ai.LanguageModel
 
   constructor(
     private readonly modelId: string,
@@ -26,7 +26,7 @@ export class AiService {
     const response = await ai.generateText({
       model: this.model,
       prompt: question,
-      maxTokens: 500,
+      maxOutputTokens: 500,
     })
     return response.text
   }
