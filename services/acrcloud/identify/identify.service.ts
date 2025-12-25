@@ -48,7 +48,7 @@ export class Identify {
 
   private createFormData(audio: Uint8Array, params: ReturnType<typeof this.createSignatureParams>, signature: string) {
     const form = new FormData()
-    form.append('sample', new Blob([audio]))
+    form.append('sample', new Blob([new Uint8Array(audio)]))
     form.append('sample_bytes', audio.length.toString())
     form.append('access_key', this.apiKey)
     form.append('data_type', params.dataType)

@@ -1,11 +1,11 @@
-import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
+import { S3 } from '@aws-sdk/client-s3'
 import { config } from '../../config.ts'
 
 export class S3Service {
-  private readonly client: S3Client
+  private readonly client: S3
 
   constructor() {
-    this.client = new S3Client({
+    this.client = new S3({
       endpoint: config.S3_ENDPOINT,
       region: 'us-east-1',
       credentials: {
@@ -17,27 +17,23 @@ export class S3Service {
   }
 
   async uploadFile(bucketName: string, path: string, file: ArrayBuffer) {
-    const command = new PutObjectCommand({
-      Bucket: bucketName,
-      Key: path,
-      Body: new Uint8Array(file),
-    })
-
     try {
-      await this.client.send(command)
+      await this.client.putObject({
+        Bucket: bucketName,
+        Key: path,
+        Body: new Uint8Array(file),
+      })
     } catch (error) {
       throw new Error(`Upload error: ${(error as Error).message}`)
     }
   }
 
   async downloadFile(bucketName: string, path: string): Promise<ArrayBuffer> {
-    const command = new GetObjectCommand({
-      Bucket: bucketName,
-      Key: path,
-    })
-
     try {
-      const response = await this.client.send(command)
+      const response = await this.client.getObject({
+        Bucket: bucketName,
+        Key: path,
+      })
       if (!response.Body) {
         throw new Error('Empty response body')
       }
@@ -49,13 +45,11 @@ export class S3Service {
   }
 
   async deleteFile(bucketName: string, path: string) {
-    const command = new DeleteObjectCommand({
-      Bucket: bucketName,
-      Key: path,
-    })
-
     try {
-      await this.client.send(command)
+      await this.client.deleteObject({
+        Bucket: bucketName,
+        Key: path,
+      })
     } catch (error) {
       throw new Error(`Delete error: ${(error as Error).message}`)
     }

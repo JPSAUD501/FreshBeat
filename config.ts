@@ -16,13 +16,11 @@ const configSchema = z.object({
   GENIUS_ACCESS_TOKEN: z.string(),
   ACRCLOUD_API_KEY: z.string(),
   ACRCLOUD_API_SECRET: z.string(),
-  OPENAI_API_KEY: z.string(),
-  ANTHROPIC_API_KEY: z.string(),
+  OPENROUTER_API_KEY: z.string(),
   REPLICATE_API_TOKEN: z.string(),
   S3_ENDPOINT: z.string(),
   S3_ACCESS_KEY: z.string(),
   S3_SECRET_KEY: z.string(),
-  GOOGLE_GENERATIVE_AI_API_KEY: z.string(),
 })
 const configData = {
   PRODUCTION_DOMAIN: 'freshbeat.deno.dev',
@@ -39,13 +37,11 @@ const configData = {
   GENIUS_ACCESS_TOKEN: Deno.env.get('GENIUS_ACCESS_TOKEN'),
   ACRCLOUD_API_KEY: Deno.env.get('ACRCLOUD_API_KEY'),
   ACRCLOUD_API_SECRET: Deno.env.get('ACRCLOUD_API_SECRET'),
-  OPENAI_API_KEY: Deno.env.get('OPENAI_API_KEY'),
-  ANTHROPIC_API_KEY: Deno.env.get('ANTHROPIC_API_KEY'),
+  OPENROUTER_API_KEY: Deno.env.get('OPENROUTER_API_KEY'),
   REPLICATE_API_TOKEN: Deno.env.get('REPLICATE_API_TOKEN'),
   S3_ENDPOINT: Deno.env.get('S3_ENDPOINT'),
   S3_ACCESS_KEY: Deno.env.get('S3_ACCESS_KEY'),
   S3_SECRET_KEY: Deno.env.get('S3_SECRET_KEY'),
-  GOOGLE_GENERATIVE_AI_API_KEY: Deno.env.get('GOOGLE_GENERATIVE_AI_API_KEY'),
 }
 const parsedConfig = configSchema.safeParse(configData)
 
