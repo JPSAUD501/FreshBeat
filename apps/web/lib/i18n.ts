@@ -64,6 +64,8 @@ const ptBR = {
     'O serviço é oferecido "como está", sem garantias. Podemos alterar ou encerrar funcionalidades a qualquer momento, sem aviso prévio.',
 
   'dashboard.title': 'Seu painel',
+  'dashboard.hello': 'Olá, {{name}}!',
+  'dashboard.login_error': 'Não conseguimos validar seu login com o Telegram. Tente de novo.',
   'dashboard.login_prompt': 'Entre com o Telegram para ver sua conta vinculada.',
   'dashboard.linked_as': 'Last.fm vinculado',
   'dashboard.not_linked': 'Você ainda não vinculou o Last.fm. Use /login no bot.',
@@ -143,6 +145,8 @@ const enUS: Record<WebMessageKey, string> = {
     'The service is provided "as is", without warranties. We may change or discontinue features at any time, without notice.',
 
   'dashboard.title': 'Your dashboard',
+  'dashboard.hello': 'Hello, {{name}}!',
+  'dashboard.login_error': "We couldn't validate your Telegram login. Please try again.",
   'dashboard.login_prompt': 'Sign in with Telegram to see your linked account.',
   'dashboard.linked_as': 'Linked Last.fm',
   'dashboard.not_linked': "You haven't linked Last.fm yet. Use /login in the bot.",
@@ -220,6 +224,8 @@ const jaJP: Record<WebMessageKey, string> = {
     '本サービスは「現状のまま」提供され、保証はありません。機能は予告なく変更・終了する場合があります。',
 
   'dashboard.title': 'ダッシュボード',
+  'dashboard.hello': 'こんにちは、{{name}}！',
+  'dashboard.login_error': 'Telegramログインを検証できませんでした。もう一度お試しください。',
   'dashboard.login_prompt': 'Telegramでログインして、連携アカウントを確認しましょう。',
   'dashboard.linked_as': '連携中のLast.fm',
   'dashboard.not_linked': 'まだLast.fmが連携されていません。ボットで /login を使ってください。',
@@ -299,6 +305,9 @@ const esES: Record<WebMessageKey, string> = {
     'El servicio se ofrece "tal cual", sin garantías. Podemos cambiar o descontinuar funciones en cualquier momento, sin previo aviso.',
 
   'dashboard.title': 'Tu panel',
+  'dashboard.hello': '¡Hola, {{name}}!',
+  'dashboard.login_error':
+    'No pudimos validar tu inicio de sesión con Telegram. Inténtalo de nuevo.',
   'dashboard.login_prompt': 'Inicia sesión con Telegram para ver tu cuenta vinculada.',
   'dashboard.linked_as': 'Last.fm vinculado',
   'dashboard.not_linked': 'Aún no vinculaste Last.fm. Usa /login en el bot.',
