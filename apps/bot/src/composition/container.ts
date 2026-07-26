@@ -4,6 +4,7 @@ import { createDatabase } from '@freshbeat/database'
 import { createLogger, type Logger } from '@freshbeat/logging'
 import type { Bot, Composer } from 'grammy'
 import { GetLyricsUseCase } from '../application/use-cases/get-lyrics.js'
+import { GetHistoryUseCase } from '../application/use-cases/get-history.js'
 import { GetNowPlayingUseCase } from '../application/use-cases/get-now-playing.js'
 import { GetOrCreateUserUseCase } from '../application/use-cases/get-or-create-user.js'
 import {
@@ -34,6 +35,7 @@ import { createTranslateLyricsCallback } from '../presentation/callbacks/transla
 import type { CommandModule } from '../presentation/commands/command-module.js'
 import { createForgetMeCommand } from '../presentation/commands/forgetme.command.js'
 import { createHelpCommand } from '../presentation/commands/help.command.js'
+import { createHistoryCommand } from '../presentation/commands/history.command.js'
 import { createLoginCommand } from '../presentation/commands/login.command.js'
 import { createLyricsCommand } from '../presentation/commands/lyrics.command.js'
 import { createOverviewCommands } from '../presentation/commands/overview.command.js'
@@ -130,6 +132,7 @@ export function createContainer(): AppContainer {
   }
   const getAlbumOverview = new GetAlbumOverviewUseCase(overviewDeps)
   const getArtistOverview = new GetArtistOverviewUseCase(overviewDeps)
+  const getHistory = new GetHistoryUseCase(lastFmClient, cacheStore)
 
   const translateLyrics =
     config.ai !== undefined
@@ -181,6 +184,7 @@ export function createContainer(): AppContainer {
       aiEnabled: config.ai !== undefined,
     }),
     ...createOverviewCommands({ getOrCreateUser, getAlbumOverview, getArtistOverview }),
+    createHistoryCommand({ getOrCreateUser, getHistory }),
     createLyricsCommand({
       getOrCreateUser,
       recentTracks: lastFmClient,

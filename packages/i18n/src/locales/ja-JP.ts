@@ -14,6 +14,7 @@ export const jaJP: BaseMessages = {
   'cmd.playingnow.description': '今聴いている曲',
   'cmd.pnalbum.description': '再生中の曲のアルバム',
   'cmd.pnartist.description': '再生中の曲のアーティスト',
+  'cmd.history.description': '最近聴いた曲',
 
   'start.welcome':
     '🎧 こんにちは、{{name}}さん！私は<b>FreshBeat</b>、あなたの音楽コンパニオンです。\n\nLast.fmで再生中の曲を表示したり、歌詞を探したり、お気に入りの曲の意味を説明したりします。\n\n/help でできることをすべて確認できます。',
@@ -66,6 +67,10 @@ export const jaJP: BaseMessages = {
   'overview.scrobbles': '📊 <b>{{count}}</b> スクリッブル',
   'overview.playtime': '⏱️ 総再生時間: <b>{{duration}}</b>',
   'overview.top_tracks': '🎶 <b>あなたのよく聴く曲:</b>',
+
+  'history.title': '📒 <b>{{user}}</b> の履歴',
+  'history.now_playing': '🎧 再生中: {{track}}',
+  'history.empty': '📭 まだLast.fmの履歴がありません。',
 
   'common.duration.hours_minutes': '{{hours}}時間{{minutes}}分',
   'common.duration.minutes': '{{minutes}}分',

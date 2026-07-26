@@ -4,23 +4,31 @@ import type {
   LastFmAlbumInfo,
   LastFmApi,
   LastFmArtistInfo,
+  LastFmRecentTrack,
   LastFmTopTracksPage,
   LastFmTrackInfo,
 } from '../../domain/ports/lastfm-api.js'
 import type { RecentTracksProvider } from '../../domain/ports/recent-tracks.js'
 import { fetchJson } from '../http/fetch-json.js'
 
+// Com extended=1 o artista vem como {name, mbid, url}; sem, como {'#text'}.
+// Aceitamos os dois formatos.
+const recentTrackArtist = z
+  .object({ name: z.string().optional(), '#text': z.string().optional() })
+  .transform((artist) => artist.name ?? artist['#text'] ?? '')
+
+const recentTrackSchema = z.object({
+  name: z.string(),
+  url: z.string().optional(),
+  artist: recentTrackArtist,
+  album: z.object({ '#text': z.string() }).optional(),
+  duration: z.string().optional(),
+  '@attr': z.object({ nowplaying: z.string().optional() }).optional(),
+})
+
 const recentTracksResponseSchema = z.object({
   recenttracks: z.object({
-    track: z.array(
-      z.object({
-        name: z.string(),
-        artist: z.object({ '#text': z.string() }),
-        album: z.object({ '#text': z.string() }).optional(),
-        duration: z.string().optional(),
-        '@attr': z.object({ nowplaying: z.string().optional() }).optional(),
-      }),
-    ),
+    track: z.array(recentTrackSchema),
   }),
 })
 
@@ -115,11 +123,31 @@ export class LastFmClient implements RecentTracksProvider, LastFmApi {
     const album = track.album?.['#text']
     return {
       name: track.name,
-      artist: track.artist['#text'],
+      artist: track.artist,
       ...(album !== undefined && album !== '' ? { album } : {}),
       ...(Number.isFinite(durationSeconds) && durationSeconds > 0 ? { durationSeconds } : {}),
       nowPlaying: track['@attr']?.nowplaying === 'true',
     }
+  }
+
+  async getRecentTracksPage(input: {
+    username: string
+    limit: number
+    page: number
+  }): Promise<LastFmRecentTrack[]> {
+    const response = await this.call('user.getRecentTracks', recentTracksResponseSchema, {
+      user: input.username,
+      limit: String(input.limit),
+      page: String(input.page),
+      extended: '1',
+    })
+
+    return (response?.recenttracks.track ?? []).map((track) => ({
+      name: track.name,
+      artist: track.artist,
+      url: track.url ?? null,
+      nowPlaying: track['@attr']?.nowplaying === 'true',
+    }))
   }
 
   async getTrackInfo(input: {

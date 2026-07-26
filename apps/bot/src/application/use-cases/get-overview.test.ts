@@ -55,6 +55,7 @@ function makeDeps(
       trackNames: overrides.albumTrackNames ?? ['Bohemian Rhapsody', 'Love of My Life'],
     }),
     getTopTracksPage: vi.fn(),
+    getRecentTracksPage: vi.fn(),
   }
   const musicSearch = [
     {

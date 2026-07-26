@@ -14,6 +14,7 @@ export const esES: BaseMessages = {
   'cmd.playingnow.description': 'Lo que estás escuchando ahora',
   'cmd.pnalbum.description': 'Álbum de la canción que suena',
   'cmd.pnartist.description': 'Artista de la canción que suena',
+  'cmd.history.description': 'Tus últimas canciones',
 
   'start.welcome':
     '🎧 ¡Hola, {{name}}! Soy <b>FreshBeat</b>, tu compañero de música.\n\nTe muestro lo que estás escuchando en Last.fm, busco letras y explico el significado de tus canciones favoritas.\n\nUsa /help para ver todo lo que sé hacer.',
@@ -65,6 +66,10 @@ export const esES: BaseMessages = {
   'overview.scrobbles': '📊 <b>{{count}}</b> scrobbles',
   'overview.playtime': '⏱️ Tiempo total: <b>{{duration}}</b>',
   'overview.top_tracks': '🎶 <b>Tus más escuchadas:</b>',
+
+  'history.title': '📒 <b>Historial de {{user}}</b>',
+  'history.now_playing': '🎧 Escuchando ahora: {{track}}',
+  'history.empty': '📭 Aún no tienes historial en Last.fm.',
 
   'common.duration.hours_minutes': '{{hours}}h {{minutes}}min',
   'common.duration.minutes': '{{minutes}}min',

@@ -21,6 +21,7 @@ export const ptBR = {
   'cmd.playingnow.description': 'O que você está ouvindo agora',
   'cmd.pnalbum.description': 'Álbum da música que está tocando',
   'cmd.pnartist.description': 'Artista da música que está tocando',
+  'cmd.history.description': 'Suas últimas faixas',
 
   // /start
   'start.welcome':
@@ -80,6 +81,11 @@ export const ptBR = {
   'overview.scrobbles': '📊 <b>{{count}}</b> scrobbles',
   'overview.playtime': '⏱️ Tempo total: <b>{{duration}}</b>',
   'overview.top_tracks': '🎶 <b>As suas mais ouvidas:</b>',
+
+  // /history
+  'history.title': '📒 <b>Histórico de {{user}}</b>',
+  'history.now_playing': '🎧 Ouvindo agora: {{track}}',
+  'history.empty': '📭 Você ainda não tem histórico no Last.fm.',
 
   // Durações
   'common.duration.hours_minutes': '{{hours}}h {{minutes}}min',

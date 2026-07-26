@@ -39,6 +39,14 @@ export interface LastFmTopTracksPage {
   readonly total: number
 }
 
+/** Faixa do histórico recente (user.getRecentTracks). */
+export interface LastFmRecentTrack {
+  readonly name: string
+  readonly artist: string
+  readonly url: string | null
+  readonly nowPlaying: boolean
+}
+
 /**
  * Port da API do Last.fm para dados de faixas/artistas/álbuns
  * com os contadores do usuário (userplaycount).
@@ -63,4 +71,10 @@ export interface LastFmApi {
     page: number
     limit: number
   }): Promise<LastFmTopTracksPage | null>
+
+  getRecentTracksPage(input: {
+    username: string
+    limit: number
+    page: number
+  }): Promise<LastFmRecentTrack[]>
 }

@@ -19,6 +19,7 @@ function makeLastFm(pages: Map<number, LastFmTopTracksPage>) {
     getTopTracksPage: vi
       .fn()
       .mockImplementation(({ page: p }: { page: number }) => Promise.resolve(pages.get(p) ?? null)),
+    getRecentTracksPage: vi.fn(),
   }
 }
 
