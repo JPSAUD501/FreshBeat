@@ -25,7 +25,7 @@ npm run dev
 
 - **Arquitetura:** siga as camadas descritas em [ARCHITECTURE.md](ARCHITECTURE.md). Composer não chama API externa; use case não conhece grammY; `new` de adapter só no composition root.
 - **Testes:** toda feature nova vem com testes unitários mockados. Testes de integração (APIs reais) são `*.integration.test.ts` e devem pular sem as env vars.
-- **i18n:** toda mensagem nova usa `msg({ key, value })` e precisa das 4 traduções no catálogo (`packages/i18n/src/locales/`). O type-check e os testes de paridade cobram isso. Nomes de comandos ficam em inglês.
+- **i18n:** toda mensagem nova usa `msg({ key, value })` e precisa das 4 traduções no catálogo (`packages/i18n/src/locales/`). O type-check e os testes de paridade cobram isso. Nomes de comandos ficam em inglês. Guia completo em [docs/i18n.md](docs/i18n.md).
 - **Segredos:** nunca commite `.env`. O CI roda gitleaks.
 - **Decisões grandes:** registre um ADR em `docs/adr/` (copie o formato dos existentes).
 

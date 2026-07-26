@@ -3,18 +3,23 @@
 Seu companheiro de música no Telegram: stats do seu Last.fm, letras de músicas e explicações com IA — em português, inglês, japonês e espanhol.
 
 [![CI](https://github.com/JPSAUD501/FreshBeat/actions/workflows/ci.yml/badge.svg)](https://github.com/JPSAUD501/FreshBeat/actions/workflows/ci.yml)
+[![Integration](https://github.com/JPSAUD501/FreshBeat/actions/workflows/integration.yml/badge.svg)](https://github.com/JPSAUD501/FreshBeat/actions/workflows/integration.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
-> 🚧 **Em reconstrução:** o FreshBeat está sendo reescrito do zero com clean architecture. Acompanhe o progresso na branch [`feat/monorepo-rewrite`](https://github.com/JPSAUD501/FreshBeat/tree/feat/monorepo-rewrite).
 
 ## O que ele faz
 
-- **`/playingnow`** — o que você está ouvindo agora, enriquecido com dados do Spotify, Deezer e YouTube
-- **`/lyrics`** — letra da música, com busca inteligente (lrcmux → LRCLIB → lyrics.ovh) e tradução sob demanda
-- **Explicação com IA** — o significado da letra, com imagem gerada por IA
-- **`/history`** e **`/brief`** — seu histórico e um resumo do seu perfil musical
-- **`/login`** — vinculação segura da conta Last.fm via site
+- **`/playingnow`** (alias `/pn`, `/pntrack`) — o que você está ouvindo agora: scrobbles (faixa/álbum/artista), tempo de audição, badge de explícita, popularidade, botões de letra, explicação com IA e links Spotify/Deezer
+- **`/pnalbum`** e **`/pnartist`** — o álbum e o artista da faixa atual, com seu ranking pessoal de faixas e tempo de audição
+- **`/lyrics`** — letra da música, com busca inteligente: **lrcmux e LRCLIB em paralelo** (escolhe o melhor resultado, preferindo letra sincronizada) e **lyrics.ovh** só se ambos falharem. Tradução sob demanda para o seu idioma
+- **Explicação com IA** — o significado da letra no seu idioma, com **imagem gerada por IA** inspirada na música (e alt-text para acessibilidade)
+- **`/history`** — suas últimas faixas, com repetições consecutivas colapsadas (`x3`)
+- **`/brief`** — resumo do seu perfil: métricas, top faixas/álbuns/artistas e tempo total de audição
+- **`/login`** — vinculação segura da conta Last.fm via site (OAuth), **`/forgetme`** para apagar tudo
 - 🌐 **4 idiomas:** pt-BR, en-US, ja-JP, es-ES (nomes de comandos sempre em inglês)
+
+## O site
+
+Em Next.js (deploy na Vercel): landing page nos 4 idiomas, páginas de privacidade/termos, fluxo de **OAuth do Last.fm** e **dashboard** com login via Telegram — onde dá para ver a conta vinculada, seus números no Last.fm e desvincular.
 
 ## Estrutura do monorepo
 
@@ -24,13 +29,13 @@ apps/
   web/        # Site (Next.js → Vercel)
 packages/
   config/     # Variáveis de ambiente validadas com zod (fail-fast)
-  database/   # Drizzle ORM + Postgres (schema e migrations)
-  cache/      # Redis (cache, rate limit, estado temporário)
+  database/   # Drizzle ORM + Postgres (schema, migrations, repositório compartilhado)
+  cache/      # Redis (cache, rate limit, estado temporário de uso único)
   logging/    # Logs estruturados com pino (sem segredos)
-  i18n/       # Traduções tipadas nos 4 idiomas
+  i18n/       # Traduções tipadas do bot nos 4 idiomas
 ```
 
-Veja [ARCHITECTURE.md](ARCHITECTURE.md) para as decisões de arquitetura.
+Veja [ARCHITECTURE.md](ARCHITECTURE.md) para as decisões de arquitetura e [docs/adr](docs/adr) para o histórico de decisões.
 
 ## Desenvolvimento local
 
@@ -53,25 +58,33 @@ npm run db:migrate
 npm run dev
 ```
 
+O site sobe separado (em produção vai para a Vercel):
+
+```bash
+npm run dev --workspace @freshbeat/web   # http://localhost:3000
+```
+
 Ou suba **tudo** (bot + banco + redis + site) com Docker:
 
 ```bash
 docker compose -f docker-compose.all.yml up --build
 ```
 
+> **Login do dashboard em dev:** o Telegram Login Widget exige o domínio registrado no BotFather (`/setdomain`). Em `localhost` funciona sem configurar; em produção, registre o domínio do site.
+
 ## Qualidade
 
 ```bash
 npm run verify           # format + lint + typecheck + testes (o gate completo)
-npm run test:coverage    # testes com coverage (thresholds enforced)
+npm run test:coverage    # testes com coverage (thresholds enforced: ≥80%)
 npm run test:integration # testes contra APIs reais (opt-in, requer chaves no .env)
 ```
 
-O CI roda todos os gates em cada PR, mais build das imagens Docker e scan de segredos (gitleaks).
+O CI roda todos os gates em cada PR, mais build das imagens Docker e scan de segredos (gitleaks). Testes de integração rodam agendados (nightly) com os segredos do repositório.
 
 ## Contribuindo
 
-Contribuições são muito bem-vindas! Leia o [CONTRIBUTING.md](CONTRIBUTING.md) e o [Código de Conduta](CODE_OF_CONDUCT.md).
+Contribuições são muito bem-vindas! Leia o [CONTRIBUTING.md](CONTRIBUTING.md), o [Código de Conduta](CODE_OF_CONDUCT.md) e, se for mexer com textos, o [guia de i18n](docs/i18n.md).
 
 ## Licença
 

@@ -31,6 +31,28 @@ apps/bot/src/
 6. **Estado temporário no Redis** com TTL e consumo de uso único (`TempStateStore`) — nunca em memória nem com `setTimeout`/sleeps.
 7. **Cache de APIs externas no Redis** com TTL curto, via `getOrSet`.
 
+## Camadas do site (Next.js)
+
+```
+apps/web/
+├── app/
+│   ├── [locale]/        # páginas localizadas (landing, privacy, terms, dashboard)
+│   └── (oauth)/         # route group fora do prefixo: fluxos /auth/* e /api/auth/*
+├── components/          # componentes compartilhados (client e server)
+├── lib/                 # i18n do site, sessão (HMAC), auth Telegram/Last.fm, singletons server
+└── middleware.ts        # negociação de locale via Accept-Language
+```
+
+- **Sem camada de domínio própria**: o site é fino por natureza — as regras (vínculo, sessão) vivem em `lib/` com funções puras testadas, e o acesso a dados usa os **mesmos packages do bot** (`@freshbeat/database` para o repositório de usuários, `@freshbeat/cache` para o estado de OAuth, `@freshbeat/config` para env).
+- **Rotas de fluxo fora do prefixo de locale** (`(oauth)`): redirects do bot e do Last.fm não podem depender de idioma; as páginas de resultado negociam o idioma pelo `Accept-Language`.
+- **Segredos só no server**: validação do Telegram Login Widget e assinatura md5 do Last.fm acontecem em route handlers; o client recebe, no máximo, o username público do bot.
+
+## Fluxos externos importantes
+
+- **Letras**: `lrcmux` e `LRCLIB` consultados **em paralelo**, escolhendo o melhor resultado (letra sincronizada vale mais); `lyrics.ovh` só é chamado se ambos falharem. Cache Redis por (artista, faixa).
+- **IA**: textos (tradução, explicação, prompt de imagem, alt-text) via **OpenRouter + Vercel AI SDK**; imagens via **Replicate** com upload para **S3**; resultados cacheados por 30 dias. Cada capacidade de IA é um port separado (`AiTextGenerator` por modelo, `ImageGenerator`, `ImageStorage`) — trocar de provedor é trocar um adapter.
+- **Callback data do Telegram (limite de 64 bytes)**: botões carregam um token curto (`lyr:get:`, `lyr:ex:`…) que aponta para o contexto completo no Redis — nunca dados truncados.
+
 ## Configuração
 
 `@freshbeat/config` valida todas as variáveis com zod na inicialização e **falha rápido** com mensagem clara se algo estiver errado. Integrações opcionais (Spotify, IA, Replicate, S3) são grupos "tudo ou nada": ou o grupo está completo, ou a feature fica desabilitada explicitamente.
