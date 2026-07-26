@@ -11,6 +11,7 @@ export const enUS: BaseMessages = {
   'cmd.login.description': 'Connect your Last.fm account',
   'cmd.forgetme.description': 'Unlink and delete your data',
   'cmd.lyrics.description': 'Lyrics of the current track',
+  'cmd.playingnow.description': "What you're listening to now",
 
   'start.welcome':
     "🎧 Hi, {{name}}! I'm <b>FreshBeat</b>, your music companion.\n\nI show what you're listening to on Last.fm, find lyrics and explain the meaning of your favorite songs.\n\nUse /help to see everything I can do.",
@@ -43,8 +44,19 @@ export const enUS: BaseMessages = {
 
   'playingnow.not_listening':
     "🔇 You're not listening to anything right now (according to Last.fm).",
-  'playingnow.now': '🎧 Listening now',
-  'playingnow.was': '🕐 Was listening',
+  'playingnow.listening_now': '🎧 <b>{{user}}</b> is listening now:',
+  'playingnow.listening_was': '🎧 <b>{{user}}</b> was listening:',
+  'playingnow.explicit_badge': '🅴',
+  'playingnow.scrobbles_title': '📊 <b>Scrobbles</b>',
+  'playingnow.scrobbles_track': '🎵 {{count}}',
+  'playingnow.scrobbles_album': '💿 {{count}}',
+  'playingnow.scrobbles_artist': '🎤 {{count}}',
+  'playingnow.listening_time': "⏱️ You've listened to this track for <b>{{duration}}</b>",
+  'playingnow.popularity': '⭐ Popularity: {{stars}}',
+  'playingnow.lyrics_button': '🧾 Lyrics',
+
+  'common.duration.hours_minutes': '{{hours}}h {{minutes}}min',
+  'common.duration.minutes': '{{minutes}}min',
 
   'lyrics.not_found': "😕 Couldn't find lyrics for <b>{{track}}</b> — {{artist}}.",
   'lyrics.source': 'source: {{source}}',

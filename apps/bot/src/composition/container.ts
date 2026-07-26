@@ -4,28 +4,34 @@ import { createDatabase } from '@freshbeat/database'
 import { createLogger, type Logger } from '@freshbeat/logging'
 import type { Bot, Composer } from 'grammy'
 import { GetLyricsUseCase } from '../application/use-cases/get-lyrics.js'
+import { GetNowPlayingUseCase } from '../application/use-cases/get-now-playing.js'
 import { GetOrCreateUserUseCase } from '../application/use-cases/get-or-create-user.js'
 import { ExplainLyricsUseCase } from '../application/use-cases/explain-lyrics.js'
 import { GenerateLyricsImageUseCase } from '../application/use-cases/generate-lyrics-image.js'
 import { StartLoginUseCase, UnlinkLastfmUseCase } from '../application/use-cases/login.js'
 import { TranslateLyricsUseCase } from '../application/use-cases/translate-lyrics.js'
+import type { MusicSearchProvider } from '../domain/ports/music-search.js'
 import { OpenRouterTextGenerator } from '../infrastructure/ai/openrouter-text.js'
 import { ReplicateImageGenerator } from '../infrastructure/images/replicate-image-generator.js'
 import { LastFmClient } from '../infrastructure/lastfm/lastfm-client.js'
 import { LrcmuxProvider } from '../infrastructure/lyrics/lrcmux.provider.js'
 import { LrclibProvider } from '../infrastructure/lyrics/lrclib.provider.js'
 import { LyricsOvhProvider } from '../infrastructure/lyrics/lyrics-ovh.provider.js'
+import { DeezerClient } from '../infrastructure/music/deezer-client.js'
+import { SpotifyClient } from '../infrastructure/music/spotify-client.js'
 import { DrizzleErrorLogRepository } from '../infrastructure/persistence/drizzle-error-log-repository.js'
 import { DrizzleUserRepository } from '../infrastructure/persistence/drizzle-user-repository.js'
 import { S3ImageStorage } from '../infrastructure/storage/s3-image-storage.js'
 import { createBot } from '../presentation/bot.js'
 import { createExplainLyricsCallback } from '../presentation/callbacks/explain-lyrics.callback.js'
+import { createGetLyricsCallback } from '../presentation/callbacks/get-lyrics.callback.js'
 import { createTranslateLyricsCallback } from '../presentation/callbacks/translate-lyrics.callback.js'
 import type { CommandModule } from '../presentation/commands/command-module.js'
 import { createForgetMeCommand } from '../presentation/commands/forgetme.command.js'
 import { createHelpCommand } from '../presentation/commands/help.command.js'
 import { createLoginCommand } from '../presentation/commands/login.command.js'
 import { createLyricsCommand } from '../presentation/commands/lyrics.command.js'
+import { createPlayingNowCommand } from '../presentation/commands/playingnow.command.js'
 import { createStartCommand } from '../presentation/commands/start.command.js'
 import type { FreshBeatContext } from '../presentation/context.js'
 
@@ -87,11 +93,26 @@ export function createContainer(): AppContainer {
         })
       : undefined
 
+  // Buscas em streaming (Spotify é opcional, Deezer é público)
+  const musicSearch: MusicSearchProvider[] = [
+    ...(config.spotify !== undefined
+      ? [new SpotifyClient(config.spotify.SPOTIFY_CLIENT_ID, config.spotify.SPOTIFY_CLIENT_SECRET)]
+      : []),
+    new DeezerClient(),
+  ]
+
   // Use cases
   const getOrCreateUser = new GetOrCreateUserUseCase(userRepository)
   const startLogin = new StartLoginUseCase(tempStateStore, config.web.WEB_BASE_URL)
   const unlinkLastfm = new UnlinkLastfmUseCase(userRepository)
   const getLyrics = new GetLyricsUseCase(lyricsProviders, cacheStore, logger)
+  const getNowPlaying = new GetNowPlayingUseCase({
+    recentTracks: lastFmClient,
+    lastfm: lastFmClient,
+    musicSearch,
+    cache: cacheStore,
+    logger,
+  })
 
   const translateLyrics =
     config.ai !== undefined
@@ -136,6 +157,12 @@ export function createContainer(): AppContainer {
     createHelpCommand(),
     createLoginCommand({ getOrCreateUser, startLogin }),
     createForgetMeCommand({ getOrCreateUser, unlinkLastfm }),
+    createPlayingNowCommand({
+      getOrCreateUser,
+      getNowPlaying,
+      tempStateStore,
+      aiEnabled: config.ai !== undefined,
+    }),
     createLyricsCommand({
       getOrCreateUser,
       recentTracks: lastFmClient,
@@ -146,7 +173,13 @@ export function createContainer(): AppContainer {
   ]
 
   // Callbacks/listeners
-  const listeners: Composer<FreshBeatContext>[] = []
+  const listeners: Composer<FreshBeatContext>[] = [
+    createGetLyricsCallback({
+      tempStateStore,
+      getLyrics,
+      aiEnabled: config.ai !== undefined,
+    }),
+  ]
   if (translateLyrics !== undefined) {
     listeners.push(createTranslateLyricsCallback({ tempStateStore, getLyrics, translateLyrics }))
   }

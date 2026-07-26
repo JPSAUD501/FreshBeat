@@ -11,6 +11,7 @@ export const esES: BaseMessages = {
   'cmd.login.description': 'Conectar tu cuenta de Last.fm',
   'cmd.forgetme.description': 'Desvincular y borrar tus datos',
   'cmd.lyrics.description': 'Letra de la canción que suena',
+  'cmd.playingnow.description': 'Lo que estás escuchando ahora',
 
   'start.welcome':
     '🎧 ¡Hola, {{name}}! Soy <b>FreshBeat</b>, tu compañero de música.\n\nTe muestro lo que estás escuchando en Last.fm, busco letras y explico el significado de tus canciones favoritas.\n\nUsa /help para ver todo lo que sé hacer.',
@@ -42,8 +43,19 @@ export const esES: BaseMessages = {
     '🔒 Para usar este comando primero necesitas conectar tu cuenta de Last.fm.\n\nUsa /login — ¡tarda menos de un minuto!',
 
   'playingnow.not_listening': '🔇 No estás escuchando nada ahora mismo (según Last.fm).',
-  'playingnow.now': '🎧 Escuchando ahora',
-  'playingnow.was': '🕐 Estaba escuchando',
+  'playingnow.listening_now': '🎧 <b>{{user}}</b> está escuchando ahora:',
+  'playingnow.listening_was': '🎧 <b>{{user}}</b> estaba escuchando:',
+  'playingnow.explicit_badge': '🅴',
+  'playingnow.scrobbles_title': '📊 <b>Scrobbles</b>',
+  'playingnow.scrobbles_track': '🎵 {{count}}',
+  'playingnow.scrobbles_album': '💿 {{count}}',
+  'playingnow.scrobbles_artist': '🎤 {{count}}',
+  'playingnow.listening_time': '⏱️ Ya escuchaste esta canción por <b>{{duration}}</b>',
+  'playingnow.popularity': '⭐ Popularidad: {{stars}}',
+  'playingnow.lyrics_button': '🧾 Letra',
+
+  'common.duration.hours_minutes': '{{hours}}h {{minutes}}min',
+  'common.duration.minutes': '{{minutes}}min',
 
   'lyrics.not_found': '😕 No encontré la letra de <b>{{track}}</b> — {{artist}}.',
   'lyrics.source': 'fuente: {{source}}',

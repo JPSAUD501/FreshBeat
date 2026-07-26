@@ -18,6 +18,7 @@ export const ptBR = {
   'cmd.login.description': 'Conectar sua conta do Last.fm',
   'cmd.forgetme.description': 'Desvincular e apagar seus dados',
   'cmd.lyrics.description': 'Letra da música que está tocando',
+  'cmd.playingnow.description': 'O que você está ouvindo agora',
 
   // /start
   'start.welcome':
@@ -56,8 +57,20 @@ export const ptBR = {
 
   // /playingnow
   'playingnow.not_listening': '🔇 Você não está ouvindo nada no momento (segundo o Last.fm).',
-  'playingnow.now': '🎧 Ouvindo agora',
-  'playingnow.was': '🕐 Estava ouvindo',
+  'playingnow.listening_now': '🎧 <b>{{user}}</b> está ouvindo agora:',
+  'playingnow.listening_was': '🎧 <b>{{user}}</b> estava ouvindo:',
+  'playingnow.explicit_badge': '🅴',
+  'playingnow.scrobbles_title': '📊 <b>Scrobbles</b>',
+  'playingnow.scrobbles_track': '🎵 {{count}}',
+  'playingnow.scrobbles_album': '💿 {{count}}',
+  'playingnow.scrobbles_artist': '🎤 {{count}}',
+  'playingnow.listening_time': '⏱️ Você já ouviu essa música por <b>{{duration}}</b>',
+  'playingnow.popularity': '⭐ Popularidade: {{stars}}',
+  'playingnow.lyrics_button': '🧾 Letra',
+
+  // Durações
+  'common.duration.hours_minutes': '{{hours}}h {{minutes}}min',
+  'common.duration.minutes': '{{minutes}}min',
 
   // /lyrics
   'lyrics.not_found': '😕 Não encontrei a letra de <b>{{track}}</b> — {{artist}}.',

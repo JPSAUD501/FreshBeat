@@ -5,7 +5,7 @@ import type { GetLyricsUseCase } from '../../application/use-cases/get-lyrics.js
 import type { TranslateLyricsUseCase } from '../../application/use-cases/translate-lyrics.js'
 import type { TrackRef } from '../../domain/entities/track.js'
 import type { FreshBeatContext } from '../context.js'
-import { LYRICS_STATE_NAMESPACE } from '../commands/lyrics.command.js'
+import { LYRICS_STATE_NAMESPACE } from '../lyrics-message.js'
 import { escapeHtml, lyricsFooter, lyricsHeader, paginate } from '../formatters/lyrics.formatter.js'
 
 const translatingLabel = msg({ key: 'lyrics.translating', value: '🌐 Traduzindo…' })

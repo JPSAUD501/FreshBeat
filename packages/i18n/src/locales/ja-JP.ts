@@ -11,6 +11,7 @@ export const jaJP: BaseMessages = {
   'cmd.login.description': 'Last.fmアカウントを連携',
   'cmd.forgetme.description': '連携解除とデータ削除',
   'cmd.lyrics.description': '再生中の曲の歌詞',
+  'cmd.playingnow.description': '今聴いている曲',
 
   'start.welcome':
     '🎧 こんにちは、{{name}}さん！私は<b>FreshBeat</b>、あなたの音楽コンパニオンです。\n\nLast.fmで再生中の曲を表示したり、歌詞を探したり、お気に入りの曲の意味を説明したりします。\n\n/help でできることをすべて確認できます。',
@@ -43,8 +44,19 @@ export const jaJP: BaseMessages = {
     '🔒 このコマンドを使うには、先にLast.fmアカウントを連携する必要があります。\n\n/login を使ってください — 1分もかかりません！',
 
   'playingnow.not_listening': '🔇 現在は何も再生していません（Last.fmによると）。',
-  'playingnow.now': '🎧 再生中',
-  'playingnow.was': '🕐 再生していました',
+  'playingnow.listening_now': '🎧 <b>{{user}}</b> さんが再生中:',
+  'playingnow.listening_was': '🎧 <b>{{user}}</b> さんが再生していました:',
+  'playingnow.explicit_badge': '🅴',
+  'playingnow.scrobbles_title': '📊 <b>スクリッブル</b>',
+  'playingnow.scrobbles_track': '🎵 {{count}}',
+  'playingnow.scrobbles_album': '💿 {{count}}',
+  'playingnow.scrobbles_artist': '🎤 {{count}}',
+  'playingnow.listening_time': '⏱️ この曲を <b>{{duration}}</b> 聴きました',
+  'playingnow.popularity': '⭐ 人気度: {{stars}}',
+  'playingnow.lyrics_button': '🧾 歌詞',
+
+  'common.duration.hours_minutes': '{{hours}}時間{{minutes}}分',
+  'common.duration.minutes': '{{minutes}}分',
 
   'lyrics.not_found': '😕 <b>{{track}}</b> — {{artist}} の歌詞が見つかりませんでした。',
   'lyrics.source': '出典: {{source}}',

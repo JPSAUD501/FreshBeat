@@ -23,9 +23,9 @@ export interface FetchJsonOptions {
  * Retorna null em 404 (miss de negócio); lança HttpError nos demais
  * status e ZodError em payload inválido.
  */
-export async function fetchJson<T>(
+export async function fetchJson<T, I = unknown>(
   url: string,
-  schema: z.ZodType<T>,
+  schema: z.ZodType<T, z.ZodTypeDef, I>,
   options: FetchJsonOptions = {},
 ): Promise<T | null> {
   const response = await fetch(url, {
