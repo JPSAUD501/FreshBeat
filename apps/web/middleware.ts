@@ -1,10 +1,12 @@
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '@freshbeat/i18n'
+import { SUPPORTED_LOCALES } from '@freshbeat/i18n'
 import { NextResponse, type NextRequest } from 'next/server'
+import { negotiateLocale } from './lib/negotiate-locale'
 
 /**
  * Roteamento por locale: garante o prefixo /{locale} em todas as
  * páginas. Sem prefixo → redireciona para o melhor idioma do
  * Accept-Language (fallback pt-BR).
+ * Fluxos (/auth, /api) ficam fora do prefixo — têm roteamento próprio.
  */
 export function middleware(request: NextRequest): NextResponse {
   const { pathname } = request.nextUrl
@@ -19,28 +21,6 @@ export function middleware(request: NextRequest): NextResponse {
   return NextResponse.redirect(url)
 }
 
-function negotiateLocale(header: string | null): string {
-  if (!header) return DEFAULT_LOCALE
-  const candidates = header
-    .split(',')
-    .map((part) => {
-      const [tag, q] = part.trim().split(';q=')
-      return { tag: (tag ?? '').toLowerCase(), q: q !== undefined ? Number(q) : 1 }
-    })
-    .sort((a, b) => b.q - a.q)
-
-  for (const { tag } of candidates) {
-    const exact = SUPPORTED_LOCALES.find((locale) => locale.toLowerCase() === tag)
-    if (exact) return exact
-    const prefix = tag.split('-')[0]
-    const byPrefix = SUPPORTED_LOCALES.find((locale) =>
-      locale.toLowerCase().startsWith(`${prefix}-`),
-    )
-    if (byPrefix) return byPrefix
-  }
-  return DEFAULT_LOCALE
-}
-
 export const config = {
-  matcher: ['/((?!_next|api|.*\\..*).*)'],
+  matcher: ['/((?!_next|api|auth|.*\\..*).*)'],
 }
