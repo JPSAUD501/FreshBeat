@@ -48,7 +48,10 @@ export interface PlayingNowCommandDeps {
 export function createPlayingNowCommand(deps: PlayingNowCommandDeps): CommandModule {
   const composer = new Composer<FreshBeatContext>()
 
-  composer.command(['playingnow', 'pn'], async (ctx) => {
+  // /pn e /pntrack são aliases do mesmo card unificado — no MelodyScout
+  // /pntrack duplicava o playingnow com outro formato; aqui um use case
+  // serve todos (sem duplicação comando×callback).
+  composer.command(['playingnow', 'pn', 'pntrack'], async (ctx) => {
     const from = ctx.from
     if (from === undefined) return
 

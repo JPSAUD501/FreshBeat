@@ -57,3 +57,11 @@ export class NotListeningError extends AppError {
     super('Nada tocando no momento')
   }
 }
+
+/** A faixa atual não tem álbum identificado no Last.fm. */
+export class AlbumNotIdentifiedError extends AppError {
+  readonly i18nKey = 'pnalbum.no_album'
+  constructor() {
+    super('Faixa atual sem álbum identificado')
+  }
+}

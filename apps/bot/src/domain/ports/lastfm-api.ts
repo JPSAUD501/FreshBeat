@@ -18,6 +18,25 @@ export interface LastFmAlbumInfo {
   readonly url: string | null
   readonly userPlaycount: number | null
   readonly imageUrl: string | null
+  /** Nomes das faixas do álbum (tracklist). */
+  readonly trackNames: string[]
+}
+
+/** Faixa do ranking do usuário (user.getTopTracks). */
+export interface LastFmTopTrack {
+  readonly name: string
+  readonly artist: string
+  readonly url: string | null
+  readonly playcount: number
+  /** Duração em SEGUNDOS (user.getTopTracks já retorna em s). */
+  readonly durationSeconds: number | null
+}
+
+/** Página do ranking de faixas do usuário. */
+export interface LastFmTopTracksPage {
+  readonly tracks: LastFmTopTrack[]
+  /** Total de faixas rankeadas (para paginar). */
+  readonly total: number
 }
 
 /**
@@ -38,4 +57,10 @@ export interface LastFmApi {
     artist: string
     username: string
   }): Promise<LastFmAlbumInfo | null>
+
+  getTopTracksPage(input: {
+    username: string
+    page: number
+    limit: number
+  }): Promise<LastFmTopTracksPage | null>
 }

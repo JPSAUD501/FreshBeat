@@ -20,6 +20,15 @@ const searchResponseSchema = z.object({
   }),
 })
 
+const urlOnlySearchResponseSchema = z.object({
+  albums: z
+    .object({ items: z.array(z.object({ external_urls: z.object({ spotify: z.string() }) })) })
+    .optional(),
+  artists: z
+    .object({ items: z.array(z.object({ external_urls: z.object({ spotify: z.string() }) })) })
+    .optional(),
+})
+
 /** Margem para renovar o token antes de expirar. */
 const TOKEN_EXPIRY_MARGIN_MS = 60_000
 
@@ -57,6 +66,31 @@ export class SpotifyClient implements MusicSearchProvider {
       popularity: item.popularity,
       durationSeconds: Math.round(item.duration_ms / 1000),
     }
+  }
+
+  async searchAlbum(input: { album: string; artist: string }): Promise<string | null> {
+    const response = await this.searchUrls(`${input.album} ${input.artist}`, 'album')
+    return response?.albums?.items[0]?.external_urls.spotify ?? null
+  }
+
+  async searchArtist(input: { artist: string }): Promise<string | null> {
+    const response = await this.searchUrls(input.artist, 'artist')
+    return response?.artists?.items[0]?.external_urls.spotify ?? null
+  }
+
+  private async searchUrls(
+    query: string,
+    type: 'album' | 'artist',
+  ): Promise<z.infer<typeof urlOnlySearchResponseSchema> | null> {
+    const accessToken = await this.getAccessToken()
+    const params = new URLSearchParams({ q: query, type, limit: '1' })
+    return fetchJson(
+      `https://api.spotify.com/v1/search?${params.toString()}`,
+      urlOnlySearchResponseSchema,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      },
+    )
   }
 
   private async getAccessToken(): Promise<string> {

@@ -17,4 +17,8 @@ export interface MusicSearchProvider {
   /** Id estável do serviço, ex.: "spotify", "deezer". */
   readonly id: string
   searchTrack(input: { track: string; artist: string }): Promise<MusicSearchResult | null>
+  /** URL pública do álbum, ou null. */
+  searchAlbum(input: { album: string; artist: string }): Promise<string | null>
+  /** URL pública do artista, ou null. */
+  searchArtist(input: { artist: string }): Promise<string | null>
 }

@@ -12,6 +12,8 @@ export const esES: BaseMessages = {
   'cmd.forgetme.description': 'Desvincular y borrar tus datos',
   'cmd.lyrics.description': 'Letra de la canción que suena',
   'cmd.playingnow.description': 'Lo que estás escuchando ahora',
+  'cmd.pnalbum.description': 'Álbum de la canción que suena',
+  'cmd.pnartist.description': 'Artista de la canción que suena',
 
   'start.welcome':
     '🎧 ¡Hola, {{name}}! Soy <b>FreshBeat</b>, tu compañero de música.\n\nTe muestro lo que estás escuchando en Last.fm, busco letras y explico el significado de tus canciones favoritas.\n\nUsa /help para ver todo lo que sé hacer.',
@@ -53,6 +55,16 @@ export const esES: BaseMessages = {
   'playingnow.listening_time': '⏱️ Ya escuchaste esta canción por <b>{{duration}}</b>',
   'playingnow.popularity': '⭐ Popularidad: {{stars}}',
   'playingnow.lyrics_button': '🧾 Letra',
+
+  'pnalbum.no_album': '😕 La canción actual no tiene álbum identificado en Last.fm.',
+  'overview.album_now': '🎧 <b>{{user}}</b> está escuchando el álbum:',
+  'overview.album_was': '🕐 <b>{{user}}</b> estaba escuchando el álbum:',
+  'overview.artist_now': '🎧 <b>{{user}}</b> está escuchando al artista:',
+  'overview.artist_was': '🕐 <b>{{user}}</b> estaba escuchando al artista:',
+  'overview.artist_line': '🎤 {{artist}}',
+  'overview.scrobbles': '📊 <b>{{count}}</b> scrobbles',
+  'overview.playtime': '⏱️ Tiempo total: <b>{{duration}}</b>',
+  'overview.top_tracks': '🎶 <b>Tus más escuchadas:</b>',
 
   'common.duration.hours_minutes': '{{hours}}h {{minutes}}min',
   'common.duration.minutes': '{{minutes}}min',

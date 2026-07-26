@@ -4,6 +4,7 @@ import type {
   LastFmAlbumInfo,
   LastFmApi,
   LastFmArtistInfo,
+  LastFmTopTracksPage,
   LastFmTrackInfo,
 } from '../../domain/ports/lastfm-api.js'
 import type { RecentTracksProvider } from '../../domain/ports/recent-tracks.js'
@@ -68,6 +69,29 @@ const albumInfoResponseSchema = z.object({
       url: z.string().optional(),
       userplaycount: numericString,
       image: lastfmImages,
+      // Álbum de faixa única pode vir como objeto, não array
+      tracks: z
+        .object({
+          track: z.union([z.array(z.object({ name: z.string() })), z.object({ name: z.string() })]),
+        })
+        .optional(),
+    })
+    .optional(),
+})
+
+const topTracksResponseSchema = z.object({
+  toptracks: z
+    .object({
+      track: z.array(
+        z.object({
+          name: z.string(),
+          url: z.string().optional(),
+          playcount: numericString,
+          duration: numericString,
+          artist: z.object({ name: z.string() }),
+        }),
+      ),
+      '@attr': z.object({ total: numericString }),
     })
     .optional(),
 })
@@ -148,10 +172,44 @@ export class LastFmClient implements RecentTracksProvider, LastFmApi {
     })
     if (response?.album === undefined) return null
 
+    const tracklist = response.album.tracks?.track
+    const trackNames = Array.isArray(tracklist)
+      ? tracklist.map((track) => track.name)
+      : tracklist !== undefined
+        ? [tracklist.name]
+        : []
+
     return {
       url: response.album.url ?? null,
       userPlaycount: response.album.userplaycount,
       imageUrl: response.album.image,
+      trackNames,
+    }
+  }
+
+  async getTopTracksPage(input: {
+    username: string
+    page: number
+    limit: number
+  }): Promise<LastFmTopTracksPage | null> {
+    const response = await this.call('user.getTopTracks', topTracksResponseSchema, {
+      user: input.username,
+      page: String(input.page),
+      limit: String(input.limit),
+    })
+    if (response?.toptracks === undefined) return null
+
+    return {
+      total: response.toptracks['@attr'].total ?? 0,
+      tracks: response.toptracks.track.map((track) => ({
+        name: track.name,
+        artist: track.artist.name,
+        url: track.url ?? null,
+        playcount: track.playcount ?? 0,
+        // user.getTopTracks retorna duração em SEGUNDOS
+        durationSeconds:
+          track.duration !== null && track.duration > 0 ? Math.round(track.duration) : null,
+      })),
     }
   }
 

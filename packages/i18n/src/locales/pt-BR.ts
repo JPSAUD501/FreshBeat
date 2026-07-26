@@ -19,6 +19,8 @@ export const ptBR = {
   'cmd.forgetme.description': 'Desvincular e apagar seus dados',
   'cmd.lyrics.description': 'Letra da música que está tocando',
   'cmd.playingnow.description': 'O que você está ouvindo agora',
+  'cmd.pnalbum.description': 'Álbum da música que está tocando',
+  'cmd.pnartist.description': 'Artista da música que está tocando',
 
   // /start
   'start.welcome':
@@ -67,6 +69,17 @@ export const ptBR = {
   'playingnow.listening_time': '⏱️ Você já ouviu essa música por <b>{{duration}}</b>',
   'playingnow.popularity': '⭐ Popularidade: {{stars}}',
   'playingnow.lyrics_button': '🧾 Letra',
+
+  // /pnalbum e /pnartist
+  'pnalbum.no_album': '😕 A faixa atual não tem álbum identificado no Last.fm.',
+  'overview.album_now': '🎧 <b>{{user}}</b> está ouvindo o álbum:',
+  'overview.album_was': '🕐 <b>{{user}}</b> estava ouvindo o álbum:',
+  'overview.artist_now': '🎧 <b>{{user}}</b> está ouvindo o artista:',
+  'overview.artist_was': '🕐 <b>{{user}}</b> estava ouvindo o artista:',
+  'overview.artist_line': '🎤 {{artist}}',
+  'overview.scrobbles': '📊 <b>{{count}}</b> scrobbles',
+  'overview.playtime': '⏱️ Tempo total: <b>{{duration}}</b>',
+  'overview.top_tracks': '🎶 <b>As suas mais ouvidas:</b>',
 
   // Durações
   'common.duration.hours_minutes': '{{hours}}h {{minutes}}min',

@@ -6,6 +6,11 @@ import type { Bot, Composer } from 'grammy'
 import { GetLyricsUseCase } from '../application/use-cases/get-lyrics.js'
 import { GetNowPlayingUseCase } from '../application/use-cases/get-now-playing.js'
 import { GetOrCreateUserUseCase } from '../application/use-cases/get-or-create-user.js'
+import {
+  GetAlbumOverviewUseCase,
+  GetArtistOverviewUseCase,
+} from '../application/use-cases/get-overview.js'
+import { GetUserTopTracksUseCase } from '../application/use-cases/get-user-top-tracks.js'
 import { ExplainLyricsUseCase } from '../application/use-cases/explain-lyrics.js'
 import { GenerateLyricsImageUseCase } from '../application/use-cases/generate-lyrics-image.js'
 import { StartLoginUseCase, UnlinkLastfmUseCase } from '../application/use-cases/login.js'
@@ -31,6 +36,7 @@ import { createForgetMeCommand } from '../presentation/commands/forgetme.command
 import { createHelpCommand } from '../presentation/commands/help.command.js'
 import { createLoginCommand } from '../presentation/commands/login.command.js'
 import { createLyricsCommand } from '../presentation/commands/lyrics.command.js'
+import { createOverviewCommands } from '../presentation/commands/overview.command.js'
 import { createPlayingNowCommand } from '../presentation/commands/playingnow.command.js'
 import { createStartCommand } from '../presentation/commands/start.command.js'
 import type { FreshBeatContext } from '../presentation/context.js'
@@ -113,6 +119,17 @@ export function createContainer(): AppContainer {
     cache: cacheStore,
     logger,
   })
+  const getUserTopTracks = new GetUserTopTracksUseCase(lastFmClient, cacheStore)
+  const overviewDeps = {
+    recentTracks: lastFmClient,
+    lastfm: lastFmClient,
+    musicSearch,
+    getUserTopTracks,
+    cache: cacheStore,
+    logger,
+  }
+  const getAlbumOverview = new GetAlbumOverviewUseCase(overviewDeps)
+  const getArtistOverview = new GetArtistOverviewUseCase(overviewDeps)
 
   const translateLyrics =
     config.ai !== undefined
@@ -163,6 +180,7 @@ export function createContainer(): AppContainer {
       tempStateStore,
       aiEnabled: config.ai !== undefined,
     }),
+    ...createOverviewCommands({ getOrCreateUser, getAlbumOverview, getArtistOverview }),
     createLyricsCommand({
       getOrCreateUser,
       recentTracks: lastFmClient,

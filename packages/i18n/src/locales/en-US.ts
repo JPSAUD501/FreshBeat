@@ -12,6 +12,8 @@ export const enUS: BaseMessages = {
   'cmd.forgetme.description': 'Unlink and delete your data',
   'cmd.lyrics.description': 'Lyrics of the current track',
   'cmd.playingnow.description': "What you're listening to now",
+  'cmd.pnalbum.description': 'Album of the current track',
+  'cmd.pnartist.description': 'Artist of the current track',
 
   'start.welcome':
     "🎧 Hi, {{name}}! I'm <b>FreshBeat</b>, your music companion.\n\nI show what you're listening to on Last.fm, find lyrics and explain the meaning of your favorite songs.\n\nUse /help to see everything I can do.",
@@ -54,6 +56,16 @@ export const enUS: BaseMessages = {
   'playingnow.listening_time': "⏱️ You've listened to this track for <b>{{duration}}</b>",
   'playingnow.popularity': '⭐ Popularity: {{stars}}',
   'playingnow.lyrics_button': '🧾 Lyrics',
+
+  'pnalbum.no_album': '😕 The current track has no album identified on Last.fm.',
+  'overview.album_now': '🎧 <b>{{user}}</b> is listening to the album:',
+  'overview.album_was': '🕐 <b>{{user}}</b> was listening to the album:',
+  'overview.artist_now': '🎧 <b>{{user}}</b> is listening to the artist:',
+  'overview.artist_was': '🕐 <b>{{user}}</b> was listening to the artist:',
+  'overview.artist_line': '🎤 {{artist}}',
+  'overview.scrobbles': '📊 <b>{{count}}</b> scrobbles',
+  'overview.playtime': '⏱️ Total listening time: <b>{{duration}}</b>',
+  'overview.top_tracks': '🎶 <b>Your most played:</b>',
 
   'common.duration.hours_minutes': '{{hours}}h {{minutes}}min',
   'common.duration.minutes': '{{minutes}}min',

@@ -12,6 +12,8 @@ export const jaJP: BaseMessages = {
   'cmd.forgetme.description': '連携解除とデータ削除',
   'cmd.lyrics.description': '再生中の曲の歌詞',
   'cmd.playingnow.description': '今聴いている曲',
+  'cmd.pnalbum.description': '再生中の曲のアルバム',
+  'cmd.pnartist.description': '再生中の曲のアーティスト',
 
   'start.welcome':
     '🎧 こんにちは、{{name}}さん！私は<b>FreshBeat</b>、あなたの音楽コンパニオンです。\n\nLast.fmで再生中の曲を表示したり、歌詞を探したり、お気に入りの曲の意味を説明したりします。\n\n/help でできることをすべて確認できます。',
@@ -54,6 +56,16 @@ export const jaJP: BaseMessages = {
   'playingnow.listening_time': '⏱️ この曲を <b>{{duration}}</b> 聴きました',
   'playingnow.popularity': '⭐ 人気度: {{stars}}',
   'playingnow.lyrics_button': '🧾 歌詞',
+
+  'pnalbum.no_album': '😕 再生中の曲にはLast.fmで特定できるアルバムがありません。',
+  'overview.album_now': '🎧 <b>{{user}}</b> さんが聴いているアルバム:',
+  'overview.album_was': '🕐 <b>{{user}}</b> さんが聴いていたアルバム:',
+  'overview.artist_now': '🎧 <b>{{user}}</b> さんが聴いているアーティスト:',
+  'overview.artist_was': '🕐 <b>{{user}}</b> さんが聴いていたアーティスト:',
+  'overview.artist_line': '🎤 {{artist}}',
+  'overview.scrobbles': '📊 <b>{{count}}</b> スクリッブル',
+  'overview.playtime': '⏱️ 総再生時間: <b>{{duration}}</b>',
+  'overview.top_tracks': '🎶 <b>あなたのよく聴く曲:</b>',
 
   'common.duration.hours_minutes': '{{hours}}時間{{minutes}}分',
   'common.duration.minutes': '{{minutes}}分',

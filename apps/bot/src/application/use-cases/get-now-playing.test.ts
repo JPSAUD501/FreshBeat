@@ -48,7 +48,9 @@ function makeLastFm(overrides: Partial<LastFmApi> = {}) {
       url: 'https://last.fm/album',
       userPlaycount: 120,
       imageUrl: 'https://last.fm/cover.jpg',
+      trackNames: [],
     }),
+    getTopTracksPage: vi.fn().mockResolvedValue(null),
     ...overrides,
   }
 }
@@ -60,6 +62,8 @@ function makeSearch(id: string, result: MusicSearchResult | Error | null) {
       if (result instanceof Error) return Promise.reject(result)
       return Promise.resolve(result)
     }),
+    searchAlbum: vi.fn().mockResolvedValue(null),
+    searchArtist: vi.fn().mockResolvedValue(null),
   }
 }
 
