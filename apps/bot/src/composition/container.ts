@@ -5,16 +5,21 @@ import { createLogger, type Logger } from '@freshbeat/logging'
 import type { Bot, Composer } from 'grammy'
 import { GetLyricsUseCase } from '../application/use-cases/get-lyrics.js'
 import { GetOrCreateUserUseCase } from '../application/use-cases/get-or-create-user.js'
+import { ExplainLyricsUseCase } from '../application/use-cases/explain-lyrics.js'
+import { GenerateLyricsImageUseCase } from '../application/use-cases/generate-lyrics-image.js'
 import { StartLoginUseCase, UnlinkLastfmUseCase } from '../application/use-cases/login.js'
 import { TranslateLyricsUseCase } from '../application/use-cases/translate-lyrics.js'
 import { OpenRouterTextGenerator } from '../infrastructure/ai/openrouter-text.js'
+import { ReplicateImageGenerator } from '../infrastructure/images/replicate-image-generator.js'
 import { LastFmClient } from '../infrastructure/lastfm/lastfm-client.js'
 import { LrcmuxProvider } from '../infrastructure/lyrics/lrcmux.provider.js'
 import { LrclibProvider } from '../infrastructure/lyrics/lrclib.provider.js'
 import { LyricsOvhProvider } from '../infrastructure/lyrics/lyrics-ovh.provider.js'
 import { DrizzleErrorLogRepository } from '../infrastructure/persistence/drizzle-error-log-repository.js'
 import { DrizzleUserRepository } from '../infrastructure/persistence/drizzle-user-repository.js'
+import { S3ImageStorage } from '../infrastructure/storage/s3-image-storage.js'
 import { createBot } from '../presentation/bot.js'
+import { createExplainLyricsCallback } from '../presentation/callbacks/explain-lyrics.callback.js'
 import { createTranslateLyricsCallback } from '../presentation/callbacks/translate-lyrics.callback.js'
 import type { CommandModule } from '../presentation/commands/command-module.js'
 import { createForgetMeCommand } from '../presentation/commands/forgetme.command.js'
@@ -63,12 +68,22 @@ export function createContainer(): AppContainer {
     primary: [new LrcmuxProvider(), new LrclibProvider()],
     fallback: new LyricsOvhProvider(),
   }
-  // IA é opcional: sem o grupo `ai` configurado, o botão de traduzir some
-  const aiTextGenerator =
-    config.ai !== undefined
-      ? new OpenRouterTextGenerator({
-          apiKey: config.ai.OPENROUTER_API_KEY,
-          model: config.ai.AI_MODEL_TRANSLATE,
+  // IA é opcional: sem o grupo `ai` configurado, os botões de IA somem
+
+  // Imagem por IA exige Replicate + S3 (além do grupo `ai`)
+  const imageGenerator =
+    config.replicate !== undefined
+      ? new ReplicateImageGenerator({ apiToken: config.replicate.REPLICATE_API_TOKEN })
+      : undefined
+  const imageStorage =
+    config.s3 !== undefined
+      ? new S3ImageStorage({
+          endpoint: config.s3.S3_ENDPOINT,
+          region: config.s3.S3_REGION,
+          bucket: config.s3.S3_BUCKET,
+          accessKey: config.s3.S3_ACCESS_KEY,
+          secretKey: config.s3.S3_SECRET_KEY,
+          publicUrl: config.s3.S3_PUBLIC_URL,
         })
       : undefined
 
@@ -77,9 +92,42 @@ export function createContainer(): AppContainer {
   const startLogin = new StartLoginUseCase(tempStateStore, config.web.WEB_BASE_URL)
   const unlinkLastfm = new UnlinkLastfmUseCase(userRepository)
   const getLyrics = new GetLyricsUseCase(lyricsProviders, cacheStore, logger)
+
   const translateLyrics =
-    aiTextGenerator !== undefined
-      ? new TranslateLyricsUseCase(aiTextGenerator, cacheStore)
+    config.ai !== undefined
+      ? new TranslateLyricsUseCase(
+          new OpenRouterTextGenerator({
+            apiKey: config.ai.OPENROUTER_API_KEY,
+            model: config.ai.AI_MODEL_TRANSLATE,
+          }),
+          cacheStore,
+        )
+      : undefined
+
+  const explainGenerators =
+    config.ai !== undefined
+      ? {
+          imageDescriber: new OpenRouterTextGenerator({
+            apiKey: config.ai.OPENROUTER_API_KEY,
+            model: config.ai.AI_MODEL_IMAGE_PROMPT,
+          }),
+          explainer: new OpenRouterTextGenerator({
+            apiKey: config.ai.OPENROUTER_API_KEY,
+            model: config.ai.AI_MODEL_EXPLAIN,
+          }),
+          altTextWriter: new OpenRouterTextGenerator({
+            apiKey: config.ai.OPENROUTER_API_KEY,
+            model: config.ai.AI_MODEL_ALT_TEXT,
+          }),
+        }
+      : undefined
+  const explainLyrics =
+    explainGenerators !== undefined
+      ? new ExplainLyricsUseCase(explainGenerators, cacheStore)
+      : undefined
+  const generateLyricsImage =
+    imageGenerator !== undefined && imageStorage !== undefined
+      ? new GenerateLyricsImageUseCase(imageGenerator, imageStorage, cacheStore)
       : undefined
 
   // Comandos (apresentação)
@@ -93,7 +141,7 @@ export function createContainer(): AppContainer {
       recentTracks: lastFmClient,
       getLyrics,
       tempStateStore,
-      translationEnabled: translateLyrics !== undefined,
+      aiEnabled: config.ai !== undefined,
     }),
   ]
 
@@ -101,6 +149,17 @@ export function createContainer(): AppContainer {
   const listeners: Composer<FreshBeatContext>[] = []
   if (translateLyrics !== undefined) {
     listeners.push(createTranslateLyricsCallback({ tempStateStore, getLyrics, translateLyrics }))
+  }
+  if (explainLyrics !== undefined) {
+    listeners.push(
+      createExplainLyricsCallback({
+        tempStateStore,
+        getLyrics,
+        explainLyrics,
+        ...(generateLyricsImage !== undefined ? { generateLyricsImage } : {}),
+        logger,
+      }),
+    )
   }
 
   const bot = createBot({

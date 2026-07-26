@@ -68,6 +68,14 @@ export const ptBR = {
   'lyrics.translating': '🌐 Traduzindo…',
   'lyrics.state_expired': '⏰ Essa letra expirou. Peça de novo com /lyrics.',
   'lyrics.auto_translated': 'tradução automática',
+
+  // IA — explicação e imagem
+  'lyrics.explain_button': '✨ Explicar',
+  'lyrics.explaining': '✨ Explicando…',
+  'lyrics.ai_explanation': 'explicação por IA',
+  'image.generating': '🎨 Gerando imagem…',
+  'image.caption': '🎨 {{alt}}',
+  'image.failed': '😕 Não consegui gerar a imagem dessa vez.',
 } as const
 
 export type MessageKey = keyof typeof ptBR

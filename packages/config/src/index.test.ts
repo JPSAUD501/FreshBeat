@@ -39,6 +39,7 @@ describe('loadConfig', () => {
       AI_MODEL_EXPLAIN: 'model-a',
       AI_MODEL_TRANSLATE: 'model-b',
       AI_MODEL_IMAGE_PROMPT: 'model-c',
+      AI_MODEL_ALT_TEXT: 'model-d',
     })
     expect(config.ai?.AI_MODEL_EXPLAIN).toBe('model-a')
   })

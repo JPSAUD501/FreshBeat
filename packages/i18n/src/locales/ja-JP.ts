@@ -55,4 +55,11 @@ export const jaJP: BaseMessages = {
   'lyrics.translating': '🌐 翻訳中…',
   'lyrics.state_expired': '⏰ この歌詞は期限切れです。/lyrics で再度リクエストしてください。',
   'lyrics.auto_translated': '自動翻訳',
+
+  'lyrics.explain_button': '✨ 説明',
+  'lyrics.explaining': '✨ 説明中…',
+  'lyrics.ai_explanation': 'AIによる説明',
+  'image.generating': '🎨 画像を生成中…',
+  'image.caption': '🎨 {{alt}}',
+  'image.failed': '😕 今回は画像を生成できませんでした。',
 }

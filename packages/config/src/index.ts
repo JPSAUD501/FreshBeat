@@ -46,6 +46,7 @@ const aiSchema = z.object({
   AI_MODEL_EXPLAIN: requiredString,
   AI_MODEL_TRANSLATE: requiredString,
   AI_MODEL_IMAGE_PROMPT: requiredString,
+  AI_MODEL_ALT_TEXT: requiredString,
 })
 
 const replicateSchema = z.object({

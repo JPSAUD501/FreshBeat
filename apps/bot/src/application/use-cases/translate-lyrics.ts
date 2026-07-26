@@ -2,18 +2,12 @@ import { cacheKey, getOrSet, type CacheStore } from '@freshbeat/cache'
 import type { Locale } from '@freshbeat/i18n'
 import type { Lyrics } from '../../domain/entities/lyrics.js'
 import type { AiTextGenerator } from '../../domain/ports/ai-text.js'
+import { LANGUAGE_NAMES } from '../language-names.js'
 
 /** Traduções ficam em cache por 30 dias. */
 const TRANSLATION_CACHE_TTL_SECONDS = 30 * 24 * 60 * 60
 /** Protege o prompt de letras gigantescas. */
 const MAX_LYRICS_CHARS = 8000
-
-const LANGUAGE_NAMES: Record<Locale, string> = {
-  'pt-BR': 'Brazilian Portuguese',
-  'en-US': 'English',
-  'ja-JP': 'Japanese',
-  'es-ES': 'Spanish',
-}
 
 const SYSTEM_PROMPT = `You are a professional song lyrics translator.
 Translate the lyrics to the target language preserving the line structure exactly (one output line per input line).

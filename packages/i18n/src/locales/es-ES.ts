@@ -53,4 +53,11 @@ export const esES: BaseMessages = {
   'lyrics.translating': '🌐 Traduciendo…',
   'lyrics.state_expired': '⏰ Esta letra caducó. Pídela de nuevo con /lyrics.',
   'lyrics.auto_translated': 'traducción automática',
+
+  'lyrics.explain_button': '✨ Explicar',
+  'lyrics.explaining': '✨ Explicando…',
+  'lyrics.ai_explanation': 'explicación por IA',
+  'image.generating': '🎨 Generando imagen…',
+  'image.caption': '🎨 {{alt}}',
+  'image.failed': '😕 No pude generar la imagen esta vez.',
 }

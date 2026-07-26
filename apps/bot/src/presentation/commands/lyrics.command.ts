@@ -23,6 +23,7 @@ const instrumentalMessage = msg({
 })
 const sourceLabel = msg({ key: 'lyrics.source', value: 'fonte: {{source}}' })
 const translateButtonLabel = msg({ key: 'lyrics.translate_button', value: '🌐 Traduzir' })
+const explainButtonLabel = msg({ key: 'lyrics.explain_button', value: '✨ Explicar' })
 
 export const LYRICS_STATE_NAMESPACE = 'lyricsctx'
 const LYRICS_STATE_TTL_SECONDS = 60 * 60
@@ -32,8 +33,8 @@ export interface LyricsCommandDeps {
   recentTracks: RecentTracksProvider
   getLyrics: GetLyricsUseCase
   tempStateStore: TempStateStore
-  /** Quando true, oferece o botão de tradução (IA configurada). */
-  translationEnabled: boolean
+  /** Quando true, oferece os botões de IA — traduzir e explicar. */
+  aiEnabled: boolean
 }
 
 export function createLyricsCommand(deps: LyricsCommandDeps): CommandModule {
@@ -64,11 +65,8 @@ export function createLyricsCommand(deps: LyricsCommandDeps): CommandModule {
       return
     }
 
-    const replyMarkup = deps.translationEnabled
-      ? new InlineKeyboard().text(
-          ctx.t(translateButtonLabel),
-          await buildTranslateCallbackData(deps.tempStateStore, track),
-        )
+    const replyMarkup = deps.aiEnabled
+      ? await buildAiKeyboard(ctx, deps.tempStateStore, track)
       : undefined
 
     const footer = lyricsFooter({
@@ -111,12 +109,19 @@ async function resolveTrack(
   return recent
 }
 
-async function buildTranslateCallbackData(
+/**
+ * Botões de IA (traduzir/explicar) compartilham o mesmo token de estado —
+ * o contexto (faixa/artista) é o mesmo para os dois fluxos.
+ */
+async function buildAiKeyboard(
+  ctx: FreshBeatContext,
   tempStateStore: TempStateStore,
   track: TrackRef,
-): Promise<string> {
+): Promise<InlineKeyboard> {
   const token = await tempStateStore.create(LYRICS_STATE_NAMESPACE, track, LYRICS_STATE_TTL_SECONDS)
-  return `lyr:tr:${token}`
+  return new InlineKeyboard()
+    .text(ctx.t(translateButtonLabel), `lyr:tr:${token}`)
+    .text(ctx.t(explainButtonLabel), `lyr:ex:${token}`)
 }
 
 async function sendLyrics(

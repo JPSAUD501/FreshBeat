@@ -54,4 +54,11 @@ export const enUS: BaseMessages = {
   'lyrics.translating': '🌐 Translating…',
   'lyrics.state_expired': '⏰ These lyrics expired. Ask again with /lyrics.',
   'lyrics.auto_translated': 'automatic translation',
+
+  'lyrics.explain_button': '✨ Explain',
+  'lyrics.explaining': '✨ Explaining…',
+  'lyrics.ai_explanation': 'AI explanation',
+  'image.generating': '🎨 Generating image…',
+  'image.caption': '🎨 {{alt}}',
+  'image.failed': "😕 I couldn't generate the image this time.",
 }
