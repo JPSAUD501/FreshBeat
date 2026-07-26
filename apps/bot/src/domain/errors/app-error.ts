@@ -41,3 +41,19 @@ export class RateLimitedError extends AppError {
     })
   }
 }
+
+/** Nenhum provedor encontrou a letra. */
+export class LyricsNotFoundError extends AppError {
+  readonly i18nKey = 'lyrics.not_found'
+  constructor(track: string, artist: string) {
+    super(`Letra não encontrada: ${track} — ${artist}`, { track, artist })
+  }
+}
+
+/** O usuário não está ouvindo nada no momento (Last.fm). */
+export class NotListeningError extends AppError {
+  readonly i18nKey = 'playingnow.not_listening'
+  constructor() {
+    super('Nada tocando no momento')
+  }
+}

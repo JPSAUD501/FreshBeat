@@ -10,6 +10,7 @@ export const enUS: BaseMessages = {
   'cmd.help.description': 'See everything I can do',
   'cmd.login.description': 'Connect your Last.fm account',
   'cmd.forgetme.description': 'Unlink and delete your data',
+  'cmd.lyrics.description': 'Lyrics of the current track',
 
   'start.welcome':
     "🎧 Hi, {{name}}! I'm <b>FreshBeat</b>, your music companion.\n\nI show what you're listening to on Last.fm, find lyrics and explain the meaning of your favorite songs.\n\nUse /help to see everything I can do.",
@@ -48,4 +49,9 @@ export const enUS: BaseMessages = {
   'lyrics.not_found': "😕 Couldn't find lyrics for <b>{{track}}</b> — {{artist}}.",
   'lyrics.source': 'source: {{source}}',
   'lyrics.translate_button': '🌐 Translate',
+  'lyrics.usage': "💡 Use /lyrics for the lyrics of what's playing, or /lyrics artist - track.",
+  'lyrics.instrumental': '🎼 <b>{{track}}</b> — {{artist}} is an instrumental track.',
+  'lyrics.translating': '🌐 Translating…',
+  'lyrics.state_expired': '⏰ These lyrics expired. Ask again with /lyrics.',
+  'lyrics.auto_translated': 'automatic translation',
 }

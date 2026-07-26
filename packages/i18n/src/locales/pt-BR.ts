@@ -17,6 +17,7 @@ export const ptBR = {
   'cmd.help.description': 'Ver tudo que eu sei fazer',
   'cmd.login.description': 'Conectar sua conta do Last.fm',
   'cmd.forgetme.description': 'Desvincular e apagar seus dados',
+  'cmd.lyrics.description': 'Letra da música que está tocando',
 
   // /start
   'start.welcome':
@@ -62,6 +63,11 @@ export const ptBR = {
   'lyrics.not_found': '😕 Não encontrei a letra de <b>{{track}}</b> — {{artist}}.',
   'lyrics.source': 'fonte: {{source}}',
   'lyrics.translate_button': '🌐 Traduzir',
+  'lyrics.usage': '💡 Use /lyrics para a letra do que está tocando, ou /lyrics artista - música.',
+  'lyrics.instrumental': '🎼 <b>{{track}}</b> — {{artist}} é uma faixa instrumental.',
+  'lyrics.translating': '🌐 Traduzindo…',
+  'lyrics.state_expired': '⏰ Essa letra expirou. Peça de novo com /lyrics.',
+  'lyrics.auto_translated': 'tradução automática',
 } as const
 
 export type MessageKey = keyof typeof ptBR

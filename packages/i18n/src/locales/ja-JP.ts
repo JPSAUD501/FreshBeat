@@ -10,6 +10,7 @@ export const jaJP: BaseMessages = {
   'cmd.help.description': 'できることをすべて見る',
   'cmd.login.description': 'Last.fmアカウントを連携',
   'cmd.forgetme.description': '連携解除とデータ削除',
+  'cmd.lyrics.description': '再生中の曲の歌詞',
 
   'start.welcome':
     '🎧 こんにちは、{{name}}さん！私は<b>FreshBeat</b>、あなたの音楽コンパニオンです。\n\nLast.fmで再生中の曲を表示したり、歌詞を探したり、お気に入りの曲の意味を説明したりします。\n\n/help でできることをすべて確認できます。',
@@ -48,4 +49,10 @@ export const jaJP: BaseMessages = {
   'lyrics.not_found': '😕 <b>{{track}}</b> — {{artist}} の歌詞が見つかりませんでした。',
   'lyrics.source': '出典: {{source}}',
   'lyrics.translate_button': '🌐 翻訳',
+  'lyrics.usage':
+    '💡 /lyrics で再生中の曲の歌詞を表示。または /lyrics アーティスト - 曲名 と入力してください。',
+  'lyrics.instrumental': '🎼 <b>{{track}}</b> — {{artist}} はインストゥルメンタル曲です。',
+  'lyrics.translating': '🌐 翻訳中…',
+  'lyrics.state_expired': '⏰ この歌詞は期限切れです。/lyrics で再度リクエストしてください。',
+  'lyrics.auto_translated': '自動翻訳',
 }

@@ -10,6 +10,7 @@ export const esES: BaseMessages = {
   'cmd.help.description': 'Ver todo lo que sé hacer',
   'cmd.login.description': 'Conectar tu cuenta de Last.fm',
   'cmd.forgetme.description': 'Desvincular y borrar tus datos',
+  'cmd.lyrics.description': 'Letra de la canción que suena',
 
   'start.welcome':
     '🎧 ¡Hola, {{name}}! Soy <b>FreshBeat</b>, tu compañero de música.\n\nTe muestro lo que estás escuchando en Last.fm, busco letras y explico el significado de tus canciones favoritas.\n\nUsa /help para ver todo lo que sé hacer.',
@@ -47,4 +48,9 @@ export const esES: BaseMessages = {
   'lyrics.not_found': '😕 No encontré la letra de <b>{{track}}</b> — {{artist}}.',
   'lyrics.source': 'fuente: {{source}}',
   'lyrics.translate_button': '🌐 Traducir',
+  'lyrics.usage': '💡 Usa /lyrics para la letra de lo que suena, o /lyrics artista - canción.',
+  'lyrics.instrumental': '🎼 <b>{{track}}</b> — {{artist}} es una pista instrumental.',
+  'lyrics.translating': '🌐 Traduciendo…',
+  'lyrics.state_expired': '⏰ Esta letra caducó. Pídela de nuevo con /lyrics.',
+  'lyrics.auto_translated': 'traducción automática',
 }

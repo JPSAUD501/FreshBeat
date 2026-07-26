@@ -1,5 +1,5 @@
 import { SUPPORTED_LOCALES, lang, type Locale } from '@freshbeat/i18n'
-import { Bot } from 'grammy'
+import { Bot, type Composer } from 'grammy'
 import type { LanguageCode } from 'grammy/types'
 import type { FreshBeatContext } from './context.js'
 import type { CommandModule } from './commands/command-module.js'
@@ -15,6 +15,8 @@ export interface BotDeps extends ErrorHandlerDeps {
   logger: Logger
   rateLimiter: RateLimiter
   commands: CommandModule[]
+  /** Composers sem comando associado (callbacks, listeners). */
+  listeners?: Composer<FreshBeatContext>[]
 }
 
 /**
@@ -30,6 +32,9 @@ export function createBot(deps: BotDeps): Bot<FreshBeatContext> {
 
   for (const command of deps.commands) {
     bot.use(command.composer)
+  }
+  for (const listener of deps.listeners ?? []) {
+    bot.use(listener)
   }
 
   bot.catch(createErrorHandler(deps))
