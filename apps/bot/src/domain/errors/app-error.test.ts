@@ -16,7 +16,7 @@ describe('AppError', () => {
       new LastfmNotLinkedError(),
       new UserNotFoundError(42),
       new RateLimitedError(30),
-      new LyricsNotFoundError(),
+      new LyricsNotFoundError('Bohemian Rhapsody', 'Queen'),
       new NotListeningError(),
       new AlbumNotIdentifiedError(),
       new LastfmUserNotFoundError('ghost'),
@@ -39,6 +39,12 @@ describe('AppError', () => {
     expect(error.retryAfterSeconds).toBe(30)
     expect(error.vars).toEqual({ seconds: 30 })
     expect(error.i18nKey).toBe('common.rate_limited')
+  })
+
+  it('LyricsNotFoundError carrega faixa e artista para a mensagem traduzida', () => {
+    const error = new LyricsNotFoundError('Bohemian Rhapsody', 'Queen')
+    expect(error.vars).toEqual({ track: 'Bohemian Rhapsody', artist: 'Queen' })
+    expect(error.i18nKey).toBe('lyrics.not_found')
   })
 
   it('LastfmUserNotFoundError menciona o usuário na mensagem', () => {
