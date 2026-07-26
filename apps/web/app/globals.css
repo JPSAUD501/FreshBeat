@@ -1,16 +1,19 @@
-:root {
-  color-scheme: dark;
+@import 'tailwindcss';
+
+@theme {
+  --color-background: #0b0d10;
+  --color-surface: #15181d;
+  --color-foreground: #f3f4f6;
+  --color-muted: #9ca3af;
+  --color-accent: #1db954;
+  --color-accent-hover: #1ed760;
 }
 
 body {
-  margin: 0;
-  font-family: system-ui, sans-serif;
-  background: #0d1117;
-  color: #e6edf3;
-}
-
-main {
-  max-width: 720px;
-  margin: 4rem auto;
-  padding: 0 1rem;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
 }

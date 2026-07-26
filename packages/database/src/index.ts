@@ -31,3 +31,4 @@ export function createDatabase(databaseUrl: string): DatabaseConnection {
 
 export { schema }
 export * from './schema.js'
+export { DrizzleUserRepository, type FreshBeatUser } from './user-repository.js'

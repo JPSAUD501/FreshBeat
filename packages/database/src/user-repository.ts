@@ -1,24 +1,36 @@
 import { eq } from 'drizzle-orm'
-import { users, type Database, type UserRow } from '@freshbeat/database'
-import type { Locale } from '@freshbeat/i18n'
-import type { User } from '../../domain/entities/user.js'
-import type { UserRepository } from '../../domain/ports/user-repository.js'
+import { users, type UserRow } from './schema.js'
+import type { Database } from './index.js'
 
-function toDomain(row: UserRow): User {
+/** Usuário de domínio compartilhado entre bot e site. */
+export interface FreshBeatUser {
+  readonly id: string
+  readonly telegramUserId: number
+  readonly lastfmUsername: string | null
+  readonly preferredLocale: string | null
+  readonly createdAt: Date
+  readonly updatedAt: Date
+}
+
+function toDomain(row: UserRow): FreshBeatUser {
   return {
     id: row.id,
     telegramUserId: row.telegramUserId,
     lastfmUsername: row.lastfmUsername,
-    preferredLocale: (row.preferredLocale as Locale | null) ?? null,
+    preferredLocale: row.preferredLocale,
     createdAt: row.createdAt,
     updatedAt: row.updatedAt,
   }
 }
 
-export class DrizzleUserRepository implements UserRepository {
+/**
+ * Repositório de usuários compartilhado (bot e site).
+ * O bot o usa através do port UserRepository (mesma forma estrutural).
+ */
+export class DrizzleUserRepository {
   constructor(private readonly db: Database) {}
 
-  async findByTelegramId(telegramUserId: number): Promise<User | null> {
+  async findByTelegramId(telegramUserId: number): Promise<FreshBeatUser | null> {
     const rows = await this.db
       .select()
       .from(users)
@@ -28,13 +40,13 @@ export class DrizzleUserRepository implements UserRepository {
     return row === undefined ? null : toDomain(row)
   }
 
-  async create(telegramUserId: number): Promise<User> {
+  async create(telegramUserId: number): Promise<FreshBeatUser> {
     const [row] = await this.db.insert(users).values({ telegramUserId }).returning()
     if (row === undefined) throw new Error('Falha ao criar usuário: insert não retornou linha')
     return toDomain(row)
   }
 
-  async linkLastfm(telegramUserId: number, lastfmUsername: string): Promise<User> {
+  async linkLastfm(telegramUserId: number, lastfmUsername: string): Promise<FreshBeatUser> {
     const [row] = await this.db
       .update(users)
       .set({ lastfmUsername, updatedAt: new Date() })

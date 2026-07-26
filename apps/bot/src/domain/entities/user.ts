@@ -1,11 +1,8 @@
-import type { Locale } from '@freshbeat/i18n'
+import type { FreshBeatUser } from '@freshbeat/database'
 
-/** Usuário do FreshBeat (espelha a tabela `users`, sem detalhes de banco). */
-export interface User {
-  readonly id: string
-  readonly telegramUserId: number
-  readonly lastfmUsername: string | null
-  readonly preferredLocale: Locale | null
-  readonly createdAt: Date
-  readonly updatedAt: Date
-}
+/**
+ * Usuário do FreshBeat (espelha a tabela `users`, sem detalhes de banco).
+ * Alias da entidade compartilhada com o site — o repositório Drizzle
+ * também é compartilhado (@freshbeat/database).
+ */
+export type User = FreshBeatUser
