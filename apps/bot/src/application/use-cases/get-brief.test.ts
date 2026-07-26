@@ -79,6 +79,25 @@ describe('GetBriefUseCase', () => {
     )
   })
 
+  it('sem ranking de faixas, playtime fica null e o top 5 vem vazio', async () => {
+    const deps = makeDeps()
+    deps.lastfm.getTopTracksPage.mockResolvedValue(null)
+    vi.spyOn(deps.getUserTopTracks, 'execute').mockResolvedValue([])
+    const useCase = new GetBriefUseCase(
+      deps.lastfm,
+      deps.getUserTopTracks,
+      new InMemoryCacheStore(),
+    )
+
+    const brief = await useCase.execute({ username: 'user' })
+
+    expect(brief.topTracks).toEqual([])
+    expect(brief.playtimeSeconds).toBeNull()
+    expect(brief.playtimeApproximate).toBe(false)
+    // métricas do usuário continuam presentes
+    expect(brief.metrics.playcount).toBe(1000)
+  })
+
   it('cacheia o resumo — segunda chamada não repete APIs', async () => {
     const deps = makeDeps()
     const useCase = new GetBriefUseCase(

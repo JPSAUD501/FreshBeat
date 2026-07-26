@@ -119,6 +119,20 @@ describe('GetAlbumOverviewUseCase', () => {
 
     await expect(useCase.execute({ username: 'user' })).rejects.toBeInstanceOf(NotListeningError)
   })
+
+  it('falha na busca externa degrada os links para null sem derrubar', async () => {
+    const deps = makeDeps()
+    deps.musicSearch[0]!.searchAlbum.mockRejectedValue(new Error('quota esgotada'))
+    const useCase = new GetAlbumOverviewUseCase(deps)
+
+    const overview = await useCase.execute({ username: 'user' })
+
+    expect(overview.spotifyUrl).toBeNull()
+    expect(overview.deezerUrl).toBeNull()
+    // o resto da visão continua intacto
+    expect(overview.name).toBe('A Night at the Opera')
+    expect(overview.scrobbles).toBe(120)
+  })
 })
 
 describe('GetArtistOverviewUseCase', () => {
@@ -148,5 +162,23 @@ describe('GetArtistOverviewUseCase', () => {
     const overview = await useCase.execute({ username: 'user' })
 
     expect(overview.topTracks[0]?.name).toBe('Bohemian Rhapsody')
+  })
+
+  it('artista desconhecido do Last.fm e sem matches: tudo degrada para null/vazio', async () => {
+    const deps = makeDeps()
+    deps.lastfm.getArtistInfo.mockResolvedValue(null)
+    vi.spyOn(deps.getUserTopTracks, 'execute').mockResolvedValue([
+      topTrack('Other Song', 'Someone Else', 99),
+    ])
+    const useCase = new GetArtistOverviewUseCase(deps)
+
+    const overview = await useCase.execute({ username: 'user' })
+
+    expect(overview.imageUrl).toBeNull()
+    expect(overview.lastfmUrl).toBeNull()
+    expect(overview.scrobbles).toBeNull()
+    expect(overview.topTracks).toEqual([])
+    expect(overview.playtimeSeconds).toBeNull()
+    expect(overview.playtimeApproximate).toBe(false)
   })
 })

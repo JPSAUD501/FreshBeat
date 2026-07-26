@@ -188,4 +188,50 @@ describe('GetNowPlayingUseCase', () => {
     expect(info.albumName).toBeNull()
     expect(info.nowPlaying).toBe(false)
   })
+
+  it('sem enriquecimento nenhum, links, imagem e duração ficam null', async () => {
+    const useCase = makeUseCase({
+      lastfm: makeLastFm({
+        getTrackInfo: vi.fn().mockResolvedValue(null),
+        getArtistInfo: vi.fn().mockResolvedValue(null),
+        getAlbumInfo: vi.fn().mockResolvedValue(null),
+      }),
+      musicSearch: [],
+    })
+
+    const info = await useCase.execute({ lastfmUsername: 'user' })
+
+    expect(info.links).toEqual({
+      lastfmTrack: null,
+      lastfmArtist: null,
+      lastfmAlbum: null,
+      spotify: null,
+      deezer: null,
+    })
+    expect(info.imageUrl).toBeNull()
+    expect(info.durationSeconds).toBeNull()
+    expect(info.scrobbles).toEqual({ track: null, album: null, artist: null })
+  })
+
+  it('cai na imagem do artista quando o álbum não tem capa', async () => {
+    const useCase = makeUseCase({
+      lastfm: makeLastFm({
+        getAlbumInfo: vi.fn().mockResolvedValue({
+          url: null,
+          userPlaycount: null,
+          imageUrl: null,
+          trackNames: [],
+        }),
+        getArtistInfo: vi.fn().mockResolvedValue({
+          url: null,
+          userPlaycount: null,
+          imageUrl: 'https://last.fm/artist.jpg',
+        }),
+      }),
+    })
+
+    const info = await useCase.execute({ lastfmUsername: 'user' })
+
+    expect(info.imageUrl).toBe('https://last.fm/artist.jpg')
+  })
 })
