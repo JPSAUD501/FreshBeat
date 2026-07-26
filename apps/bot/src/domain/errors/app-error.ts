@@ -65,3 +65,11 @@ export class AlbumNotIdentifiedError extends AppError {
     super('Faixa atual sem álbum identificado')
   }
 }
+
+/** O usuário do Last.fm não existe (ou a API não o encontrou). */
+export class LastfmUserNotFoundError extends AppError {
+  readonly i18nKey = 'brief.user_not_found'
+  constructor(username: string) {
+    super(`Usuário Last.fm não encontrado: ${username}`, { user: username })
+  }
+}

@@ -52,6 +52,9 @@ function makeLastFm(overrides: Partial<LastFmApi> = {}) {
     }),
     getTopTracksPage: vi.fn().mockResolvedValue(null),
     getRecentTracksPage: vi.fn().mockResolvedValue([]),
+    getUserInfo: vi.fn(),
+    getTopAlbums: vi.fn(),
+    getTopArtists: vi.fn(),
     ...overrides,
   }
 }

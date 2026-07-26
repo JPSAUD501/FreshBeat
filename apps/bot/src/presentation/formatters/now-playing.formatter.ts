@@ -9,6 +9,8 @@ export interface NowPlayingLabels {
   listeningNow: string
   listeningWas: string
   explicitBadge: string
+  /** Conector faixa→artista ("por", "by", "—"). */
+  artistConnector: string
   scrobblesTitle: string
   scrobblesTrack: (count: string) => string
   scrobblesAlbum: (count: string) => string
@@ -17,6 +19,8 @@ export interface NowPlayingLabels {
   popularity: (stars: string) => string
   hoursMinutes: (hours: number, minutes: number) => string
   minutesOnly: (minutes: number) => string
+  /** Locale BCP 47 para formatar números (ex.: "1.234" vs "1,234"). */
+  numberLocale: string
 }
 
 /** Monta a mensagem HTML do /playingnow. */
@@ -32,7 +36,7 @@ export function formatNowPlaying(info: NowPlayingInfo, labels: NowPlayingLabels)
 
   const badge = info.explicit ? ` ${labels.explicitBadge}` : ''
   lines.push(
-    `[🎧] ${linked(info.trackName, info.links.lastfmTrack)} por ${linked(info.artistName, info.links.lastfmArtist)}${badge}`,
+    `[🎧] ${linked(info.trackName, info.links.lastfmTrack)} ${labels.artistConnector} ${linked(info.artistName, info.links.lastfmArtist)}${badge}`,
   )
   if (info.albumName !== null) {
     lines.push(`[💿] ${linked(info.albumName, info.links.lastfmAlbum)}`)
@@ -58,13 +62,13 @@ export function formatNowPlaying(info: NowPlayingInfo, labels: NowPlayingLabels)
 function formatScrobbles(info: NowPlayingInfo, labels: NowPlayingLabels): string | null {
   const parts: string[] = []
   if (info.scrobbles.track !== null) {
-    parts.push(labels.scrobblesTrack(formatNumber(info.scrobbles.track)))
+    parts.push(labels.scrobblesTrack(info.scrobbles.track.toLocaleString(labels.numberLocale)))
   }
   if (info.scrobbles.album !== null) {
-    parts.push(labels.scrobblesAlbum(formatNumber(info.scrobbles.album)))
+    parts.push(labels.scrobblesAlbum(info.scrobbles.album.toLocaleString(labels.numberLocale)))
   }
   if (info.scrobbles.artist !== null) {
-    parts.push(labels.scrobblesArtist(formatNumber(info.scrobbles.artist)))
+    parts.push(labels.scrobblesArtist(info.scrobbles.artist.toLocaleString(labels.numberLocale)))
   }
   return parts.length > 0 ? parts.join(' · ') : null
 }
@@ -90,8 +94,4 @@ export function formatDuration(
   const minutes = Math.floor((totalSeconds % 3600) / 60)
   if (hours > 0) return labels.hoursMinutes(hours, minutes)
   return labels.minutesOnly(Math.max(1, minutes))
-}
-
-function formatNumber(value: number): string {
-  return value.toLocaleString('pt-BR')
 }

@@ -22,6 +22,7 @@ export const ptBR = {
   'cmd.pnalbum.description': 'Álbum da música que está tocando',
   'cmd.pnartist.description': 'Artista da música que está tocando',
   'cmd.history.description': 'Suas últimas faixas',
+  'cmd.brief.description': 'Resumo do seu perfil musical',
 
   // /start
   'start.welcome':
@@ -70,6 +71,7 @@ export const ptBR = {
   'playingnow.listening_time': '⏱️ Você já ouviu essa música por <b>{{duration}}</b>',
   'playingnow.popularity': '⭐ Popularidade: {{stars}}',
   'playingnow.lyrics_button': '🧾 Letra',
+  'playingnow.artist_connector': 'por',
 
   // /pnalbum e /pnartist
   'pnalbum.no_album': '😕 A faixa atual não tem álbum identificado no Last.fm.',
@@ -87,9 +89,22 @@ export const ptBR = {
   'history.now_playing': '🎧 Ouvindo agora: {{track}}',
   'history.empty': '📭 Você ainda não tem histórico no Last.fm.',
 
+  // /brief
+  'brief.user_not_found': '😕 Não encontrei o usuário {{user}} no Last.fm.',
+  'brief.title': '📊 <b>Resumo musical de {{user}}</b>',
+  'brief.metrics_line1':
+    '🎵 {{playcount}} scrobbles · 🎼 {{tracks}} faixas · 🔁 {{repeated}} repetidas ({{percent}}%)',
+  'brief.metrics_line2': '🎤 {{artists}} artistas · 💿 {{albums}} álbuns',
+  'brief.playtime': '⏱️ Tempo total: <b>{{duration}}</b>',
+  'brief.avg_duration': '📏 Duração média: {{duration}}',
+  'brief.top_tracks': '🎵 <b>Músicas mais tocadas</b>',
+  'brief.top_albums': '💿 <b>Álbuns mais tocados</b>',
+  'brief.top_artists': '🎤 <b>Artistas mais tocados</b>',
+
   // Durações
   'common.duration.hours_minutes': '{{hours}}h {{minutes}}min',
   'common.duration.minutes': '{{minutes}}min',
+  'common.duration.minutes_seconds': '{{minutes}}min {{seconds}}s',
 
   // /lyrics
   'lyrics.not_found': '😕 Não encontrei a letra de <b>{{track}}</b> — {{artist}}.',

@@ -15,6 +15,7 @@ export const enUS: BaseMessages = {
   'cmd.pnalbum.description': 'Album of the current track',
   'cmd.pnartist.description': 'Artist of the current track',
   'cmd.history.description': 'Your recent tracks',
+  'cmd.brief.description': 'Your music profile summary',
 
   'start.welcome':
     "🎧 Hi, {{name}}! I'm <b>FreshBeat</b>, your music companion.\n\nI show what you're listening to on Last.fm, find lyrics and explain the meaning of your favorite songs.\n\nUse /help to see everything I can do.",
@@ -57,6 +58,7 @@ export const enUS: BaseMessages = {
   'playingnow.listening_time': "⏱️ You've listened to this track for <b>{{duration}}</b>",
   'playingnow.popularity': '⭐ Popularity: {{stars}}',
   'playingnow.lyrics_button': '🧾 Lyrics',
+  'playingnow.artist_connector': 'by',
 
   'pnalbum.no_album': '😕 The current track has no album identified on Last.fm.',
   'overview.album_now': '🎧 <b>{{user}}</b> is listening to the album:',
@@ -72,8 +74,20 @@ export const enUS: BaseMessages = {
   'history.now_playing': '🎧 Listening now: {{track}}',
   'history.empty': '📭 You have no Last.fm history yet.',
 
+  'brief.user_not_found': "😕 Couldn't find user {{user}} on Last.fm.",
+  'brief.title': "📊 <b>{{user}}'s music summary</b>",
+  'brief.metrics_line1':
+    '🎵 {{playcount}} scrobbles · 🎼 {{tracks}} tracks · 🔁 {{repeated}} repeats ({{percent}}%)',
+  'brief.metrics_line2': '🎤 {{artists}} artists · 💿 {{albums}} albums',
+  'brief.playtime': '⏱️ Total listening time: <b>{{duration}}</b>',
+  'brief.avg_duration': '📏 Average track length: {{duration}}',
+  'brief.top_tracks': '🎵 <b>Most played tracks</b>',
+  'brief.top_albums': '💿 <b>Most played albums</b>',
+  'brief.top_artists': '🎤 <b>Most played artists</b>',
+
   'common.duration.hours_minutes': '{{hours}}h {{minutes}}min',
   'common.duration.minutes': '{{minutes}}min',
+  'common.duration.minutes_seconds': '{{minutes}}min {{seconds}}s',
 
   'lyrics.not_found': "😕 Couldn't find lyrics for <b>{{track}}</b> — {{artist}}.",
   'lyrics.source': 'source: {{source}}',

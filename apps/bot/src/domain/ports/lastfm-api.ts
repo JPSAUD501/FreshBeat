@@ -47,6 +47,31 @@ export interface LastFmRecentTrack {
   readonly nowPlaying: boolean
 }
 
+/** Perfil do usuário (user.getInfo). */
+export interface LastFmUserInfo {
+  readonly url: string | null
+  readonly imageUrl: string | null
+  readonly playcount: number
+  readonly trackCount: number
+  readonly artistCount: number
+  readonly albumCount: number
+}
+
+/** Álbum rankeado (user.getTopAlbums). */
+export interface LastFmTopAlbum {
+  readonly name: string
+  readonly artist: string
+  readonly url: string | null
+  readonly playcount: number
+}
+
+/** Artista rankeado (user.getTopArtists). */
+export interface LastFmTopArtist {
+  readonly name: string
+  readonly url: string | null
+  readonly playcount: number
+}
+
 /**
  * Port da API do Last.fm para dados de faixas/artistas/álbuns
  * com os contadores do usuário (userplaycount).
@@ -77,4 +102,10 @@ export interface LastFmApi {
     limit: number
     page: number
   }): Promise<LastFmRecentTrack[]>
+
+  getUserInfo(input: { username: string }): Promise<LastFmUserInfo | null>
+
+  getTopAlbums(input: { username: string; limit: number }): Promise<LastFmTopAlbum[]>
+
+  getTopArtists(input: { username: string; limit: number }): Promise<LastFmTopArtist[]>
 }

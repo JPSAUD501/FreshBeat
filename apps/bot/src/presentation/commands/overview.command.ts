@@ -102,6 +102,7 @@ function buildLabels(
     hoursMinutes: (hours, minutes) =>
       ctx.t(hoursMinutesLabel, { hours: String(hours), minutes: String(minutes) }),
     minutesOnly: (minutes) => ctx.t(minutesOnlyLabel, { minutes: String(minutes) }),
+    numberLocale: ctx.locale,
   }
 }
 

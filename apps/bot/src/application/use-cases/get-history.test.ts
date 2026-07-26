@@ -78,6 +78,9 @@ describe('GetHistoryUseCase', () => {
       getAlbumInfo: vi.fn(),
       getTopTracksPage: vi.fn(),
       getRecentTracksPage: vi.fn().mockResolvedValue([track('A')]),
+      getUserInfo: vi.fn(),
+      getTopAlbums: vi.fn(),
+      getTopArtists: vi.fn(),
     }
     const useCase = new GetHistoryUseCase(lastfm, new InMemoryCacheStore())
 

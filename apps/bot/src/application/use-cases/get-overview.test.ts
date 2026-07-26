@@ -56,6 +56,9 @@ function makeDeps(
     }),
     getTopTracksPage: vi.fn(),
     getRecentTracksPage: vi.fn(),
+    getUserInfo: vi.fn(),
+    getTopAlbums: vi.fn(),
+    getTopArtists: vi.fn(),
   }
   const musicSearch = [
     {

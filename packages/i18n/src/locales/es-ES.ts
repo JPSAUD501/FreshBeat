@@ -15,6 +15,7 @@ export const esES: BaseMessages = {
   'cmd.pnalbum.description': 'Álbum de la canción que suena',
   'cmd.pnartist.description': 'Artista de la canción que suena',
   'cmd.history.description': 'Tus últimas canciones',
+  'cmd.brief.description': 'Resumen de tu perfil musical',
 
   'start.welcome':
     '🎧 ¡Hola, {{name}}! Soy <b>FreshBeat</b>, tu compañero de música.\n\nTe muestro lo que estás escuchando en Last.fm, busco letras y explico el significado de tus canciones favoritas.\n\nUsa /help para ver todo lo que sé hacer.',
@@ -56,6 +57,7 @@ export const esES: BaseMessages = {
   'playingnow.listening_time': '⏱️ Ya escuchaste esta canción por <b>{{duration}}</b>',
   'playingnow.popularity': '⭐ Popularidad: {{stars}}',
   'playingnow.lyrics_button': '🧾 Letra',
+  'playingnow.artist_connector': 'por',
 
   'pnalbum.no_album': '😕 La canción actual no tiene álbum identificado en Last.fm.',
   'overview.album_now': '🎧 <b>{{user}}</b> está escuchando el álbum:',
@@ -71,8 +73,20 @@ export const esES: BaseMessages = {
   'history.now_playing': '🎧 Escuchando ahora: {{track}}',
   'history.empty': '📭 Aún no tienes historial en Last.fm.',
 
+  'brief.user_not_found': '😕 No encontré al usuario {{user}} en Last.fm.',
+  'brief.title': '📊 <b>Resumen musical de {{user}}</b>',
+  'brief.metrics_line1':
+    '🎵 {{playcount}} scrobbles · 🎼 {{tracks}} canciones · 🔁 {{repeated}} repetidas ({{percent}}%)',
+  'brief.metrics_line2': '🎤 {{artists}} artistas · 💿 {{albums}} álbumes',
+  'brief.playtime': '⏱️ Tiempo total: <b>{{duration}}</b>',
+  'brief.avg_duration': '📏 Duración media: {{duration}}',
+  'brief.top_tracks': '🎵 <b>Canciones más tocadas</b>',
+  'brief.top_albums': '💿 <b>Álbumes más tocados</b>',
+  'brief.top_artists': '🎤 <b>Artistas más tocados</b>',
+
   'common.duration.hours_minutes': '{{hours}}h {{minutes}}min',
   'common.duration.minutes': '{{minutes}}min',
+  'common.duration.minutes_seconds': '{{minutes}}min {{seconds}}s',
 
   'lyrics.not_found': '😕 No encontré la letra de <b>{{track}}</b> — {{artist}}.',
   'lyrics.source': 'fuente: {{source}}',

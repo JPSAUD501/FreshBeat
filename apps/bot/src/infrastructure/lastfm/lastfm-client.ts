@@ -5,8 +5,11 @@ import type {
   LastFmApi,
   LastFmArtistInfo,
   LastFmRecentTrack,
+  LastFmTopAlbum,
+  LastFmTopArtist,
   LastFmTopTracksPage,
   LastFmTrackInfo,
+  LastFmUserInfo,
 } from '../../domain/ports/lastfm-api.js'
 import type { RecentTracksProvider } from '../../domain/ports/recent-tracks.js'
 import { fetchJson } from '../http/fetch-json.js'
@@ -100,6 +103,48 @@ const topTracksResponseSchema = z.object({
         }),
       ),
       '@attr': z.object({ total: numericString }),
+    })
+    .optional(),
+})
+
+const userInfoResponseSchema = z.object({
+  user: z
+    .object({
+      url: z.string().optional(),
+      playcount: numericString,
+      track_count: numericString,
+      artist_count: numericString,
+      album_count: numericString,
+      image: lastfmImages,
+    })
+    .optional(),
+})
+
+const topAlbumsResponseSchema = z.object({
+  topalbums: z
+    .object({
+      album: z.array(
+        z.object({
+          name: z.string(),
+          url: z.string().optional(),
+          playcount: numericString,
+          artist: z.object({ name: z.string() }),
+        }),
+      ),
+    })
+    .optional(),
+})
+
+const topArtistsResponseSchema = z.object({
+  topartists: z
+    .object({
+      artist: z.array(
+        z.object({
+          name: z.string(),
+          url: z.string().optional(),
+          playcount: numericString,
+        }),
+      ),
     })
     .optional(),
 })
@@ -213,6 +258,49 @@ export class LastFmClient implements RecentTracksProvider, LastFmApi {
       imageUrl: response.album.image,
       trackNames,
     }
+  }
+
+  async getUserInfo(input: { username: string }): Promise<LastFmUserInfo | null> {
+    const response = await this.call('user.getInfo', userInfoResponseSchema, {
+      user: input.username,
+    })
+    if (response?.user === undefined) return null
+
+    return {
+      url: response.user.url ?? null,
+      imageUrl: response.user.image,
+      playcount: response.user.playcount ?? 0,
+      trackCount: response.user.track_count ?? 0,
+      artistCount: response.user.artist_count ?? 0,
+      albumCount: response.user.album_count ?? 0,
+    }
+  }
+
+  async getTopAlbums(input: { username: string; limit: number }): Promise<LastFmTopAlbum[]> {
+    const response = await this.call('user.getTopAlbums', topAlbumsResponseSchema, {
+      user: input.username,
+      limit: String(input.limit),
+    })
+
+    return (response?.topalbums?.album ?? []).map((album) => ({
+      name: album.name,
+      artist: album.artist.name,
+      url: album.url ?? null,
+      playcount: album.playcount ?? 0,
+    }))
+  }
+
+  async getTopArtists(input: { username: string; limit: number }): Promise<LastFmTopArtist[]> {
+    const response = await this.call('user.getTopArtists', topArtistsResponseSchema, {
+      user: input.username,
+      limit: String(input.limit),
+    })
+
+    return (response?.topartists?.artist ?? []).map((artist) => ({
+      name: artist.name,
+      url: artist.url ?? null,
+      playcount: artist.playcount ?? 0,
+    }))
   }
 
   async getTopTracksPage(input: {

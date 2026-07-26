@@ -20,6 +20,7 @@ const listeningWasLabel = msg({
   value: '🎧 <b>{{user}}</b> estava ouvindo:',
 })
 const explicitBadge = msg({ key: 'playingnow.explicit_badge', value: '🅴' })
+const artistConnectorLabel = msg({ key: 'playingnow.artist_connector', value: 'por' })
 const scrobblesTitle = msg({ key: 'playingnow.scrobbles_title', value: '📊 <b>Scrobbles</b>' })
 const scrobblesTrackLabel = msg({ key: 'playingnow.scrobbles_track', value: '🎵 {{count}}' })
 const scrobblesAlbumLabel = msg({ key: 'playingnow.scrobbles_album', value: '💿 {{count}}' })
@@ -87,6 +88,8 @@ function buildLabels(ctx: FreshBeatContext, info: NowPlayingInfo): NowPlayingLab
     listeningNow: ctx.t(listeningNowLabel, { user }),
     listeningWas: ctx.t(listeningWasLabel, { user }),
     explicitBadge: ctx.t(explicitBadge),
+    artistConnector: ctx.t(artistConnectorLabel),
+    numberLocale: ctx.locale,
     scrobblesTitle: ctx.t(scrobblesTitle),
     scrobblesTrack: (count) => ctx.t(scrobblesTrackLabel, { count }),
     scrobblesAlbum: (count) => ctx.t(scrobblesAlbumLabel, { count }),

@@ -17,6 +17,8 @@ export interface OverviewLabels {
   topTracksTitle: string
   hoursMinutes: (hours: number, minutes: number) => string
   minutesOnly: (minutes: number) => string
+  /** Locale BCP 47 para formatar números. */
+  numberLocale: string
 }
 
 /** Monta a mensagem HTML do /pnalbum e /pnartist. */
@@ -40,7 +42,7 @@ export function formatOverview(
 
   const stats: string[] = []
   if (overview.scrobbles !== null) {
-    stats.push(labels.scrobbles(overview.scrobbles.toLocaleString('pt-BR')))
+    stats.push(labels.scrobbles(overview.scrobbles.toLocaleString(labels.numberLocale)))
   }
   if (overview.playtimeSeconds !== null && overview.playtimeSeconds > 0) {
     const marker = overview.playtimeApproximate ? '≈' : ''
@@ -52,7 +54,9 @@ export function formatOverview(
   if (topTracks.length > 0) {
     lines.push('', labels.topTracksTitle)
     for (const track of topTracks) {
-      lines.push(`(${track.playcount.toLocaleString('pt-BR')}x) ${linked(track.name, track.url)}`)
+      lines.push(
+        `(${track.playcount.toLocaleString(labels.numberLocale)}x) ${linked(track.name, track.url)}`,
+      )
     }
   }
 

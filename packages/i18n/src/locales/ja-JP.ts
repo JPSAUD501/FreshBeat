@@ -15,6 +15,7 @@ export const jaJP: BaseMessages = {
   'cmd.pnalbum.description': '再生中の曲のアルバム',
   'cmd.pnartist.description': '再生中の曲のアーティスト',
   'cmd.history.description': '最近聴いた曲',
+  'cmd.brief.description': '音楽プロフィールのまとめ',
 
   'start.welcome':
     '🎧 こんにちは、{{name}}さん！私は<b>FreshBeat</b>、あなたの音楽コンパニオンです。\n\nLast.fmで再生中の曲を表示したり、歌詞を探したり、お気に入りの曲の意味を説明したりします。\n\n/help でできることをすべて確認できます。',
@@ -57,6 +58,7 @@ export const jaJP: BaseMessages = {
   'playingnow.listening_time': '⏱️ この曲を <b>{{duration}}</b> 聴きました',
   'playingnow.popularity': '⭐ 人気度: {{stars}}',
   'playingnow.lyrics_button': '🧾 歌詞',
+  'playingnow.artist_connector': '—',
 
   'pnalbum.no_album': '😕 再生中の曲にはLast.fmで特定できるアルバムがありません。',
   'overview.album_now': '🎧 <b>{{user}}</b> さんが聴いているアルバム:',
@@ -72,8 +74,20 @@ export const jaJP: BaseMessages = {
   'history.now_playing': '🎧 再生中: {{track}}',
   'history.empty': '📭 まだLast.fmの履歴がありません。',
 
+  'brief.user_not_found': '😕 Last.fmでユーザー {{user}} が見つかりませんでした。',
+  'brief.title': '📊 <b>{{user}}</b> の音楽サマリー',
+  'brief.metrics_line1':
+    '🎵 {{playcount}} スクリッブル · 🎼 {{tracks}} 曲 · 🔁 {{repeated}} リピート ({{percent}}%)',
+  'brief.metrics_line2': '🎤 {{artists}} アーティスト · 💿 {{albums}} アルバム',
+  'brief.playtime': '⏱️ 総再生時間: <b>{{duration}}</b>',
+  'brief.avg_duration': '📏 平均の長さ: {{duration}}',
+  'brief.top_tracks': '🎵 <b>よく聴く曲</b>',
+  'brief.top_albums': '💿 <b>よく聴くアルバム</b>',
+  'brief.top_artists': '🎤 <b>よく聴くアーティスト</b>',
+
   'common.duration.hours_minutes': '{{hours}}時間{{minutes}}分',
   'common.duration.minutes': '{{minutes}}分',
+  'common.duration.minutes_seconds': '{{minutes}}分{{seconds}}秒',
 
   'lyrics.not_found': '😕 <b>{{track}}</b> — {{artist}} の歌詞が見つかりませんでした。',
   'lyrics.source': '出典: {{source}}',
