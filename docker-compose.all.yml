@@ -1,0 +1,26 @@
+# Stack COMPLETA para desenvolvimento local: Postgres + Redis + bot + site.
+# Uso: docker compose -f docker-compose.all.yml up --build
+# O site sobe em http://localhost:3000 (em produção o site vai para a Vercel).
+
+include:
+  - docker-compose.yml
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://freshbeat:freshbeat@postgres:5432/freshbeat
+      REDIS_URL: redis://redis:6379
+      WEB_BASE_URL: http://localhost:3000
+      NODE_ENV: production
+    ports:
+      - '3000:3000'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy

@@ -1,0 +1,5 @@
+export { SUPPORTED_LOCALES, DEFAULT_LOCALE, msg } from './types.js'
+export type { Locale, MessageDescriptor, Messages } from './types.js'
+export { lang, getCatalog, extractVars, type Vars } from './lang.js'
+export { normalizeLocale, resolveUserLocale } from './normalize.js'
+export type { MessageKey, BaseMessages } from './locales/pt-BR.js'

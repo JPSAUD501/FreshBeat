@@ -1,11 +1,30 @@
-# dotenv environment variable files
+# Dependencies
+node_modules/
+
+# Environment variables — NEVER commit real secrets
 .env
+.env.local
 .env.development.local
 .env.test.local
 .env.production.local
-.env.local
 
-# Fresh build directory
-_fresh/
-# npm dependencies
-node_modules/
+# Build output
+dist/
+build/
+.next/
+out/
+coverage/
+
+# Logs
+*.log
+logs/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# Caches
+.eslintcache
+*.tsbuildinfo
+
+# Drizzle migrations in packages/database/drizzle ARE committed

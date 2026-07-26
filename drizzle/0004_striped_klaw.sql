@@ -1,1 +1,0 @@
-ALTER TABLE "error" ADD COLUMN "uuid" uuid DEFAULT gen_random_uuid() NOT NULL;

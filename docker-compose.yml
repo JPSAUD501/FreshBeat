@@ -1,0 +1,71 @@
+# Stack principal do FreshBeat: Postgres + Redis + bot (polling).
+# Uso:
+#   cp .env.example .env   # preencha as chaves
+#   docker compose up --build
+#
+# O serviço `migrate` roda as migrations uma vez antes do bot subir.
+# Para o site junto, use: docker compose -f docker-compose.all.yml up --build
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: freshbeat
+      POSTGRES_PASSWORD: freshbeat
+      POSTGRES_DB: freshbeat
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U freshbeat -d freshbeat']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  migrate:
+    build:
+      context: .
+      dockerfile: apps/bot/Dockerfile
+    command: npm run db:migrate --workspace @freshbeat/database
+    env_file: .env
+    environment:
+      # Dentro da rede do compose, o host é o nome do serviço
+      DATABASE_URL: postgres://freshbeat:freshbeat@postgres:5432/freshbeat
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  bot:
+    build:
+      context: .
+      dockerfile: apps/bot/Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://freshbeat:freshbeat@postgres:5432/freshbeat
+      REDIS_URL: redis://redis:6379
+      NODE_ENV: production
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  redisdata:

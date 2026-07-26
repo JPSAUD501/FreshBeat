@@ -1,0 +1,17 @@
+name: ✨ Pedir feature
+description: Sugestão de nova funcionalidade
+title: '[Feature]: '
+labels: ['enhancement']
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: O que você gostaria?
+      description: Descreva a feature e o problema que ela resolve.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexto adicional
+      description: 'Exemplos de uso, referências (ex.: algo do MelodyScout), mockups…'
