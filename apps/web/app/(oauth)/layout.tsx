@@ -1,5 +1,7 @@
 import { headers } from 'next/headers'
 import type { ReactNode } from 'react'
+import { NoiseOverlay } from '../../components/motion/noise-overlay'
+import { fontVariables } from '../../lib/fonts'
 import { negotiateLocale } from '../../lib/negotiate-locale'
 import '../globals.css'
 
@@ -11,8 +13,11 @@ import '../globals.css'
 export default async function OAuthLayout({ children }: { children: ReactNode }) {
   const locale = negotiateLocale((await headers()).get('accept-language'))
   return (
-    <html lang={locale}>
-      <body className="flex min-h-screen flex-col">{children}</body>
+    <html lang={locale} className={fontVariables}>
+      <body className="flex min-h-screen flex-col font-sans">
+        {children}
+        <NoiseOverlay />
+      </body>
     </html>
   )
 }

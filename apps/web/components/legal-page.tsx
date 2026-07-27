@@ -1,3 +1,5 @@
+import { Reveal } from './motion/reveal'
+
 interface LegalSection {
   title: string
   text: string
@@ -14,15 +16,19 @@ export function LegalPage({
   sections: LegalSection[]
 }) {
   return (
-    <div className="py-12">
-      <h1 className="text-3xl font-bold">{title}</h1>
-      {updated !== undefined && <p className="mt-2 text-sm text-muted">{updated}</p>}
-      <div className="mt-8 space-y-8">
-        {sections.map((section) => (
-          <section key={section.title}>
-            <h2 className="text-xl font-semibold">{section.title}</h2>
-            <p className="mt-2 text-muted">{section.text}</p>
-          </section>
+    <div className="mx-auto w-full max-w-3xl px-4 pt-28 pb-20 sm:px-6">
+      <Reveal>
+        <h1 className="font-display text-4xl tracking-tight uppercase sm:text-5xl">{title}</h1>
+        {updated !== undefined && <p className="mt-3 text-sm text-muted-foreground">{updated}</p>}
+      </Reveal>
+      <div className="mt-12 space-y-10">
+        {sections.map((section, index) => (
+          <Reveal key={section.title} delay={index * 0.08}>
+            <section>
+              <h2 className="text-xl font-semibold text-fb">{section.title}</h2>
+              <p className="mt-3 leading-relaxed text-muted-foreground">{section.text}</p>
+            </section>
+          </Reveal>
         ))}
       </div>
     </div>

@@ -13,24 +13,50 @@ const ptBR = {
   'nav.privacy': 'Privacidade',
   'nav.terms': 'Termos',
 
-  'landing.hero_title': 'Seu companheiro de música no Telegram',
-  'landing.hero_subtitle':
-    'O FreshBeat mostra o que você está ouvindo no Last.fm, busca letras, traduz e explica o significado das suas músicas favoritas — e ainda cria arte por IA inspirada nelas.',
+  'landing.hero_manifesto':
+    'Seu companheiro de música no Telegram — stats, letras e IA, sem sair da conversa.',
   'landing.cta': 'Abrir no Telegram',
-  'landing.features_title': 'O que ele faz',
-  'landing.feature_stats_title': '📊 Stats do Last.fm',
-  'landing.feature_stats_text':
-    'Tocando agora com scrobbles, tempo de audição e popularidade, além de histórico e um resumo completo do seu perfil musical.',
-  'landing.feature_lyrics_title': '🧾 Letras',
-  'landing.feature_lyrics_text':
-    'Letra da música que está tocando em segundos, com tradução automática para o seu idioma.',
-  'landing.feature_ai_title': '✨ IA criativa',
-  'landing.feature_ai_text':
-    'Explicação do significado da letra no seu idioma e uma imagem única gerada por IA para cada música.',
-  'landing.commands_title': 'Comandos',
-  'landing.open_source': 'Código aberto',
+  'landing.scroll_hint': 'Role para explorar',
+  'landing.marquee': 'SCROBBLES ✦ LETRAS ✦ IA ✦ STATS ✦ ',
+  'landing.manifesto_1': 'Você não consulta música.',
+  'landing.manifesto_2': 'Você vive música.',
+  'landing.manifesto_3':
+    'O FreshBeat transforma o que toca no seu dia em estatística, significado e arte.',
+  'landing.how_title': 'Como funciona',
+  'landing.how_step1_title': 'Conecte seu Last.fm',
+  'landing.how_step1_text': 'Um /login e pronto: conta vinculada em segundos, sem senha no chat.',
+  'landing.how_step2_title': 'Ouça como sempre',
+  'landing.how_step2_text':
+    'Spotify, YouTube Music, onde for. Cada play vira um scrobble no Last.fm.',
+  'landing.how_step3_title': 'Peça tudo no Telegram',
+  'landing.how_step3_text': 'Stats, letras e arte por IA — sem sair da conversa.',
+  'landing.demo_title': 'O produto, ao vivo',
+  'landing.demo_subtitle': 'Assim é uma conversa com o FreshBeat.',
+  'landing.demo_now_playing': 'Tocando agora',
+  'landing.demo_scrobbles': '{{count}} scrobbles',
+  'landing.demo_btn_lyrics': '🧾 Letra',
+  'landing.demo_btn_meaning': '💡 Significado',
+  'landing.demo_btn_art': '🎨 Arte IA',
+  'landing.feature1_eyebrow': '01 — STATS',
+  'landing.feature1_title': 'Seus números, sem planilha',
+  'landing.feature1_text':
+    'Tocando agora com scrobbles em tempo real, tempo de audição estimado e o ranking do que você mais ouve — por faixa, álbum e artista.',
+  'landing.feature2_eyebrow': '02 — LETRAS',
+  'landing.feature2_title': 'A letra certa, na hora certa',
+  'landing.feature2_text':
+    'A letra da música que está tocando em segundos — sincronizada quando disponível — com tradução automática para o seu idioma.',
+  'landing.feature3_eyebrow': '03 — IA',
+  'landing.feature3_title': 'Sua música vira arte',
+  'landing.feature3_text':
+    'A IA explica o significado da letra no seu idioma e cria uma imagem única inspirada na música. Cada faixa, uma obra.',
+  'landing.commands_title': 'Todos os comandos',
+  'landing.commands_hint': 'Toque em um comando para ver o que ele faz',
+  'landing.opensource_title': 'Código aberto de verdade',
   'landing.opensource_text':
-    'O FreshBeat é open source — veja o código, sugira features e contribua no GitHub.',
+    'MIT, arquitetura limpa e testes de verdade. Veja o código, abra uma issue ou mande um PR — o FreshBeat é feito por quem ama música, para quem ama música.',
+  'landing.opensource_cta': 'Ver no GitHub',
+  'landing.final_cta_title': 'Bora ouvir?',
+  'landing.final_cta_text': 'O FreshBeat é gratuito e leva menos de um minuto para configurar.',
 
   'footer.made_with': 'Feito com 💚 para quem ama música.',
 
@@ -94,24 +120,51 @@ const enUS: Record<WebMessageKey, string> = {
   'nav.privacy': 'Privacy',
   'nav.terms': 'Terms',
 
-  'landing.hero_title': 'Your music companion on Telegram',
-  'landing.hero_subtitle':
-    "FreshBeat shows what you're listening to on Last.fm, finds lyrics, translates and explains the meaning of your favorite songs — and even creates AI art inspired by them.",
+  'landing.hero_manifesto':
+    'Your music companion on Telegram — stats, lyrics and AI, without leaving the chat.',
   'landing.cta': 'Open in Telegram',
-  'landing.features_title': 'What it does',
-  'landing.feature_stats_title': '📊 Last.fm stats',
-  'landing.feature_stats_text':
-    'Now playing with scrobbles, listening time and popularity, plus history and a full summary of your music profile.',
-  'landing.feature_lyrics_title': '🧾 Lyrics',
-  'landing.feature_lyrics_text':
-    'Lyrics of the current track in seconds, with automatic translation into your language.',
-  'landing.feature_ai_title': '✨ Creative AI',
-  'landing.feature_ai_text':
-    'An explanation of the lyrics meaning in your language and a unique AI-generated image for every song.',
-  'landing.commands_title': 'Commands',
-  'landing.open_source': 'Open source',
+  'landing.scroll_hint': 'Scroll to explore',
+  'landing.marquee': 'SCROBBLES ✦ LYRICS ✦ AI ✦ STATS ✦ ',
+  'landing.manifesto_1': "You don't check music.",
+  'landing.manifesto_2': 'You live music.',
+  'landing.manifesto_3':
+    'FreshBeat turns whatever is playing in your day into stats, meaning and art.',
+  'landing.how_title': 'How it works',
+  'landing.how_step1_title': 'Connect your Last.fm',
+  'landing.how_step1_text':
+    'One /login and done: account linked in seconds, no password in the chat.',
+  'landing.how_step2_title': 'Listen as always',
+  'landing.how_step2_text':
+    'Spotify, YouTube Music, anywhere. Every play becomes a Last.fm scrobble.',
+  'landing.how_step3_title': 'Ask everything on Telegram',
+  'landing.how_step3_text': 'Stats, lyrics and AI art — right in the chat.',
+  'landing.demo_title': 'The product, live',
+  'landing.demo_subtitle': 'This is what a conversation with FreshBeat looks like.',
+  'landing.demo_now_playing': 'Now playing',
+  'landing.demo_scrobbles': '{{count}} scrobbles',
+  'landing.demo_btn_lyrics': '🧾 Lyrics',
+  'landing.demo_btn_meaning': '💡 Meaning',
+  'landing.demo_btn_art': '🎨 AI art',
+  'landing.feature1_eyebrow': '01 — STATS',
+  'landing.feature1_title': 'Your numbers, no spreadsheet',
+  'landing.feature1_text':
+    'Now playing with real-time scrobbles, estimated listening time and rankings of what you play most — by track, album and artist.',
+  'landing.feature2_eyebrow': '02 — LYRICS',
+  'landing.feature2_title': 'The right lyric, right on time',
+  'landing.feature2_text':
+    'The lyrics of whatever is playing, in seconds — synced when available — automatically translated into your language.',
+  'landing.feature3_eyebrow': '03 — AI',
+  'landing.feature3_title': 'Your music becomes art',
+  'landing.feature3_text':
+    'AI explains the meaning of the lyrics in your language and creates a unique image inspired by the song. Every track, a piece of art.',
+  'landing.commands_title': 'All commands',
+  'landing.commands_hint': 'Tap a command to see what it does',
+  'landing.opensource_title': 'Truly open source',
   'landing.opensource_text':
-    'FreshBeat is open source — read the code, suggest features and contribute on GitHub.',
+    'MIT, clean architecture and real tests. Read the code, open an issue or send a PR — FreshBeat is made by music lovers, for music lovers.',
+  'landing.opensource_cta': 'View on GitHub',
+  'landing.final_cta_title': 'Ready to listen?',
+  'landing.final_cta_text': 'FreshBeat is free and takes less than a minute to set up.',
 
   'footer.made_with': 'Made with 💚 for music lovers.',
 
@@ -174,23 +227,47 @@ const jaJP: Record<WebMessageKey, string> = {
   'nav.privacy': 'プライバシー',
   'nav.terms': '利用規約',
 
-  'landing.hero_title': 'Telegramの音楽コンパニオン',
-  'landing.hero_subtitle':
-    'FreshBeatはLast.fmで再生中の曲を表示し、歌詞を見つけ、翻訳し、お気に入りの曲の意味を説明します。さらに曲にインスパイアされたAIアートも生成します。',
+  'landing.hero_manifesto': 'Telegramの音楽コンパニオン — 統計、歌詞、AI。会話の中で。',
   'landing.cta': 'Telegramで開く',
-  'landing.features_title': 'できること',
-  'landing.feature_stats_title': '📊 Last.fm統計',
-  'landing.feature_stats_text':
-    'スクリッブル、再生時間、人気度付きの再生中表示に加え、履歴や音楽プロフィールのまとめも。',
-  'landing.feature_lyrics_title': '🧾 歌詞',
-  'landing.feature_lyrics_text': '再生中の曲の歌詞を数秒で表示。あなたの言語への自動翻訳付き。',
-  'landing.feature_ai_title': '✨ クリエイティブAI',
-  'landing.feature_ai_text':
-    '歌詞の意味をあなたの言語で説明し、曲ごとにユニークなAI画像を生成します。',
-  'landing.commands_title': 'コマンド',
-  'landing.open_source': 'オープンソース',
+  'landing.scroll_hint': 'スクロールして探索',
+  'landing.marquee': 'SCROBBLES ✦ 歌詞 ✦ AI ✦ STATS ✦ ',
+  'landing.manifesto_1': '音楽は「調べる」ものじゃない。',
+  'landing.manifesto_2': '音楽は「生きる」もの。',
+  'landing.manifesto_3': 'FreshBeatは、あなたの日々に流れる音楽を、統計と意味とアートに変えます。',
+  'landing.how_title': '使い方',
+  'landing.how_step1_title': 'Last.fmを連携',
+  'landing.how_step1_text': '/login ひとつで完了。数秒で連携、チャットにパスワードは不要。',
+  'landing.how_step2_title': 'いつも通り聴く',
+  'landing.how_step2_text': 'SpotifyでもYouTube Musicでも。すべての再生がLast.fmのscrobbleに。',
+  'landing.how_step3_title': 'Telegramで頼むだけ',
+  'landing.how_step3_text': '統計、歌詞、AIアート — 会話の中で。',
+  'landing.demo_title': 'プロダクト、ライブで',
+  'landing.demo_subtitle': 'FreshBeatとの会話はこんな感じ。',
+  'landing.demo_now_playing': '再生中',
+  'landing.demo_scrobbles': '{{count}} 回scrobble',
+  'landing.demo_btn_lyrics': '🧾 歌詞',
+  'landing.demo_btn_meaning': '💡 意味',
+  'landing.demo_btn_art': '🎨 AIアート',
+  'landing.feature1_eyebrow': '01 — STATS',
+  'landing.feature1_title': '数字は、表計算なしで',
+  'landing.feature1_text':
+    'リアルタイムのscrobble付き再生中表示、推定再生時間、最も聴いた音楽のランキング — トラック・アルバム・アーティスト別。',
+  'landing.feature2_eyebrow': '02 — LYRICS',
+  'landing.feature2_title': '欲しい歌詞を、欲しい瞬間に',
+  'landing.feature2_text':
+    '再生中の曲の歌詞を数秒で — 利用可能なら同期表示 — あなたの言語へ自動翻訳。',
+  'landing.feature3_eyebrow': '03 — AI',
+  'landing.feature3_title': '音楽がアートになる',
+  'landing.feature3_text':
+    'AIが歌詞の意味をあなたの言語で説明し、曲にインスパイアされた唯一の画像を生成。一曲ごとに、一つの作品。',
+  'landing.commands_title': '全コマンド',
+  'landing.commands_hint': 'コマンドをタップして詳細を表示',
+  'landing.opensource_title': '本物のオープンソース',
   'landing.opensource_text':
-    'FreshBeatはオープンソースです。GitHubでコードを読み、機能を提案し、貢献できます。',
+    'MIT、クリーンアーキテクチャ、本物のテスト。コードを読み、issueを開き、PRを送れます — FreshBeatは音楽を愛する人のために、音楽を愛する人が作っています。',
+  'landing.opensource_cta': 'GitHubで見る',
+  'landing.final_cta_title': 'さあ、聴こう？',
+  'landing.final_cta_text': 'FreshBeatは無料。セットアップは1分以内。',
 
   'footer.made_with': '音楽を愛する人へ 💚 を込めて。',
 
@@ -254,24 +331,51 @@ const esES: Record<WebMessageKey, string> = {
   'nav.privacy': 'Privacidad',
   'nav.terms': 'Términos',
 
-  'landing.hero_title': 'Tu compañero de música en Telegram',
-  'landing.hero_subtitle':
-    'FreshBeat muestra lo que estás escuchando en Last.fm, busca letras, traduce y explica el significado de tus canciones favoritas — y hasta crea arte con IA inspirado en ellas.',
+  'landing.hero_manifesto':
+    'Tu compañero de música en Telegram — stats, letras e IA, sin salir de la conversación.',
   'landing.cta': 'Abrir en Telegram',
-  'landing.features_title': 'Qué hace',
-  'landing.feature_stats_title': '📊 Stats de Last.fm',
-  'landing.feature_stats_text':
-    'Lo que suena ahora con scrobbles, tiempo de escucha y popularidad, además de historial y un resumen completo de tu perfil musical.',
-  'landing.feature_lyrics_title': '🧾 Letras',
-  'landing.feature_lyrics_text':
-    'La letra de la canción que suena en segundos, con traducción automática a tu idioma.',
-  'landing.feature_ai_title': '✨ IA creativa',
-  'landing.feature_ai_text':
-    'Explicación del significado de la letra en tu idioma y una imagen única generada por IA para cada canción.',
-  'landing.commands_title': 'Comandos',
-  'landing.open_source': 'Código abierto',
+  'landing.scroll_hint': 'Desliza para explorar',
+  'landing.marquee': 'SCROBBLES ✦ LETRAS ✦ IA ✦ STATS ✦ ',
+  'landing.manifesto_1': 'No consultas música.',
+  'landing.manifesto_2': 'Vives música.',
+  'landing.manifesto_3':
+    'FreshBeat convierte lo que suena en tu día en estadística, significado y arte.',
+  'landing.how_title': 'Cómo funciona',
+  'landing.how_step1_title': 'Conecta tu Last.fm',
+  'landing.how_step1_text':
+    'Un /login y listo: cuenta vinculada en segundos, sin contraseña en el chat.',
+  'landing.how_step2_title': 'Escucha como siempre',
+  'landing.how_step2_text':
+    'Spotify, YouTube Music, donde sea. Cada reproducción se convierte en un scrobble.',
+  'landing.how_step3_title': 'Pide todo en Telegram',
+  'landing.how_step3_text': 'Stats, letras y arte con IA — sin salir de la conversación.',
+  'landing.demo_title': 'El producto, en vivo',
+  'landing.demo_subtitle': 'Así es una conversación con FreshBeat.',
+  'landing.demo_now_playing': 'Sonando ahora',
+  'landing.demo_scrobbles': '{{count}} scrobbles',
+  'landing.demo_btn_lyrics': '🧾 Letra',
+  'landing.demo_btn_meaning': '💡 Significado',
+  'landing.demo_btn_art': '🎨 Arte IA',
+  'landing.feature1_eyebrow': '01 — STATS',
+  'landing.feature1_title': 'Tus números, sin hojas de cálculo',
+  'landing.feature1_text':
+    'Sonando ahora con scrobbles en tiempo real, tiempo de escucha estimado y el ranking de lo que más escuchas — por canción, álbum y artista.',
+  'landing.feature2_eyebrow': '02 — LETRAS',
+  'landing.feature2_title': 'La letra correcta, en el momento justo',
+  'landing.feature2_text':
+    'La letra de lo que está sonando en segundos — sincronizada cuando está disponible — traducida automáticamente a tu idioma.',
+  'landing.feature3_eyebrow': '03 — IA',
+  'landing.feature3_title': 'Tu música se vuelve arte',
+  'landing.feature3_text':
+    'La IA explica el significado de la letra en tu idioma y crea una imagen única inspirada en la canción. Cada tema, una obra.',
+  'landing.commands_title': 'Todos los comandos',
+  'landing.commands_hint': 'Toca un comando para ver qué hace',
+  'landing.opensource_title': 'Código abierto de verdad',
   'landing.opensource_text':
-    'FreshBeat es open source — mira el código, sugiere funciones y contribuye en GitHub.',
+    'MIT, arquitectura limpia y tests de verdad. Mira el código, abre un issue o envía un PR — FreshBeat lo hacen personas que aman la música, para personas que la aman.',
+  'landing.opensource_cta': 'Ver en GitHub',
+  'landing.final_cta_title': '¿Vamos a escuchar?',
+  'landing.final_cta_text': 'FreshBeat es gratis y se configura en menos de un minuto.',
 
   'footer.made_with': 'Hecho con 💚 para quienes aman la música.',
 

@@ -15,12 +15,12 @@ export default async function LastfmErrorPage({
 
   return (
     <main className="flex flex-1 items-center justify-center px-4">
-      <div className="max-w-md rounded-2xl bg-surface p-8 text-center">
-        <h1 className="text-2xl font-bold">😕</h1>
-        <p className="mt-4 text-muted">{t(locale, messageKey)}</p>
+      <div className="max-w-md rounded-2xl border border-border bg-card p-8 text-center">
+        <h1 className="font-display text-3xl tracking-tight uppercase">😕</h1>
+        <p className="mt-4 text-muted-foreground">{t(locale, messageKey)}</p>
         <a
           href={TELEGRAM_BOT_URL}
-          className="mt-6 inline-block rounded-full bg-accent px-6 py-2 font-semibold text-background transition-colors hover:bg-accent-hover"
+          className="mt-6 inline-block rounded-full bg-primary px-6 py-2 font-semibold text-primary-foreground transition-colors hover:bg-fb-hover"
         >
           {t(locale, 'landing.cta')}
         </a>
