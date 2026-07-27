@@ -37,12 +37,12 @@ export function DashboardShell({
 
   return (
     <Tabs defaultValue="overview" className="gap-6 lg:flex-row">
-      <TabsList className="h-auto w-full justify-start overflow-x-auto lg:h-fit lg:w-52 lg:flex-col lg:items-stretch">
+      <TabsList className="h-auto w-full justify-start overflow-x-auto lg:h-fit lg:w-52 lg:flex-col lg:items-stretch lg:rounded-2xl lg:border lg:border-border lg:bg-card lg:p-2">
         {tabs.map((tab) => (
           <TabsTrigger
             key={tab.value}
             value={tab.value}
-            className="gap-2 lg:justify-start lg:px-3 lg:py-2"
+            className="gap-2 lg:justify-start lg:rounded-lg lg:px-3 lg:py-2 lg:data-[state=active]:bg-fb/10 lg:data-[state=active]:text-fb lg:data-[state=active]:shadow-none"
           >
             <tab.icon className="size-4" />
             {tab.label}

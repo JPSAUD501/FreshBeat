@@ -50,7 +50,27 @@ const ptBR = {
   'landing.feature3_text':
     'A IA explica o significado da letra no seu idioma e cria uma imagem única inspirada na música. Cada faixa, uma obra.',
   'landing.commands_title': 'Todos os comandos',
-  'landing.commands_hint': 'Toque em um comando para ver o que ele faz',
+  'landing.commands_hint': 'Dez comandos. Zero curva de aprendizado.',
+  'landing.demo_typing': 'escrevendo…',
+  'landing.demo_ai_caption': '✨ Arte gerada por IA para “Midnight City”',
+  'landing.cmdcat_stats': 'Stats',
+  'landing.cmdcat_lyrics': 'Letras',
+  'landing.cmdcat_account': 'Conta',
+  'landing.cmd_playingnow':
+    'O que está tocando agora, com capa, scrobbles e botões para letra, significado e arte por IA.',
+  'landing.cmd_pnalbum': 'O álbum da faixa atual: capa, ano e o peso dele no seu histórico.',
+  'landing.cmd_pnartist': 'O artista da faixa atual: seus números com ele e o contexto completo.',
+  'landing.cmd_history': 'Suas últimas faixas, com repetições agrupadas e o horário de cada play.',
+  'landing.cmd_brief':
+    'Um retrato do seu perfil musical: top artistas, top faixas e o ritmo da sua semana.',
+  'landing.cmd_lyrics':
+    'A letra completa do que está tocando — e, num toque, o significado explicado por IA.',
+  'landing.cmd_start': 'Boas-vindas e o caminho mais curto para começar.',
+  'landing.cmd_login':
+    'Vincula seu Last.fm com um toque — OAuth no navegador, nada de senha no chat.',
+  'landing.cmd_help': 'Tudo que o FreshBeat sabe fazer, direto no chat.',
+  'landing.cmd_forgetme':
+    'Desvincula o Last.fm e apaga seus dados de verdade. Sem rastro, sem letra miúda.',
   'landing.opensource_title': 'Código aberto de verdade',
   'landing.opensource_text':
     'MIT, arquitetura limpa e testes de verdade. Veja o código, abra uma issue ou mande um PR — o FreshBeat é feito por quem ama música, para quem ama música.',
@@ -201,7 +221,28 @@ const enUS: Record<WebMessageKey, string> = {
   'landing.feature3_text':
     'AI explains the meaning of the lyrics in your language and creates a unique image inspired by the song. Every track, a piece of art.',
   'landing.commands_title': 'All commands',
-  'landing.commands_hint': 'Tap a command to see what it does',
+  'landing.commands_hint': 'Ten commands. Zero learning curve.',
+  'landing.demo_typing': 'typing…',
+  'landing.demo_ai_caption': '✨ AI-generated art for “Midnight City”',
+  'landing.cmdcat_stats': 'Stats',
+  'landing.cmdcat_lyrics': 'Lyrics',
+  'landing.cmdcat_account': 'Account',
+  'landing.cmd_playingnow':
+    'What is playing right now — cover art, scrobbles and buttons for lyrics, meaning and AI art.',
+  'landing.cmd_pnalbum':
+    'The album behind the current track: artwork, year and its weight in your history.',
+  'landing.cmd_pnartist':
+    'The artist behind the current track: your numbers with them and the full picture.',
+  'landing.cmd_history': 'Your latest tracks, with repeats grouped and the time of every play.',
+  'landing.cmd_brief':
+    "A snapshot of your musical profile: top artists, top tracks and this week's pace.",
+  'landing.cmd_lyrics':
+    'The full lyrics of what is playing — plus an AI explanation of the meaning in one tap.',
+  'landing.cmd_start': 'A welcome and the shortest path to get started.',
+  'landing.cmd_login':
+    'Link your Last.fm in one tap — OAuth in the browser, no password in the chat.',
+  'landing.cmd_help': 'Everything FreshBeat can do, right in the chat.',
+  'landing.cmd_forgetme': 'Unlink Last.fm and truly erase your data. No trace, no fine print.',
   'landing.opensource_title': 'Truly open source',
   'landing.opensource_text':
     'MIT, clean architecture and real tests. Read the code, open an issue or send a PR — FreshBeat is made by music lovers, for music lovers.',
@@ -346,7 +387,25 @@ const jaJP: Record<WebMessageKey, string> = {
   'landing.feature3_text':
     'AIが歌詞の意味をあなたの言語で説明し、曲にインスパイアされた唯一の画像を生成。一曲ごとに、一つの作品。',
   'landing.commands_title': '全コマンド',
-  'landing.commands_hint': 'コマンドをタップして詳細を表示',
+  'landing.commands_hint': '10個のコマンド。学習コストゼロ。',
+  'landing.demo_typing': '入力中…',
+  'landing.demo_ai_caption': '✨ 「Midnight City」のAIアート',
+  'landing.cmdcat_stats': 'スタッツ',
+  'landing.cmdcat_lyrics': '歌詞',
+  'landing.cmdcat_account': 'アカウント',
+  'landing.cmd_playingnow':
+    '今再生中の曲を、ジャケット・scrobble数・歌詞/意味/AIアートのボタン付きで。',
+  'landing.cmd_pnalbum':
+    '再生中の曲のアルバム：アートワーク、リリース年、あなたの履歴での位置づけ。',
+  'landing.cmd_pnartist': '再生中のアーティスト：あなたの再生数と全体像をまとめて。',
+  'landing.cmd_history': '最近聴いた曲を、リピートをまとめて再生時刻つきで。',
+  'landing.cmd_brief':
+    '音楽プロフィールのスナップショット：トップアーティスト、トップ曲、今週のペース。',
+  'landing.cmd_lyrics': '再生中の曲の歌詞全文 — ワンタップでAIによる意味の解説も。',
+  'landing.cmd_start': 'ようこそ。最短で始めるための案内。',
+  'landing.cmd_login': 'ワンタップでLast.fmを連携 — ブラウザでOAuth、チャットにパスワードは不要。',
+  'landing.cmd_help': 'FreshBeatができることのすべて、チャットの中で。',
+  'landing.cmd_forgetme': 'Last.fmの連携を解除し、データを完全に削除。痕跡も但し書きもなし。',
   'landing.opensource_title': '本物のオープンソース',
   'landing.opensource_text':
     'MIT、クリーンアーキテクチャ、本物のテスト。コードを読み、issueを開き、PRを送れます — FreshBeatは音楽を愛する人のために、音楽を愛する人が作っています。',
@@ -497,7 +556,29 @@ const esES: Record<WebMessageKey, string> = {
   'landing.feature3_text':
     'La IA explica el significado de la letra en tu idioma y crea una imagen única inspirada en la canción. Cada tema, una obra.',
   'landing.commands_title': 'Todos los comandos',
-  'landing.commands_hint': 'Toca un comando para ver qué hace',
+  'landing.commands_hint': 'Diez comandos. Cero curva de aprendizaje.',
+  'landing.demo_typing': 'escribiendo…',
+  'landing.demo_ai_caption': '✨ Arte generado por IA para “Midnight City”',
+  'landing.cmdcat_stats': 'Stats',
+  'landing.cmdcat_lyrics': 'Letras',
+  'landing.cmdcat_account': 'Cuenta',
+  'landing.cmd_playingnow':
+    'Lo que suena ahora, con portada, scrobbles y botones para letra, significado y arte por IA.',
+  'landing.cmd_pnalbum': 'El álbum de la pista actual: portada, año y su peso en tu historial.',
+  'landing.cmd_pnartist':
+    'El artista de la pista actual: tus números con él y el panorama completo.',
+  'landing.cmd_history':
+    'Tus últimas pistas, con repeticiones agrupadas y la hora de cada reproducción.',
+  'landing.cmd_brief':
+    'Un retrato de tu perfil musical: top artistas, top pistas y el ritmo de tu semana.',
+  'landing.cmd_lyrics':
+    'La letra completa de lo que suena — y, con un toque, el significado explicado por IA.',
+  'landing.cmd_start': 'Bienvenida y el camino más corto para empezar.',
+  'landing.cmd_login':
+    'Vincula tu Last.fm con un toque — OAuth en el navegador, sin contraseña en el chat.',
+  'landing.cmd_help': 'Todo lo que FreshBeat sabe hacer, directo en el chat.',
+  'landing.cmd_forgetme':
+    'Desvincula Last.fm y borra tus datos de verdad. Sin rastro ni letra pequeña.',
   'landing.opensource_title': 'Código abierto de verdad',
   'landing.opensource_text':
     'MIT, arquitectura limpia y tests de verdad. Mira el código, abre un issue o envía un PR — FreshBeat lo hacen personas que aman la música, para personas que la aman.',

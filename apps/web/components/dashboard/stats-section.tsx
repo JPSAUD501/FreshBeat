@@ -1,9 +1,10 @@
 'use client'
 
-import { Music2 } from 'lucide-react'
+import { Clock3, Music2 } from 'lucide-react'
 import { useState, useTransition } from 'react'
 import type { TopsDto } from '../../lib/dashboard-types'
 import type { LastfmPeriod } from '../../lib/lastfm'
+import { cn } from '../../lib/utils'
 import { Badge } from '../ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { Skeleton } from '../ui/skeleton'
@@ -46,16 +47,28 @@ interface RankedItem {
 function RankedList({ items, playsTemplate }: { items: RankedItem[]; playsTemplate: string }) {
   const max = Math.max(...items.map((item) => item.playcount), 1)
   return (
-    <ul className="space-y-3">
+    <ul className="space-y-1.5">
       {items.map((item, index) => (
-        <li key={item.key} className="flex items-center gap-3">
-          <span className="w-5 text-right font-display text-lg text-muted-foreground">
+        <li
+          key={item.key}
+          className="group flex items-center gap-3 rounded-lg px-2 py-1.5 transition-colors hover:bg-secondary/50"
+        >
+          <span
+            className={cn(
+              'w-5 text-right font-display text-lg',
+              index < 3 ? 'text-fb' : 'text-muted-foreground',
+            )}
+          >
             {index + 1}
           </span>
           {item.image !== null ? (
-            <img src={item.image} alt="" className="size-10 rounded object-cover" />
+            <img
+              src={item.image}
+              alt=""
+              className="size-10 rounded-md object-cover ring-1 ring-white/5 transition-all group-hover:ring-fb/40"
+            />
           ) : (
-            <div className="flex size-10 items-center justify-center rounded bg-muted">
+            <div className="flex size-10 items-center justify-center rounded-md bg-muted ring-1 ring-white/5">
               <Music2 className="size-4 text-muted-foreground" />
             </div>
           )}
@@ -71,7 +84,7 @@ function RankedList({ items, playsTemplate }: { items: RankedItem[]; playsTempla
             )}
             <div className="mt-1 h-1 overflow-hidden rounded-full bg-muted">
               <div
-                className="h-full rounded-full bg-fb transition-all duration-500"
+                className="h-full rounded-full bg-gradient-to-r from-fb to-fb/40 transition-all duration-500"
                 style={{ width: `${Math.round((item.playcount / max) * 100)}%` }}
               />
             </div>
@@ -159,15 +172,16 @@ export function StatsSection({ initialPeriod, initialData, labels }: StatsSectio
           </TabsList>
         </Tabs>
 
-        <Card className="w-full sm:w-auto">
+        <Card className="glow-fb w-full border-fb/30 sm:w-auto">
           <CardHeader className="pb-2">
             <CardDescription className="flex items-center gap-2">
+              <Clock3 className="size-3.5 text-fb" />
               {labels.listeningTime}
               {data.playtime.estimated && (
                 <Badge variant="secondary">{labels.estimatedBadge}</Badge>
               )}
             </CardDescription>
-            <CardTitle className="font-display text-3xl tracking-wide">
+            <CardTitle className="font-display text-3xl tracking-wide text-fb">
               {formatDuration(data.playtime.totalSeconds)}
             </CardTitle>
           </CardHeader>

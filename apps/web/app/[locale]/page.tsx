@@ -1,4 +1,3 @@
-import { getCatalog } from '@freshbeat/i18n'
 import { notFound } from 'next/navigation'
 import { ChatDemo } from '../../components/landing/chat-demo'
 import { CommandList } from '../../components/landing/command-list'
@@ -13,29 +12,27 @@ import { SectionHeading } from '../../components/motion/section-heading'
 import { TELEGRAM_BOT_URL } from '../../lib/env'
 import { isLocale, t } from '../../lib/i18n'
 
-/** Descrições vêm do catálogo do bot — fonte única, sempre traduzidas. */
-const COMMAND_NAMES = [
-  'start',
-  'login',
-  'playingnow',
-  'pnalbum',
-  'pnartist',
-  'lyrics',
-  'history',
-  'brief',
-  'help',
-  'forgetme',
+/** Agrupamento editorial dos comandos — descrições ricas vivem no i18n do site. */
+const COMMAND_GROUPS = [
+  {
+    categoryKey: 'landing.cmdcat_stats',
+    names: ['playingnow', 'pnalbum', 'pnartist', 'history', 'brief'],
+  },
+  { categoryKey: 'landing.cmdcat_lyrics', names: ['lyrics'] },
+  { categoryKey: 'landing.cmdcat_account', names: ['start', 'login', 'help', 'forgetme'] },
 ] as const
 
 export default async function LandingPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: raw } = await params
   if (!isLocale(raw)) notFound()
   const locale = raw
-  const catalog = getCatalog(locale)
 
-  const commands = COMMAND_NAMES.map((name) => ({
-    name,
-    description: catalog[`cmd.${name}.description`] ?? '',
+  const groups = COMMAND_GROUPS.map((group) => ({
+    label: t(locale, group.categoryKey),
+    commands: group.names.map((name) => ({
+      name,
+      description: t(locale, `landing.cmd_${name}`),
+    })),
   }))
 
   return (
@@ -97,6 +94,8 @@ export default async function LandingPage({ params }: { params: Promise<{ locale
             btnLyrics: t(locale, 'landing.demo_btn_lyrics'),
             btnMeaning: t(locale, 'landing.demo_btn_meaning'),
             btnArt: t(locale, 'landing.demo_btn_art'),
+            typing: t(locale, 'landing.demo_typing'),
+            aiCaption: t(locale, 'landing.demo_ai_caption'),
           }}
         />
       </section>
@@ -134,7 +133,7 @@ export default async function LandingPage({ params }: { params: Promise<{ locale
           className="mb-14 px-4"
         />
         <div className="px-4 sm:px-6">
-          <CommandList commands={commands} />
+          <CommandList groups={groups} />
         </div>
       </section>
 

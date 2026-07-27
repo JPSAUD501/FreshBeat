@@ -79,6 +79,7 @@
 
   --animate-marquee: marquee 30s linear infinite;
   --animate-pulse-glow: pulse-glow 2.4s ease-in-out infinite;
+  --animate-equalizer: equalizer 1s ease-in-out infinite;
 
   @keyframes marquee {
     from {
@@ -97,6 +98,15 @@
     50% {
       opacity: 0.75;
       box-shadow: 0 0 16px 4px var(--fb-glow);
+    }
+  }
+  @keyframes equalizer {
+    0%,
+    100% {
+      transform: scaleY(0.3);
+    }
+    50% {
+      transform: scaleY(1);
     }
   }
 }

@@ -57,12 +57,16 @@ export function HistoryList({ tracks, locale, labels }: HistoryListProps) {
           {entries.map(({ track, count }, index) => (
             <li
               key={`${track.name}-${track.artist}-${index}`}
-              className="flex items-center gap-3 py-2.5"
+              className="group flex items-center gap-3 py-2.5 transition-colors first:pt-0 hover:bg-secondary/30"
             >
               {track.image !== null ? (
-                <img src={track.image} alt="" className="size-10 rounded object-cover" />
+                <img
+                  src={track.image}
+                  alt=""
+                  className="size-10 rounded-md object-cover ring-1 ring-white/5 transition-all group-hover:ring-fb/40"
+                />
               ) : (
-                <div className="flex size-10 items-center justify-center rounded bg-muted">
+                <div className="flex size-10 items-center justify-center rounded-md bg-muted ring-1 ring-white/5">
                   <Music2 className="size-4 text-muted-foreground" />
                 </div>
               )}
@@ -75,8 +79,15 @@ export function HistoryList({ tracks, locale, labels }: HistoryListProps) {
                   {labels.repeatCount.replace('{{count}}', String(count))}
                 </Badge>
               )}
-              <span className="w-12 text-right text-xs text-muted-foreground tabular-nums">
-                {track.nowPlaying ? '•' : formatPlayedAt(track.playedAt, locale)}
+              <span className="flex w-12 items-center justify-end text-right text-xs text-muted-foreground tabular-nums">
+                {track.nowPlaying ? (
+                  <span className="relative flex size-2">
+                    <span className="absolute inline-flex size-full animate-ping rounded-full bg-fb opacity-60" />
+                    <span className="relative inline-flex size-2 rounded-full bg-fb" />
+                  </span>
+                ) : (
+                  formatPlayedAt(track.playedAt, locale)
+                )}
               </span>
             </li>
           ))}

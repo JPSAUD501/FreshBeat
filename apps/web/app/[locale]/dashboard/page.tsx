@@ -1,5 +1,5 @@
 import { computePlaytime } from '@freshbeat/lastfm'
-import { LogOut } from 'lucide-react'
+import { Disc3, Headphones, LogOut, MicVocal, Music2 } from 'lucide-react'
 import { cookies } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
 import { AccountSection } from '../../../components/dashboard/account-section'
@@ -173,15 +173,20 @@ export default async function DashboardPage({
             <dl className="grid grid-cols-2 gap-4 sm:grid-cols-4">
               {(
                 [
-                  ['dashboard.stats_scrobbles', userStats.scrobbles],
-                  ['dashboard.stats_artists', userStats.artists],
-                  ['dashboard.stats_albums', userStats.albums],
-                  ['dashboard.stats_tracks', userStats.tracks],
+                  ['dashboard.stats_scrobbles', userStats.scrobbles, Headphones],
+                  ['dashboard.stats_artists', userStats.artists, MicVocal],
+                  ['dashboard.stats_albums', userStats.albums, Disc3],
+                  ['dashboard.stats_tracks', userStats.tracks, Music2],
                 ] as const
-              ).map(([labelKey, value]) => (
-                <Card key={labelKey}>
-                  <CardContent className="py-4 text-center">
-                    <dd className="font-display text-3xl text-fb">{numberFormat.format(value)}</dd>
+              ).map(([labelKey, value, Icon]) => (
+                <Card key={labelKey} className="transition-colors hover:border-fb/30">
+                  <CardContent className="py-4">
+                    <div className="mb-3 flex size-8 items-center justify-center rounded-lg bg-fb/10 text-fb">
+                      <Icon className="size-4" />
+                    </div>
+                    <dd className="font-display text-3xl text-fb tabular-nums">
+                      {numberFormat.format(value)}
+                    </dd>
                     <dt className="mt-1 text-sm text-muted-foreground">{t(locale, labelKey)}</dt>
                   </CardContent>
                 </Card>
@@ -239,9 +244,11 @@ export default async function DashboardPage({
       {/* Header: avatar + saudação + logout */}
       <div className="mb-8 flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <Avatar className="size-11">
+          <Avatar className="size-11 ring-2 ring-fb/50 ring-offset-2 ring-offset-background">
             {session.photoUrl !== null && <AvatarImage src={session.photoUrl} alt="" />}
-            <AvatarFallback>{session.firstName.slice(0, 1).toUpperCase()}</AvatarFallback>
+            <AvatarFallback className="bg-fb/15 font-display text-fb">
+              {session.firstName.slice(0, 1).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
           <h1 className="font-display text-3xl tracking-tight uppercase sm:text-4xl">
             {t(locale, 'dashboard.hello', { name: session.firstName })}
