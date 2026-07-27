@@ -30,18 +30,32 @@ describe('loadConfig', () => {
     expect(() => loadConfig({ ...validCoreEnv, BOT_TOKEN: '' })).toThrow(ConfigError)
   })
 
-  it('exige grupo opcional completo quando qualquer chave está presente', () => {
-    expect(() => loadConfig({ ...validCoreEnv, OPENROUTER_API_KEY: 'key' })).toThrow(ConfigError)
+  it('modelos de IA caem no default minimax/minimax-m3 e são configuráveis', () => {
+    const onlyKey = loadConfig({ ...validCoreEnv, OPENROUTER_API_KEY: 'key' })
+    expect(onlyKey.ai?.AI_MODEL_EXPLAIN).toBe('minimax/minimax-m3')
+    expect(onlyKey.ai?.AI_MODEL_TRANSLATE).toBe('minimax/minimax-m3')
+    expect(onlyKey.ai?.AI_MODEL_IMAGE_PROMPT).toBe('minimax/minimax-m3')
+    expect(onlyKey.ai?.AI_MODEL_ALT_TEXT).toBe('minimax/minimax-m3')
 
-    const config = loadConfig({
+    const custom = loadConfig({
       ...validCoreEnv,
       OPENROUTER_API_KEY: 'key',
       AI_MODEL_EXPLAIN: 'model-a',
-      AI_MODEL_TRANSLATE: 'model-b',
-      AI_MODEL_IMAGE_PROMPT: 'model-c',
-      AI_MODEL_ALT_TEXT: 'model-d',
     })
-    expect(config.ai?.AI_MODEL_EXPLAIN).toBe('model-a')
+    expect(custom.ai?.AI_MODEL_EXPLAIN).toBe('model-a')
+    expect(custom.ai?.AI_MODEL_TRANSLATE).toBe('minimax/minimax-m3')
+  })
+
+  it('modelo de imagem do Replicate cai no default prunaai/p-image', () => {
+    const onlyToken = loadConfig({ ...validCoreEnv, REPLICATE_API_TOKEN: 'token' })
+    expect(onlyToken.replicate?.REPLICATE_IMAGE_MODEL).toBe('prunaai/p-image')
+
+    const custom = loadConfig({
+      ...validCoreEnv,
+      REPLICATE_API_TOKEN: 'token',
+      REPLICATE_IMAGE_MODEL: 'acme/outro-modelo',
+    })
+    expect(custom.replicate?.REPLICATE_IMAGE_MODEL).toBe('acme/outro-modelo')
   })
 
   it('valida formato de URL', () => {

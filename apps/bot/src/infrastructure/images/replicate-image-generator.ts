@@ -2,10 +2,10 @@ import Replicate from 'replicate'
 import type { GeneratedImage, ImageGenerator } from '../../domain/ports/image-generator.js'
 
 /**
- * Modelo padrão: z-image-turbo (Pruna AI) — rápido e barato,
- * mesmo usado no MelodyScout. Sobrescrevível no construtor.
+ * Modelo padrão: p-image (Pruna AI) — rápido e barato.
+ * Sobrescrevível no construtor (o container injeta REPLICATE_IMAGE_MODEL).
  */
-const DEFAULT_MODEL = 'prunaai/z-image-turbo'
+const DEFAULT_MODEL = 'prunaai/p-image'
 
 /** Respostas possíveis do SDK do Replicate (FileOutput, URL ou lista deles). */
 type ReplicateOutput = unknown

@@ -37,20 +37,23 @@ const spotifySchema = z.object({
   SPOTIFY_CLIENT_SECRET: requiredString,
 })
 
-const geniusSchema = z.object({
-  GENIUS_ACCESS_TOKEN: requiredString,
-})
+/** Modelo de texto padrão (OpenRouter) — configurável por AI_MODEL_*. */
+export const DEFAULT_AI_MODEL = 'minimax/minimax-m3'
+/** Modelo de imagem padrão (Replicate) — configurável por REPLICATE_IMAGE_MODEL. */
+export const DEFAULT_REPLICATE_IMAGE_MODEL = 'prunaai/p-image'
 
 const aiSchema = z.object({
   OPENROUTER_API_KEY: requiredString,
-  AI_MODEL_EXPLAIN: requiredString,
-  AI_MODEL_TRANSLATE: requiredString,
-  AI_MODEL_IMAGE_PROMPT: requiredString,
-  AI_MODEL_ALT_TEXT: requiredString,
+  // Todos opcionais: caem no DEFAULT_AI_MODEL quando ausentes
+  AI_MODEL_EXPLAIN: requiredString.default(DEFAULT_AI_MODEL),
+  AI_MODEL_TRANSLATE: requiredString.default(DEFAULT_AI_MODEL),
+  AI_MODEL_IMAGE_PROMPT: requiredString.default(DEFAULT_AI_MODEL),
+  AI_MODEL_ALT_TEXT: requiredString.default(DEFAULT_AI_MODEL),
 })
 
 const replicateSchema = z.object({
   REPLICATE_API_TOKEN: requiredString,
+  REPLICATE_IMAGE_MODEL: requiredString.default(DEFAULT_REPLICATE_IMAGE_MODEL),
 })
 
 const s3Schema = z.object({
@@ -128,7 +131,6 @@ export function loadConfig(env: Env = process.env) {
     logging: parseGroup(loggingSchema, env, 'logging'),
     // Integrações opcionais — features degradam com mensagem clara
     spotify: parseOptionalGroup(spotifySchema, env, 'spotify'),
-    genius: parseOptionalGroup(geniusSchema, env, 'genius'),
     ai: parseOptionalGroup(aiSchema, env, 'ai'),
     replicate: parseOptionalGroup(replicateSchema, env, 'replicate'),
     s3: parseOptionalGroup(s3Schema, env, 's3'),

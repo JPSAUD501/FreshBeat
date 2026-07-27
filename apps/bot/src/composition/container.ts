@@ -88,7 +88,10 @@ export function createContainer(): AppContainer {
   // Imagem por IA exige Replicate + S3 (além do grupo `ai`)
   const imageGenerator =
     config.replicate !== undefined
-      ? new ReplicateImageGenerator({ apiToken: config.replicate.REPLICATE_API_TOKEN })
+      ? new ReplicateImageGenerator({
+          apiToken: config.replicate.REPLICATE_API_TOKEN,
+          model: config.replicate.REPLICATE_IMAGE_MODEL as `${string}/${string}`,
+        })
       : undefined
   const imageStorage =
     config.s3 !== undefined
