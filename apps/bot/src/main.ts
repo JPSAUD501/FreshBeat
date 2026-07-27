@@ -25,7 +25,10 @@ async function main(): Promise<void> {
 
   logger.info('starting bot in polling mode')
   await bot.start({
-    drop_pending_updates: true,
+    // false: o Telegram guarda updates por 24h — num ambiente com restarts
+    // frequentes, as mensagens enviadas enquanto o bot estava fora são
+    // processadas assim que ele volta, em vez de sumir em silêncio
+    drop_pending_updates: false,
     onStart: (botInfo) => {
       logger.info({ username: botInfo.username }, 'bot is running')
     },
