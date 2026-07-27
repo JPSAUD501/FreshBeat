@@ -50,7 +50,11 @@ export function DashboardShell({
         ))}
       </TabsList>
       {tabs.map((tab) => (
-        <TabsContent key={tab.value} value={tab.value} className="flex-1">
+        <TabsContent
+          key={tab.value}
+          value={tab.value}
+          className="flex-1 data-[state=active]:duration-300 data-[state=active]:animate-in data-[state=active]:fade-in-0 data-[state=active]:slide-in-from-bottom-2"
+        >
           {tab.content}
         </TabsContent>
       ))}

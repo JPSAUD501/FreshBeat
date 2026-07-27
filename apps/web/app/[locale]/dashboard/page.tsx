@@ -1,5 +1,5 @@
 import { computePlaytime } from '@freshbeat/lastfm'
-import { Disc3, Headphones, LogOut, MicVocal, Music2 } from 'lucide-react'
+import { Clock3, Disc3, Headphones, LogOut, MicVocal, Music2 } from 'lucide-react'
 import { cookies } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
 import { AccountSection } from '../../../components/dashboard/account-section'
@@ -10,8 +10,15 @@ import { SettingsSection } from '../../../components/dashboard/settings-section'
 import { StatsSection } from '../../../components/dashboard/stats-section'
 import { TelegramLoginButton } from '../../../components/telegram-login-button'
 import { Avatar, AvatarFallback, AvatarImage } from '../../../components/ui/avatar'
+import { Badge } from '../../../components/ui/badge'
 import { Button } from '../../../components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '../../../components/ui/card'
 import { toRecentTrackDto, type TopsDto } from '../../../lib/dashboard-types'
 import { isLocale, t, type Locale } from '../../../lib/i18n'
 import {
@@ -41,6 +48,13 @@ const LOCALE_NAMES: Record<Locale, string> = {
   'en-US': 'English (US)',
   'ja-JP': '日本語',
   'es-ES': 'Español',
+}
+
+function formatDuration(totalSeconds: number): string {
+  const hours = Math.floor(totalSeconds / 3600)
+  const minutes = Math.round((totalSeconds % 3600) / 60)
+  if (hours === 0) return `${minutes}min`
+  return `${hours}h ${minutes}min`
 }
 
 async function loadInitialTops(apiKey: string, username: string): Promise<TopsDto | null> {
@@ -151,24 +165,52 @@ export default async function DashboardPage({
   const numberFormat = new Intl.NumberFormat(locale)
 
   const overview = (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {lastfmUsername === null ? (
         <Card>
-          <CardContent className="py-10 text-center text-muted-foreground">
-            {t(locale, 'dashboard.empty_stats')}
+          <CardContent className="flex flex-col items-center gap-4 py-14 text-center">
+            <div className="flex size-16 items-center justify-center rounded-2xl bg-fb/10 ring-1 ring-fb/30">
+              <Music2 className="size-8 text-fb" />
+            </div>
+            <p className="max-w-sm text-muted-foreground">{t(locale, 'dashboard.empty_stats')}</p>
           </CardContent>
         </Card>
       ) : (
         <>
-          <NowPlayingCard
-            initial={nowPlaying}
-            labels={{
-              nowPlaying: t(locale, 'dashboard.now_playing'),
-              live: t(locale, 'dashboard.live'),
-              nothingPlaying: t(locale, 'dashboard.nothing_playing'),
-              nothingPlayingHint: t(locale, 'dashboard.nothing_playing_hint'),
-            }}
-          />
+          <div className="grid items-stretch gap-4 lg:grid-cols-3">
+            <NowPlayingCard
+              className="lg:col-span-2"
+              initial={nowPlaying}
+              labels={{
+                nowPlaying: t(locale, 'dashboard.now_playing'),
+                live: t(locale, 'dashboard.live'),
+                nothingPlaying: t(locale, 'dashboard.nothing_playing'),
+                nothingPlayingHint: t(locale, 'dashboard.nothing_playing_hint'),
+              }}
+            />
+            {initialTops !== null && (
+              <Card className="glow-fb border-fb/30">
+                <CardHeader>
+                  <CardDescription className="flex flex-wrap items-center gap-2">
+                    <Clock3 className="size-3.5 text-fb" />
+                    {t(locale, 'dashboard.listening_time')}
+                    <Badge variant="secondary">{t(locale, 'dashboard.stats_period_7day')}</Badge>
+                    {initialTops.playtime.estimated && (
+                      <Badge variant="secondary">{t(locale, 'dashboard.estimated_badge')}</Badge>
+                    )}
+                  </CardDescription>
+                  <CardTitle className="font-display text-4xl tracking-wide text-fb">
+                    {formatDuration(initialTops.playtime.totalSeconds)}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-xs text-muted-foreground">
+                    {t(locale, 'dashboard.listening_time_hint')}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+          </div>
           {userStats !== null && (
             <dl className="grid grid-cols-2 gap-4 sm:grid-cols-4">
               {(
@@ -243,16 +285,29 @@ export default async function DashboardPage({
     <div className="mx-auto w-full max-w-6xl flex-1 px-4 pt-24 pb-16 sm:px-6">
       {/* Header: avatar + saudação + logout */}
       <div className="mb-8 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
+        <div className="flex min-w-0 items-center gap-3">
           <Avatar className="size-11 ring-2 ring-fb/50 ring-offset-2 ring-offset-background">
             {session.photoUrl !== null && <AvatarImage src={session.photoUrl} alt="" />}
             <AvatarFallback className="bg-fb/15 font-display text-fb">
               {session.firstName.slice(0, 1).toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <h1 className="font-display text-3xl tracking-tight uppercase sm:text-4xl">
-            {t(locale, 'dashboard.hello', { name: session.firstName })}
-          </h1>
+          <div className="min-w-0">
+            <h1 className="truncate font-display text-3xl tracking-tight uppercase sm:text-4xl">
+              {t(locale, 'dashboard.hello', { name: session.firstName })}
+            </h1>
+            {lastfmUsername !== null && (
+              <a
+                href={`https://www.last.fm/user/${encodeURIComponent(lastfmUsername)}`}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-1 inline-flex items-center gap-1.5 text-sm text-fb hover:underline"
+              >
+                <Music2 className="size-3.5" />
+                {lastfmUsername}
+              </a>
+            )}
+          </div>
         </div>
         <form action={logoutAction.bind(null, locale)}>
           <Button variant="ghost" size="sm" type="submit">
@@ -277,6 +332,7 @@ export default async function DashboardPage({
             lastfmUsername={lastfmUsername}
             labels={{
               linkedAs: t(locale, 'dashboard.linked_as'),
+              viewProfile: t(locale, 'dashboard.view_profile'),
               linkLastfm: t(locale, 'dashboard.link_lastfm'),
               linkLastfmHint: t(locale, 'dashboard.link_lastfm_hint'),
               unlink: t(locale, 'dashboard.unlink'),

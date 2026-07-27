@@ -142,6 +142,7 @@ const ptBR = {
   'dashboard.empty_stats': 'Vincule seu Last.fm para ver seus números aqui.',
   'dashboard.load_error': 'Não conseguimos carregar agora. Tente de novo em instantes.',
   'dashboard.linked_as': 'Last.fm vinculado',
+  'dashboard.view_profile': 'Ver perfil',
   'dashboard.link_lastfm': 'Vincular Last.fm',
   'dashboard.link_lastfm_hint':
     'Conecte sua conta para ver seus stats aqui e usar todos os comandos no bot.',
@@ -314,6 +315,7 @@ const enUS: Record<WebMessageKey, string> = {
   'dashboard.empty_stats': 'Link your Last.fm to see your numbers here.',
   'dashboard.load_error': "We couldn't load this right now. Try again in a moment.",
   'dashboard.linked_as': 'Linked Last.fm',
+  'dashboard.view_profile': 'View profile',
   'dashboard.link_lastfm': 'Link Last.fm',
   'dashboard.link_lastfm_hint':
     'Connect your account to see your stats here and use every bot command.',
@@ -477,6 +479,7 @@ const jaJP: Record<WebMessageKey, string> = {
   'dashboard.empty_stats': 'Last.fmを連携して、ここであなたの数字を見ましょう。',
   'dashboard.load_error': '現在読み込めませんでした。しばらくしてからもう一度お試しください。',
   'dashboard.linked_as': '連携中のLast.fm',
+  'dashboard.view_profile': 'プロフィールを見る',
   'dashboard.link_lastfm': 'Last.fmを連携',
   'dashboard.link_lastfm_hint':
     'アカウントを連携して、ここで統計を見たりボットの全コマンドを使いましょう。',
@@ -651,6 +654,7 @@ const esES: Record<WebMessageKey, string> = {
   'dashboard.empty_stats': 'Vincula tu Last.fm para ver tus números aquí.',
   'dashboard.load_error': 'No pudimos cargar esto ahora. Inténtalo de nuevo en un momento.',
   'dashboard.linked_as': 'Last.fm vinculado',
+  'dashboard.view_profile': 'Ver perfil',
   'dashboard.link_lastfm': 'Vincular Last.fm',
   'dashboard.link_lastfm_hint':
     'Conecta tu cuenta para ver tus stats aquí y usar todos los comandos del bot.',

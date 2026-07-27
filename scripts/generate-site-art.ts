@@ -13,6 +13,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import Replicate from 'replicate'
+import sharp from 'sharp'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const OUT_DIR = path.join(ROOT, 'apps/web/public/art')
@@ -25,29 +26,29 @@ const STYLE =
 interface Asset {
   file: string
   prompt: string
-  size: '1024x1024' | '1536x1024' | '1024x1536'
+  aspectRatio: '1:1' | '3:2' | '2:3'
 }
 
 const ASSETS: Asset[] = [
   {
     file: 'hero-waves.webp',
-    size: '1536x1024',
-    prompt: `Abstract sound waves made of flowing neon green light ribbons over a pure black background, wide horizontal composition, waves rising from the bottom third, deep shadows, ${STYLE}`,
+    aspectRatio: '3:2',
+    prompt: `Abstract sound waves made of flowing neon green light ribbons over a pure black background, wide horizontal composition, waves rising from the bottom third, deep shadows, ultra detailed, crisp clean edges, ${STYLE}`,
   },
   {
     file: 'manifesto-texture.webp',
-    size: '1536x1024',
-    prompt: `Macro photograph of a vinyl record surface, extreme close-up of grooves catching a thin neon green rim light on pure black vinyl, abstract minimal, ${STYLE}`,
+    aspectRatio: '3:2',
+    prompt: `Macro photograph of a vinyl record surface, extreme close-up of grooves catching a thin neon green rim light on pure black vinyl, abstract minimal, ultra detailed, crisp clean edges, ${STYLE}`,
   },
   {
     file: 'ai-collage.webp',
-    size: '1024x1024',
-    prompt: `Surreal collage of floating square album covers dissolving into particles of neon green light, arranged in a loose grid drifting apart, dreamlike, ${STYLE}`,
+    aspectRatio: '3:2',
+    prompt: `Surreal collage of floating square album covers dissolving into particles of neon green light, arranged in a loose grid drifting apart, dreamlike, ultra detailed, crisp clean edges, ${STYLE}`,
   },
   {
     file: 'stats-equalizer.webp',
-    size: '1536x1024',
-    prompt: `Minimal 3D bar chart like a music equalizer, thin glossy black monolith bars of varying heights with neon green edges glowing, on black reflective floor, ${STYLE}`,
+    aspectRatio: '3:2',
+    prompt: `Minimal 3D bar chart like a music equalizer, thin glossy black monolith bars of varying heights with neon green edges glowing, on black reflective floor, ultra detailed, crisp clean edges, ${STYLE}`,
   },
 ]
 
@@ -87,16 +88,19 @@ async function main(): Promise<void> {
     const output: unknown = await replicate.run(MODEL, {
       input: {
         prompt: asset.prompt,
-        size: asset.size,
+        aspect_ratio: asset.aspectRatio,
         quality: 'high',
         output_format: 'webp',
-        output_compression: 85,
+        output_compression: 100, // 100 = qualidade máxima
         background: 'opaque',
       },
     })
     const bytes = await outputToBytes(output)
-    await writeFile(path.join(OUT_DIR, asset.file), bytes)
-    console.log(`   ✓ ${asset.file} (${(bytes.length / 1024).toFixed(0)} KB)`)
+    // O modelo devolve webp lossless (compression 100) — re-encoda para q88
+    // (visualmente idêntico, ~10x menor para servir na web)
+    const optimized = await sharp(Buffer.from(bytes)).webp({ quality: 88, effort: 6 }).toBuffer()
+    await writeFile(path.join(OUT_DIR, asset.file), optimized)
+    console.log(`   ✓ ${asset.file} (${(optimized.length / 1024).toFixed(0)} KB)`)
   }
 
   console.log(`\n✅ ${ASSETS.length} assets em apps/web/public/art/`)

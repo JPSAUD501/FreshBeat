@@ -1,6 +1,6 @@
 'use client'
 
-import { Trash2 } from 'lucide-react'
+import { Languages, Trash2, TriangleAlert } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import { toast } from 'sonner'
@@ -80,11 +80,18 @@ export function SettingsSection({
   }
 
   return (
-    <div className="max-w-xl space-y-6">
+    <div className="max-w-2xl space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>{labels.languageLabel}</CardTitle>
-          <CardDescription>{labels.languageHint}</CardDescription>
+          <div className="flex items-center gap-3">
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-fb/10 text-fb">
+              <Languages className="size-5" />
+            </div>
+            <div>
+              <CardTitle>{labels.languageLabel}</CardTitle>
+              <CardDescription className="mt-1">{labels.languageHint}</CardDescription>
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
           <Select
@@ -107,10 +114,17 @@ export function SettingsSection({
         </CardContent>
       </Card>
 
-      <Card className="border-destructive/40">
+      <Card className="border-destructive/40 bg-destructive/5">
         <CardHeader>
-          <CardTitle className="text-destructive">{labels.dangerZone}</CardTitle>
-          <CardDescription>{labels.deleteHint}</CardDescription>
+          <div className="flex items-center gap-3">
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-destructive/10 text-destructive">
+              <TriangleAlert className="size-5" />
+            </div>
+            <div>
+              <CardTitle className="text-destructive">{labels.dangerZone}</CardTitle>
+              <CardDescription className="mt-1">{labels.deleteHint}</CardDescription>
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
           <AlertDialog

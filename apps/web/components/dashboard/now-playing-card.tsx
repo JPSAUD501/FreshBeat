@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 
 interface NowPlayingCardProps {
   initial: RecentTrackDto | null
+  className?: string
   labels: {
     nowPlaying: string
     live: string
@@ -35,7 +36,7 @@ function EqualizerBars({ className }: { className?: string }) {
 }
 
 /** Card "Tocando agora" — fundo com a capa desfocada, badge AO VIVO e auto-refresh de 20s. */
-export function NowPlayingCard({ initial, labels }: NowPlayingCardProps) {
+export function NowPlayingCard({ initial, className, labels }: NowPlayingCardProps) {
   const [track, setTrack] = useState<RecentTrackDto | null>(initial)
 
   useEffect(() => {
@@ -54,7 +55,13 @@ export function NowPlayingCard({ initial, labels }: NowPlayingCardProps) {
   }, [])
 
   return (
-    <Card className={cn('relative overflow-hidden', track !== null && 'glow-fb border-fb/40')}>
+    <Card
+      className={cn(
+        'relative overflow-hidden',
+        track !== null && 'glow-fb border-fb/40',
+        className,
+      )}
+    >
       {/* Fundo: capa desfocada + véu para legibilidade */}
       {track?.image != null && (
         <>

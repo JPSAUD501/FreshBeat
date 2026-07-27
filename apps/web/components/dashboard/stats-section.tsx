@@ -1,6 +1,6 @@
 'use client'
 
-import { Clock3, Music2 } from 'lucide-react'
+import { Clock3, Disc3, MicVocal, Music2, type LucideIcon } from 'lucide-react'
 import { useState, useTransition } from 'react'
 import type { TopsDto } from '../../lib/dashboard-types'
 import type { LastfmPeriod } from '../../lib/lastfm'
@@ -92,6 +92,35 @@ function RankedList({ items, playsTemplate }: { items: RankedItem[]; playsTempla
         </li>
       ))}
     </ul>
+  )
+}
+
+/** Card de ranking com ícone no header. */
+function RankedCard({
+  title,
+  icon: Icon,
+  items,
+  playsTemplate,
+}: {
+  title: string
+  icon: LucideIcon
+  items: RankedItem[]
+  playsTemplate: string
+}) {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2.5">
+          <span className="flex size-8 items-center justify-center rounded-lg bg-fb/10 text-fb">
+            <Icon className="size-4" />
+          </span>
+          {title}
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <RankedList items={items} playsTemplate={playsTemplate} />
+      </CardContent>
+    </Card>
   )
 }
 
@@ -201,30 +230,24 @@ export function StatsSection({ initialPeriod, initialData, labels }: StatsSectio
         <StatsSkeleton />
       ) : (
         <div className="grid gap-6 lg:grid-cols-3">
-          <Card>
-            <CardHeader>
-              <CardTitle>{labels.topTracks}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <RankedList items={trackItems} playsTemplate={labels.plays} />
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>{labels.topArtists}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <RankedList items={artistItems} playsTemplate={labels.plays} />
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>{labels.topAlbums}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <RankedList items={albumItems} playsTemplate={labels.plays} />
-            </CardContent>
-          </Card>
+          <RankedCard
+            title={labels.topTracks}
+            icon={Music2}
+            items={trackItems}
+            playsTemplate={labels.plays}
+          />
+          <RankedCard
+            title={labels.topArtists}
+            icon={MicVocal}
+            items={artistItems}
+            playsTemplate={labels.plays}
+          />
+          <RankedCard
+            title={labels.topAlbums}
+            icon={Disc3}
+            items={albumItems}
+            playsTemplate={labels.plays}
+          />
         </div>
       )}
     </div>
