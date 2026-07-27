@@ -116,7 +116,11 @@ describe('startLastfmLinkAction', () => {
     await expect(startLastfmLinkAction('pt-BR')).rejects.toThrow(
       'NEXT_REDIRECT:https://freshbeat.example/auth/lastfm?state=state-token-123',
     )
-    expect(mocks.tempStateCreate).toHaveBeenCalledWith('login', { telegramUserId: 555 }, 600)
+    expect(mocks.tempStateCreate).toHaveBeenCalledWith(
+      'login',
+      { telegramUserId: 555, origin: 'web' },
+      600,
+    )
   })
 })
 

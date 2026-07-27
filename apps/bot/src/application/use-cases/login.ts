@@ -27,9 +27,11 @@ export class StartLoginUseCase {
       return { status: 'already_linked', lastfmUsername: user.lastfmUsername }
     }
 
+    // 'bot' avisa o callback do site para devolver o usuário ao Telegram
+    // (deep link /start) em vez da página web de sucesso.
     const token = await this.tempStateStore.create(
       LOGIN_STATE_NAMESPACE,
-      { telegramUserId: user.telegramUserId },
+      { telegramUserId: user.telegramUserId, origin: 'bot' },
       LOGIN_STATE_TTL_SECONDS,
     )
 

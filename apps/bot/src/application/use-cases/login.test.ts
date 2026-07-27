@@ -43,12 +43,13 @@ describe('StartLoginUseCase', () => {
     expect(result.url).toMatch(/^https:\/\/freshbeat\.example\/auth\/lastfm\?state=.+$/)
     expect(result.expiresInMinutes).toBe(10)
 
-    // O estado existe e aponta para o usuário certo
+    // O estado existe, aponta para o usuário certo e marca a origem 'bot'
+    // (o callback do site usa isso para devolver o usuário ao Telegram).
     const token = new URL(result.url).searchParams.get('state')!
-    const state = await cache.consume<{ telegramUserId: number }>(
+    const state = await cache.consume<{ telegramUserId: number; origin: string }>(
       `${LOGIN_STATE_NAMESPACE}:${token}`,
     )
-    expect(state).toEqual({ telegramUserId: 42 })
+    expect(state).toEqual({ telegramUserId: 42, origin: 'bot' })
   })
 })
 

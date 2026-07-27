@@ -24,9 +24,11 @@ async function requireSession(locale: string): Promise<number> {
 /** Vincular Last.fm pelo site: cria o estado de uso único e entra no OAuth. */
 export async function startLastfmLinkAction(locale: string): Promise<void> {
   const telegramUserId = await requireSession(locale)
+  // 'web' avisa o callback para terminar na página de sucesso do site
+  // (o fluxo iniciado pelo bot termina de volta no Telegram).
   const token = await getTempStateStore().create(
     LOGIN_STATE_NAMESPACE,
-    { telegramUserId },
+    { telegramUserId, origin: 'web' },
     LOGIN_STATE_TTL_SECONDS,
   )
   redirect(`${getConfig().web.WEB_BASE_URL}/auth/lastfm?state=${token}`)

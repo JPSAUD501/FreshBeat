@@ -1,9 +1,12 @@
 import { NextResponse, type NextRequest } from 'next/server'
+import { TELEGRAM_BOT_URL } from '../../../../../../lib/env'
 import { fetchLastfmSessionUsername } from '../../../../../../lib/lastfm-auth'
 import { getConfig, getTempStateStore, getUserRepository } from '../../../../../../lib/server'
 
 interface LoginStatePayload {
   telegramUserId: number
+  /** Quem iniciou o fluxo — define para onde o usuário volta no fim. */
+  origin?: 'bot' | 'web'
 }
 
 function errorRedirect(baseUrl: string, reason: string): NextResponse {
@@ -34,5 +37,14 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   if (lastfmUsername === null) return errorRedirect(baseUrl, 'failed')
 
   await getUserRepository().linkLastfm(stored.telegramUserId, lastfmUsername)
-  return NextResponse.redirect(`${baseUrl}/auth/lastfm/success`)
+
+  if (stored.origin === 'web') {
+    return NextResponse.redirect(`${baseUrl}/auth/lastfm/success`)
+  }
+
+  // Fluxo iniciado pelo /login do bot: devolve o usuário ao Telegram
+  // (como o MelodyScout fazia) — o /start com payload confirma o vínculo
+  // no chat. O payload aceita só [A-Za-z0-9_-], daí o base64url.
+  const payload = `linked_${Buffer.from(lastfmUsername, 'utf8').toString('base64url')}`
+  return NextResponse.redirect(`${TELEGRAM_BOT_URL}?start=${payload}`)
 }
