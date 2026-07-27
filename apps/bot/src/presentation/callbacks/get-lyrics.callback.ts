@@ -6,6 +6,7 @@ import type { TrackRef } from '../../domain/entities/track.js'
 import type { FreshBeatContext } from '../context.js'
 import { lyricsFooter } from '../formatters/lyrics.formatter.js'
 import { buildAiKeyboard, LYRICS_STATE_NAMESPACE, sendLyricsPages } from '../lyrics-message.js'
+import { safeAnswerCallbackQuery } from './safe-answer.js'
 
 const expiredMessage = msg({
   key: 'lyrics.state_expired',
@@ -35,7 +36,7 @@ export function createGetLyricsCallback(deps: GetLyricsCallbackDeps): Composer<F
   const composer = new Composer<FreshBeatContext>()
 
   composer.callbackQuery(GET_LYRICS_CALLBACK_PATTERN, async (ctx) => {
-    await ctx.answerCallbackQuery()
+    await safeAnswerCallbackQuery(ctx)
 
     const token = ctx.match[1]
     if (token === undefined) return

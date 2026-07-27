@@ -7,6 +7,7 @@ import type { TrackRef } from '../../domain/entities/track.js'
 import type { FreshBeatContext } from '../context.js'
 import { LYRICS_STATE_NAMESPACE } from '../lyrics-message.js'
 import { escapeHtml, lyricsFooter, lyricsHeader, paginate } from '../formatters/lyrics.formatter.js'
+import { safeAnswerCallbackQuery } from './safe-answer.js'
 
 const translatingLabel = msg({ key: 'lyrics.translating', value: '🌐 Traduzindo…' })
 const expiredMessage = msg({
@@ -38,7 +39,7 @@ export function createTranslateLyricsCallback(
   const composer = new Composer<FreshBeatContext>()
 
   composer.callbackQuery(TRANSLATE_CALLBACK_PATTERN, async (ctx) => {
-    await ctx.answerCallbackQuery({ text: ctx.t(translatingLabel) })
+    await safeAnswerCallbackQuery(ctx, ctx.t(translatingLabel))
 
     const token = ctx.match[1]
     if (token === undefined) return

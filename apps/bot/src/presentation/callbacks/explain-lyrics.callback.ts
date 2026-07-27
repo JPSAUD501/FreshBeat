@@ -9,6 +9,7 @@ import type { TrackRef } from '../../domain/entities/track.js'
 import type { FreshBeatContext } from '../context.js'
 import { LYRICS_STATE_NAMESPACE } from '../lyrics-message.js'
 import { escapeHtml, lyricsFooter, lyricsHeader } from '../formatters/lyrics.formatter.js'
+import { safeAnswerCallbackQuery } from './safe-answer.js'
 
 const explainingLabel = msg({ key: 'lyrics.explaining', value: '✨ Explicando…' })
 const expiredMessage = msg({
@@ -45,7 +46,7 @@ export function createExplainLyricsCallback(deps: ExplainCallbackDeps): Composer
   const composer = new Composer<FreshBeatContext>()
 
   composer.callbackQuery(EXPLAIN_CALLBACK_PATTERN, async (ctx) => {
-    await ctx.answerCallbackQuery({ text: ctx.t(explainingLabel) })
+    await safeAnswerCallbackQuery(ctx, ctx.t(explainingLabel))
 
     const token = ctx.match[1]
     if (token === undefined) return
