@@ -47,31 +47,38 @@ export function createBot(deps: BotDeps): Bot<FreshBeatContext> {
 /**
  * Registra os comandos no Telegram com descrições traduzidas
  * por idioma. Os NOMES ficam sempre em inglês.
+ *
+ * Falha aqui (ex.: 429 de rate limit) não pode derrubar o boot —
+ * sem o registro o bot continua respondendo normalmente.
  */
 export async function registerBotCommands(
   bot: Bot<FreshBeatContext>,
   commands: CommandModule[],
   logger: Logger,
 ): Promise<void> {
-  // Descrição padrão (pt-BR) para clientes sem idioma definido
-  await bot.api.setMyCommands(
-    commands.map((command) => ({
-      command: command.name,
-      description: lang('pt-BR', command.description),
-    })),
-  )
-
-  for (const locale of SUPPORTED_LOCALES) {
+  try {
+    // Descrição padrão (pt-BR) para clientes sem idioma definido
     await bot.api.setMyCommands(
       commands.map((command) => ({
         command: command.name,
-        description: lang(locale, command.description),
+        description: lang('pt-BR', command.description),
       })),
-      { language_code: localeToTelegramLanguageCode(locale) },
     )
-  }
 
-  logger.info({ commands: commands.map((c) => c.name) }, 'commands registered')
+    for (const locale of SUPPORTED_LOCALES) {
+      await bot.api.setMyCommands(
+        commands.map((command) => ({
+          command: command.name,
+          description: lang(locale, command.description),
+        })),
+        { language_code: localeToTelegramLanguageCode(locale) },
+      )
+    }
+
+    logger.info({ commands: commands.map((c) => c.name) }, 'commands registered')
+  } catch (error) {
+    logger.warn({ err: error }, 'falha ao registrar comandos (o bot segue funcionando)')
+  }
 }
 
 /** Bot API aceita apenas códigos ISO 639-1 de duas letras. */

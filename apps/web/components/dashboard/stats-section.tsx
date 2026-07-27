@@ -20,6 +20,8 @@ interface StatsSectionLabels {
   estimatedBadge: string
   listeningTimeHint: string
   loadError: string
+  statsEmpty: string
+  statsEmptyHint: string
 }
 
 interface StatsSectionProps {
@@ -41,6 +43,59 @@ interface RankedItem {
   subtitle: string | null
   image: string | null
   playcount: number
+}
+
+/** Card do #1 de cada categoria, com a capa desfocada ao fundo. */
+function ChampionCard({
+  item,
+  playsTemplate,
+  icon: Icon,
+}: {
+  item: RankedItem
+  playsTemplate: string
+  icon: LucideIcon
+}) {
+  return (
+    <Card className="relative overflow-hidden transition-colors hover:border-fb/40">
+      {item.image !== null && (
+        <>
+          <img
+            src={item.image}
+            alt=""
+            aria-hidden
+            className="absolute inset-0 size-full scale-150 object-cover opacity-20 blur-2xl"
+          />
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-gradient-to-t from-card via-card/85 to-card/50"
+          />
+        </>
+      )}
+      <CardContent className="relative flex items-center gap-4 py-5">
+        {item.image !== null ? (
+          <img
+            src={item.image}
+            alt=""
+            className="size-16 shrink-0 rounded-xl object-cover shadow-lg ring-1 ring-white/15"
+          />
+        ) : (
+          <div className="flex size-16 shrink-0 items-center justify-center rounded-xl bg-fb/10 ring-1 ring-fb/20">
+            <Icon className="size-7 text-fb" />
+          </div>
+        )}
+        <div className="min-w-0">
+          <Badge className="mb-1.5">#1</Badge>
+          <p className="truncate font-display text-lg leading-tight tracking-wide">{item.title}</p>
+          {item.subtitle !== null && (
+            <p className="truncate text-sm text-muted-foreground">{item.subtitle}</p>
+          )}
+          <p className="mt-0.5 text-xs font-semibold text-fb">
+            {playsTemplate.replace('{{count}}', item.playcount.toLocaleString())}
+          </p>
+        </div>
+      </CardContent>
+    </Card>
+  )
 }
 
 /** Lista rankeada com barra de proporção do playcount. */
@@ -188,6 +243,8 @@ export function StatsSection({ initialPeriod, initialData, labels }: StatsSectio
     playcount: album.playcount,
   }))
 
+  const isEmpty = trackItems.length === 0 && artistItems.length === 0 && albumItems.length === 0
+
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
@@ -228,27 +285,50 @@ export function StatsSection({ initialPeriod, initialData, labels }: StatsSectio
         </Card>
       ) : isPending ? (
         <StatsSkeleton />
+      ) : isEmpty ? (
+        <Card>
+          <CardContent className="flex flex-col items-center gap-3 py-14 text-center">
+            <div className="flex size-14 items-center justify-center rounded-2xl bg-fb/10 ring-1 ring-fb/30">
+              <Music2 className="size-7 text-fb" />
+            </div>
+            <p className="font-semibold">{labels.statsEmpty}</p>
+            <p className="text-sm text-muted-foreground">{labels.statsEmptyHint}</p>
+          </CardContent>
+        </Card>
       ) : (
-        <div className="grid gap-6 lg:grid-cols-3">
-          <RankedCard
-            title={labels.topTracks}
-            icon={Music2}
-            items={trackItems}
-            playsTemplate={labels.plays}
-          />
-          <RankedCard
-            title={labels.topArtists}
-            icon={MicVocal}
-            items={artistItems}
-            playsTemplate={labels.plays}
-          />
-          <RankedCard
-            title={labels.topAlbums}
-            icon={Disc3}
-            items={albumItems}
-            playsTemplate={labels.plays}
-          />
-        </div>
+        <>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {trackItems[0] !== undefined && (
+              <ChampionCard item={trackItems[0]} playsTemplate={labels.plays} icon={Music2} />
+            )}
+            {artistItems[0] !== undefined && (
+              <ChampionCard item={artistItems[0]} playsTemplate={labels.plays} icon={MicVocal} />
+            )}
+            {albumItems[0] !== undefined && (
+              <ChampionCard item={albumItems[0]} playsTemplate={labels.plays} icon={Disc3} />
+            )}
+          </div>
+          <div className="grid gap-6 lg:grid-cols-3">
+            <RankedCard
+              title={labels.topTracks}
+              icon={Music2}
+              items={trackItems}
+              playsTemplate={labels.plays}
+            />
+            <RankedCard
+              title={labels.topArtists}
+              icon={MicVocal}
+              items={artistItems}
+              playsTemplate={labels.plays}
+            />
+            <RankedCard
+              title={labels.topAlbums}
+              icon={Disc3}
+              items={albumItems}
+              playsTemplate={labels.plays}
+            />
+          </div>
+        </>
       )}
     </div>
   )

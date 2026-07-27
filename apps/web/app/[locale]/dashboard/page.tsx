@@ -277,6 +277,8 @@ export default async function DashboardPage({
           estimatedBadge: t(locale, 'dashboard.estimated_badge'),
           listeningTimeHint: t(locale, 'dashboard.listening_time_hint'),
           loadError: t(locale, 'dashboard.load_error'),
+          statsEmpty: t(locale, 'dashboard.stats_empty'),
+          statsEmptyHint: t(locale, 'dashboard.stats_empty_hint'),
         }}
       />
     )
