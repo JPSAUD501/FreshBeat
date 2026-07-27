@@ -14,9 +14,9 @@ O bot precisa falar pt-BR, en-US, ja-JP e es-ES. O projeto anterior (MelodyScout
 3. Cadeia de fallback: catálogo do idioma → catálogo pt-BR → `value` inline.
 4. Testes garantem paridade de chaves e de placeholders `{{var}}` entre os 4 idiomas.
 5. Nomes de comandos são sempre em inglês; descrições são traduzidas via `setMyCommands` por `language_code`.
-6. Crowdin (a reintegrar) sincroniza o catálogo pt-BR como fonte das traduções.
+6. ~~Crowdin sincroniza as traduções.~~ **Revogado em 2026-07-27:** o Crowdin foi removido do projeto — as traduções são mantidas diretamente nos catálogos, por PR. O type-check e os testes de paridade continuam garantindo a consistência.
 
 ## Consequências
 
 - Positivas: impossível mergear idioma incompleto; novas mensagens funcionam imediatamente em pt-BR antes da tradução.
-- Negativas: catálogos no repositório exigem sync com Crowdin; placeholders precisam ser mantidos idênticos em todas as línguas (garantido por teste).
+- Negativas: placeholders precisam ser mantidos idênticos em todas as línguas (garantido por teste).

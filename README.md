@@ -48,8 +48,8 @@ npm install
 # 2. Configure as variáveis de ambiente
 cp .env.example .env   # preencha as chaves (Telegram, Last.fm, …)
 
-# 3. Suba Postgres + Redis
-docker compose up -d postgres redis
+# 3. Suba Postgres + Redis + MinIO
+docker compose up -d postgres redis minio
 
 # 4. Rode as migrations
 npm run db:migrate
@@ -64,11 +64,19 @@ O site sobe separado (em produção vai para a Vercel):
 npm run dev --workspace @freshbeat/web   # http://localhost:3000
 ```
 
-Ou suba **tudo** (bot + banco + redis + site) com Docker:
+Ou suba a stack completa com Docker. São dois arquivos, pensados para o fluxo **Coolify + Vercel**:
+
+| Arquivo                  | Serviços                       | Uso                                            |
+| ------------------------ | ------------------------------ | ---------------------------------------------- |
+| `docker-compose.yml`     | Postgres + Redis + MinIO + bot | **Produção** (Coolify) — o site fica na Vercel |
+| `docker-compose.all.yml` | tudo acima **+ site**          | **Dev/HML** (Coolify) ou tudo local            |
 
 ```bash
-docker compose -f docker-compose.all.yml up --build
+docker compose up --build                            # sem o site
+docker compose -f docker-compose.all.yml up --build  # com o site
 ```
+
+O MinIO (storage S3 das imagens geradas por IA) sobe junto, com o bucket criado automaticamente. O console web fica em `http://localhost:9001` (troque `MINIO_ROOT_USER`/`MINIO_ROOT_PASSWORD` no `.env` em produção).
 
 > **Login do dashboard em dev:** o Telegram Login Widget exige o domínio registrado no BotFather (`/setdomain`). Em `localhost` funciona sem configurar; em produção, registre o domínio do site.
 

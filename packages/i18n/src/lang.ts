@@ -43,7 +43,7 @@ export function extractVars(template: string): string[] {
     .filter((name): name is string => name !== undefined)
 }
 
-/** Catálogo de um idioma (para sync com Crowdin e testes). */
+/** Catálogo de um idioma (para testes de paridade e sync futuro). */
 export function getCatalog(locale: Locale): Record<string, string> {
   return catalogs[locale]
 }

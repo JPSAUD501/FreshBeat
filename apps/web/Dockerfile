@@ -1,5 +1,5 @@
-# Imagem do site FreshBeat (Next.js) — usada apenas pelo docker-compose.all.yml
-# para desenvolvimento local completo. Produção é Vercel.
+# Imagem do site FreshBeat (Next.js) — usada pelo docker-compose.all.yml
+# (dev/hml no Coolify ou stack local completa). Produção é Vercel.
 FROM node:22-alpine
 
 WORKDIR /app
@@ -16,6 +16,12 @@ COPY packages/logging/package.json packages/logging/
 RUN npm ci
 
 COPY . .
+
+# NEXT_PUBLIC_* são embutidos no bundle no build — chegam como build args
+ARG NEXT_PUBLIC_BOT_USERNAME=FreshBeatBot
+ARG NEXT_PUBLIC_GITHUB_URL=https://github.com/JPSAUD501/FreshBeat
+ENV NEXT_PUBLIC_BOT_USERNAME=$NEXT_PUBLIC_BOT_USERNAME \
+    NEXT_PUBLIC_GITHUB_URL=$NEXT_PUBLIC_GITHUB_URL
 
 RUN npm run build --workspace @freshbeat/web
 

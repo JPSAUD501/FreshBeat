@@ -1,6 +1,9 @@
-# Stack COMPLETA para desenvolvimento local: Postgres + Redis + bot + site.
+# Stack COMPLETA: Postgres + Redis + MinIO + bot + site.
+# É o stack de DEV e HML no Coolify (e para rodar tudo local).
+# Em produção o site fica na Vercel — use o docker-compose.yml sem ele.
+#
 # Uso: docker compose -f docker-compose.all.yml up --build
-# O site sobe em http://localhost:3000 (em produção o site vai para a Vercel).
+# O site sobe em http://localhost:3000.
 
 include:
   - docker-compose.yml
@@ -10,12 +13,16 @@ services:
     build:
       context: .
       dockerfile: apps/web/Dockerfile
+      args:
+        # NEXT_PUBLIC_* são embutidos no build do Next — passar como args
+        NEXT_PUBLIC_BOT_USERNAME: ${BOT_USERNAME:-FreshBeatBot}
+        NEXT_PUBLIC_GITHUB_URL: ${NEXT_PUBLIC_GITHUB_URL:-https://github.com/JPSAUD501/FreshBeat}
     restart: unless-stopped
     env_file: .env
     environment:
       DATABASE_URL: postgres://freshbeat:freshbeat@postgres:5432/freshbeat
       REDIS_URL: redis://redis:6379
-      WEB_BASE_URL: http://localhost:3000
+      WEB_BASE_URL: ${WEB_BASE_URL:-http://localhost:3000}
       NODE_ENV: production
     ports:
       - '3000:3000'

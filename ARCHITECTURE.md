@@ -68,7 +68,8 @@ apps/web/
 - **Unitários** (Vitest): 100% mockados, sem rede nem banco, colocalizados (`*.test.ts`). Coverage com thresholds no CI (alvo ≥80% em `domain/` e `application/`).
 - **Integração** (`*.integration.test.ts`): batem em APIs reais, **opt-in** (pulam sem as env vars), rodam agendados no CI com segredos.
 
-## Infraestrutura local
+## Infraestrutura (Docker)
 
-- `docker-compose.yml` — Postgres + Redis + bot (+ serviço `migrate` one-shot).
-- `docker-compose.all.yml` — inclui o site Next.js para desenvolvimento completo.
+- `docker-compose.yml` — Postgres + Redis + **MinIO** + bot (+ one-shots `migrate` e `minio-init`, que cria o bucket de leitura pública). É o stack de **produção no Coolify** (o site fica na Vercel).
+- `docker-compose.all.yml` — inclui o site Next.js: stack de **dev/hml no Coolify** ou tudo local.
+- O MinIO é o storage S3 das imagens geradas por IA. Dentro do compose as envs `S3_*` têm defaults que apontam para ele — fora do compose (bot local), configure o `.env` para `http://localhost:9000`. Em produção, `S3_PUBLIC_URL` precisa ser alcançável pela internet (o Telegram baixa a imagem por ela).

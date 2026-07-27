@@ -7,4 +7,4 @@
 export const BOT_USERNAME = process.env.NEXT_PUBLIC_BOT_USERNAME ?? 'FreshBeatBot'
 export const TELEGRAM_BOT_URL = `https://t.me/${BOT_USERNAME}`
 export const GITHUB_URL =
-  process.env.NEXT_PUBLIC_GITHUB_URL ?? 'https://github.com/freshbeatbot/freshbeat'
+  process.env.NEXT_PUBLIC_GITHUB_URL ?? 'https://github.com/JPSAUD501/FreshBeat'
