@@ -76,7 +76,7 @@ docker compose up --build                            # sem o site
 docker compose -f docker-compose.all.yml up --build  # com o site
 ```
 
-O MinIO (storage S3 das imagens geradas por IA) sobe junto, com o bucket criado automaticamente. O console web fica em `http://localhost:9001` (troque `MINIO_ROOT_USER`/`MINIO_ROOT_PASSWORD` no `.env` em produção).
+O MinIO (storage S3 das imagens geradas por IA) sobe junto, com o bucket criado automaticamente. O console web fica em `http://localhost:9001`. A `MINIO_ROOT_PASSWORD` é **obrigatória** (sem default de propósito — o compose falha rápido sem ela, para nunca subir com senha fraca); gere uma forte no `.env`, ex.: `openssl rand -base64 24`.
 
 > **Login do dashboard em dev:** o Telegram Login Widget exige o domínio registrado no BotFather (`/setdomain`). Em `localhost` funciona sem configurar; em produção, registre o domínio do site.
 

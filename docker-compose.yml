@@ -48,7 +48,7 @@ services:
     command: server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?defina MINIO_ROOT_PASSWORD no .env — sem default por segurança}
     ports:
       - '9000:9000' # API S3
       - '9001:9001' # console web
@@ -64,7 +64,7 @@ services:
     image: minio/mc:latest
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?defina MINIO_ROOT_PASSWORD no .env — sem default por segurança}
       S3_BUCKET: ${S3_BUCKET:-freshbeat}
     entrypoint: >
       /bin/sh -c "
@@ -106,7 +106,7 @@ services:
       S3_REGION: ${S3_REGION:-us-east-1}
       S3_BUCKET: ${S3_BUCKET:-freshbeat}
       S3_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
-      S3_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      S3_SECRET_KEY: ${MINIO_ROOT_PASSWORD:?defina MINIO_ROOT_PASSWORD no .env — sem default por segurança}
       S3_PUBLIC_URL: ${S3_PUBLIC_URL:-http://localhost:9000/freshbeat}
       NODE_ENV: production
     depends_on:
