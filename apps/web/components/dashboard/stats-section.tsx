@@ -1,0 +1,218 @@
+'use client'
+
+import { Music2 } from 'lucide-react'
+import { useState, useTransition } from 'react'
+import type { TopsDto } from '../../lib/dashboard-types'
+import type { LastfmPeriod } from '../../lib/lastfm'
+import { Badge } from '../ui/badge'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
+import { Skeleton } from '../ui/skeleton'
+import { Tabs, TabsList, TabsTrigger } from '../ui/tabs'
+
+interface StatsSectionLabels {
+  periods: Record<LastfmPeriod, string>
+  topTracks: string
+  topArtists: string
+  topAlbums: string
+  plays: string // template com {{count}}
+  listeningTime: string
+  estimatedBadge: string
+  listeningTimeHint: string
+  loadError: string
+}
+
+interface StatsSectionProps {
+  initialPeriod: LastfmPeriod
+  initialData: TopsDto
+  labels: StatsSectionLabels
+}
+
+function formatDuration(totalSeconds: number): string {
+  const hours = Math.floor(totalSeconds / 3600)
+  const minutes = Math.round((totalSeconds % 3600) / 60)
+  if (hours === 0) return `${minutes}min`
+  return `${hours}h ${minutes}min`
+}
+
+interface RankedItem {
+  key: string
+  title: string
+  subtitle: string | null
+  image: string | null
+  playcount: number
+}
+
+/** Lista rankeada com barra de proporção do playcount. */
+function RankedList({ items, playsTemplate }: { items: RankedItem[]; playsTemplate: string }) {
+  const max = Math.max(...items.map((item) => item.playcount), 1)
+  return (
+    <ul className="space-y-3">
+      {items.map((item, index) => (
+        <li key={item.key} className="flex items-center gap-3">
+          <span className="w-5 text-right font-display text-lg text-muted-foreground">
+            {index + 1}
+          </span>
+          {item.image !== null ? (
+            <img src={item.image} alt="" className="size-10 rounded object-cover" />
+          ) : (
+            <div className="flex size-10 items-center justify-center rounded bg-muted">
+              <Music2 className="size-4 text-muted-foreground" />
+            </div>
+          )}
+          <div className="min-w-0 flex-1">
+            <div className="flex items-baseline justify-between gap-2">
+              <p className="truncate text-sm font-medium">{item.title}</p>
+              <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
+                {playsTemplate.replace('{{count}}', item.playcount.toLocaleString())}
+              </span>
+            </div>
+            {item.subtitle !== null && (
+              <p className="truncate text-xs text-muted-foreground">{item.subtitle}</p>
+            )}
+            <div className="mt-1 h-1 overflow-hidden rounded-full bg-muted">
+              <div
+                className="h-full rounded-full bg-fb transition-all duration-500"
+                style={{ width: `${Math.round((item.playcount / max) * 100)}%` }}
+              />
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+function StatsSkeleton() {
+  return (
+    <div className="grid gap-6 lg:grid-cols-3">
+      {[0, 1, 2].map((column) => (
+        <div key={column} className="space-y-3">
+          {Array.from({ length: 5 }, (_, row) => (
+            <div key={row} className="flex items-center gap-3">
+              <Skeleton className="size-10 rounded" />
+              <div className="flex-1 space-y-2">
+                <Skeleton className="h-3 w-3/4" />
+                <Skeleton className="h-1 w-full" />
+              </div>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+/** Stats com abas de período — troca busca /api/me/tops e mostra skeletons. */
+export function StatsSection({ initialPeriod, initialData, labels }: StatsSectionProps) {
+  const [period, setPeriod] = useState<LastfmPeriod>(initialPeriod)
+  const [data, setData] = useState<TopsDto>(initialData)
+  const [error, setError] = useState(false)
+  const [isPending, startTransition] = useTransition()
+
+  function changePeriod(next: string) {
+    const nextPeriod = next as LastfmPeriod
+    setPeriod(nextPeriod)
+    setError(false)
+    startTransition(async () => {
+      try {
+        const response = await fetch(`/api/me/tops?period=${nextPeriod}`, { cache: 'no-store' })
+        if (!response.ok) throw new Error(`HTTP ${response.status}`)
+        setData((await response.json()) as TopsDto)
+      } catch {
+        setError(true)
+      }
+    })
+  }
+
+  const trackItems: RankedItem[] = data.tracks.map((track) => ({
+    key: `t-${track.name}-${track.artist}`,
+    title: track.name,
+    subtitle: track.artist,
+    image: track.image,
+    playcount: track.playcount,
+  }))
+  const artistItems: RankedItem[] = data.artists.map((artist) => ({
+    key: `ar-${artist.name}`,
+    title: artist.name,
+    subtitle: null,
+    image: null, // a API não manda imagem de artista no user.getTopArtists
+    playcount: artist.playcount,
+  }))
+  const albumItems: RankedItem[] = data.albums.map((album) => ({
+    key: `al-${album.name}-${album.artist}`,
+    title: album.name,
+    subtitle: album.artist,
+    image: album.image,
+    playcount: album.playcount,
+  }))
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <Tabs value={period} onValueChange={changePeriod}>
+          <TabsList>
+            {(Object.keys(labels.periods) as LastfmPeriod[]).map((value) => (
+              <TabsTrigger key={value} value={value}>
+                {labels.periods[value]}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
+
+        <Card className="w-full sm:w-auto">
+          <CardHeader className="pb-2">
+            <CardDescription className="flex items-center gap-2">
+              {labels.listeningTime}
+              {data.playtime.estimated && (
+                <Badge variant="secondary">{labels.estimatedBadge}</Badge>
+              )}
+            </CardDescription>
+            <CardTitle className="font-display text-3xl tracking-wide">
+              {formatDuration(data.playtime.totalSeconds)}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-xs text-muted-foreground">{labels.listeningTimeHint}</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {error ? (
+        <Card>
+          <CardContent className="py-10 text-center text-muted-foreground">
+            {labels.loadError}
+          </CardContent>
+        </Card>
+      ) : isPending ? (
+        <StatsSkeleton />
+      ) : (
+        <div className="grid gap-6 lg:grid-cols-3">
+          <Card>
+            <CardHeader>
+              <CardTitle>{labels.topTracks}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <RankedList items={trackItems} playsTemplate={labels.plays} />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>{labels.topArtists}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <RankedList items={artistItems} playsTemplate={labels.plays} />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>{labels.topAlbums}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <RankedList items={albumItems} playsTemplate={labels.plays} />
+            </CardContent>
+          </Card>
+        </div>
+      )}
+    </div>
+  )
+}

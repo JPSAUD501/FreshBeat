@@ -1,4 +1,9 @@
-import { createRedisClient, RedisCacheStore, TempStateStore } from '@freshbeat/cache'
+import {
+  createRedisClient,
+  RedisCacheStore,
+  TempStateStore,
+  type CacheStore,
+} from '@freshbeat/cache'
 import { loadConfig, type Config } from '@freshbeat/config'
 import { createDatabase, DrizzleUserRepository, type DatabaseConnection } from '@freshbeat/database'
 
@@ -13,12 +18,18 @@ export function getConfig(): Config {
   return config
 }
 
+let cacheStore: RedisCacheStore | null = null
+export function getCacheStore(): CacheStore {
+  if (cacheStore === null) {
+    const redis = createRedisClient(getConfig().redis.REDIS_URL)
+    cacheStore = new RedisCacheStore(redis)
+  }
+  return cacheStore
+}
+
 let tempStateStore: TempStateStore | null = null
 export function getTempStateStore(): TempStateStore {
-  if (tempStateStore === null) {
-    const redis = createRedisClient(getConfig().redis.REDIS_URL)
-    tempStateStore = new TempStateStore(new RedisCacheStore(redis))
-  }
+  tempStateStore ??= new TempStateStore(getCacheStore())
   return tempStateStore
 }
 
