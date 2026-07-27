@@ -25,7 +25,7 @@ const recentTrackSchema = z.object({
   url: z.string().optional(),
   artist: recentTrackArtist,
   album: z.object({ '#text': z.string() }).optional(),
-  duration: z.string().optional(),
+  duration: z.coerce.string().optional(),
   '@attr': z.object({ nowplaying: z.string().optional() }).optional(),
 })
 
@@ -35,7 +35,10 @@ const recentTracksResponseSchema = z.object({
   }),
 })
 
-const numericString = z
+// A API do Last.fm é inconsistente: os contadores vêm como string
+// ("5") na maioria das vezes, mas às vezes como número cru (5) —
+// coerce aceita os dois e o transform normaliza para number|null.
+const numericString = z.coerce
   .string()
   .optional()
   .transform((value) => {
