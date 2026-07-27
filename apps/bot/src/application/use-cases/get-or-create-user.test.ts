@@ -9,6 +9,7 @@ function makeUser(overrides: Partial<User> = {}): User {
     telegramUserId: 42,
     lastfmUsername: null,
     preferredLocale: null,
+    telegramLocale: null,
     createdAt: new Date(),
     updatedAt: new Date(),
     ...overrides,
@@ -21,6 +22,9 @@ function makeRepository(overrides: Partial<UserRepository> = {}) {
     create: vi.fn<(id: number) => Promise<User>>().mockResolvedValue(makeUser()),
     linkLastfm: vi.fn(),
     unlinkLastfm: vi.fn(),
+    touchTelegramLocale: vi.fn(),
+    setPreferredLocale: vi.fn(),
+    delete: vi.fn(),
   }
   const repository: UserRepository = { ...mocks, ...overrides }
   return { repository, mocks }

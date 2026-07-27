@@ -11,6 +11,8 @@ export const users = pgTable(
     telegramUserId: bigint('telegram_user_id', { mode: 'number' }).notNull().unique(),
     lastfmUsername: varchar('lastfm_username', { length: 64 }),
     preferredLocale: varchar('preferred_locale', { length: 10 }),
+    /** Idioma detectado pelo Telegram (language_code) — base da preferência. */
+    telegramLocale: varchar('telegram_locale', { length: 10 }),
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
   },

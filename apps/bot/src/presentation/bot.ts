@@ -9,11 +9,13 @@ import { createLocaleMiddleware } from './middlewares/locale.middleware.js'
 import { createRateLimitMiddleware } from './middlewares/rate-limit.middleware.js'
 import type { RateLimiter } from '@freshbeat/cache'
 import type { Logger } from '@freshbeat/logging'
+import type { UserRepository } from '../domain/ports/user-repository.js'
 
 export interface BotDeps extends ErrorHandlerDeps {
   token: string
   logger: Logger
   rateLimiter: RateLimiter
+  userRepository: UserRepository
   commands: CommandModule[]
   /** Composers sem comando associado (callbacks, listeners). */
   listeners?: Composer<FreshBeatContext>[]
@@ -26,7 +28,7 @@ export interface BotDeps extends ErrorHandlerDeps {
 export function createBot(deps: BotDeps): Bot<FreshBeatContext> {
   const bot = new Bot<FreshBeatContext>(deps.token)
 
-  bot.use(createLocaleMiddleware())
+  bot.use(createLocaleMiddleware(deps.userRepository))
   bot.use(createRateLimitMiddleware(deps.rateLimiter))
   bot.use(createInteractionLogMiddleware(deps.logger))
 

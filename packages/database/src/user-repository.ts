@@ -8,6 +8,8 @@ export interface FreshBeatUser {
   readonly telegramUserId: number
   readonly lastfmUsername: string | null
   readonly preferredLocale: string | null
+  /** Idioma detectado pelo Telegram (language_code bruto, ex.: "pt", "en"). */
+  readonly telegramLocale: string | null
   readonly createdAt: Date
   readonly updatedAt: Date
 }
@@ -18,6 +20,7 @@ function toDomain(row: UserRow): FreshBeatUser {
     telegramUserId: row.telegramUserId,
     lastfmUsername: row.lastfmUsername,
     preferredLocale: row.preferredLocale,
+    telegramLocale: row.telegramLocale,
     createdAt: row.createdAt,
     updatedAt: row.updatedAt,
   }
@@ -63,5 +66,26 @@ export class DrizzleUserRepository {
       .update(users)
       .set({ lastfmUsername: null, updatedAt: new Date() })
       .where(eq(users.telegramUserId, telegramUserId))
+  }
+
+  /** Atualiza o idioma detectado pelo Telegram (quando muda). */
+  async touchTelegramLocale(telegramUserId: number, telegramLocale: string): Promise<void> {
+    await this.db
+      .update(users)
+      .set({ telegramLocale, updatedAt: new Date() })
+      .where(eq(users.telegramUserId, telegramUserId))
+  }
+
+  /** Define (ou limpa, com null) a preferência explícita de idioma. */
+  async setPreferredLocale(telegramUserId: number, preferredLocale: string | null): Promise<void> {
+    await this.db
+      .update(users)
+      .set({ preferredLocale, updatedAt: new Date() })
+      .where(eq(users.telegramUserId, telegramUserId))
+  }
+
+  /** Apaga o usuário e todos os dados associados (/forgetme, exclusão pelo site). */
+  async delete(telegramUserId: number): Promise<void> {
+    await this.db.delete(users).where(eq(users.telegramUserId, telegramUserId))
   }
 }

@@ -7,6 +7,7 @@ export interface TelegramProfile {
   telegramUserId: number
   firstName: string
   username: string | null
+  photoUrl: string | null
 }
 
 /** Login expira em 24h — defesa contra replay de URL assinada. */
@@ -53,5 +54,6 @@ export function validateTelegramLogin(
     telegramUserId,
     firstName: data.first_name ?? '',
     username: data.username ?? null,
+    photoUrl: data.photo_url ?? null,
   }
 }

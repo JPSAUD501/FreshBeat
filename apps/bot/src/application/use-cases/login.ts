@@ -60,3 +60,12 @@ export function requireLastfmLinked(user: User): asserts user is User & {
 } {
   if (user.lastfmUsername === null) throw new LastfmNotLinkedError()
 }
+
+/** Apaga a conta e todos os dados do usuário (/forgetme e exclusão pelo site). */
+export class DeleteAccountUseCase {
+  constructor(private readonly userRepository: UserRepository) {}
+
+  async execute(user: User): Promise<void> {
+    await this.userRepository.delete(user.telegramUserId)
+  }
+}

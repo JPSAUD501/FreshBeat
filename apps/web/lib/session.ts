@@ -3,6 +3,10 @@ import { createHmac, timingSafeEqual } from 'node:crypto'
 export interface SessionPayload {
   telegramUserId: number
   firstName: string
+  /** @ do Telegram (sem @), quando o usuário tem uma. */
+  username: string | null
+  /** Avatar do Telegram, quando disponível. */
+  photoUrl: string | null
   /** Expiração em unix seconds. */
   exp: number
 }
@@ -47,17 +51,31 @@ export function decodeSession(
     const payload = JSON.parse(Buffer.from(body, 'base64url').toString('utf8')) as SessionPayload
     if (typeof payload.telegramUserId !== 'number' || typeof payload.exp !== 'number') return null
     if (payload.exp <= nowSeconds) return null
-    return payload
+    // Cookies antigos (sem username/photoUrl) continuam válidos
+    return {
+      telegramUserId: payload.telegramUserId,
+      firstName: typeof payload.firstName === 'string' ? payload.firstName : '',
+      username: typeof payload.username === 'string' ? payload.username : null,
+      photoUrl: typeof payload.photoUrl === 'string' ? payload.photoUrl : null,
+      exp: payload.exp,
+    }
   } catch {
     return null
   }
 }
 
 /** Monta o payload de uma sessão nova (exp = agora + maxAge). */
-export function newSessionPayload(telegramUserId: number, firstName: string): SessionPayload {
+export function newSessionPayload(
+  telegramUserId: number,
+  firstName: string,
+  username: string | null = null,
+  photoUrl: string | null = null,
+): SessionPayload {
   return {
     telegramUserId,
     firstName,
+    username,
+    photoUrl,
     exp: Math.floor(Date.now() / 1000) + SESSION_MAX_AGE_SECONDS,
   }
 }

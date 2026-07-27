@@ -16,6 +16,7 @@ function makeUser(overrides: Partial<User> = {}): User {
     telegramUserId: 42,
     lastfmUsername: null,
     preferredLocale: null,
+    telegramLocale: null,
     createdAt: new Date(),
     updatedAt: new Date(),
     ...overrides,
@@ -59,6 +60,9 @@ describe('UnlinkLastfmUseCase', () => {
       create: vi.fn(),
       linkLastfm: vi.fn(),
       unlinkLastfm,
+      touchTelegramLocale: vi.fn(),
+      setPreferredLocale: vi.fn(),
+      delete: vi.fn(),
     }
     const useCase = new UnlinkLastfmUseCase(repository)
 
@@ -74,6 +78,9 @@ describe('UnlinkLastfmUseCase', () => {
       create: vi.fn(),
       linkLastfm: vi.fn(),
       unlinkLastfm,
+      touchTelegramLocale: vi.fn(),
+      setPreferredLocale: vi.fn(),
+      delete: vi.fn(),
     }
     const useCase = new UnlinkLastfmUseCase(repository)
 

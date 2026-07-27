@@ -15,7 +15,7 @@ import {
 import { GetUserTopTracksUseCase } from '../application/use-cases/get-user-top-tracks.js'
 import { ExplainLyricsUseCase } from '../application/use-cases/explain-lyrics.js'
 import { GenerateLyricsImageUseCase } from '../application/use-cases/generate-lyrics-image.js'
-import { StartLoginUseCase, UnlinkLastfmUseCase } from '../application/use-cases/login.js'
+import { DeleteAccountUseCase, StartLoginUseCase } from '../application/use-cases/login.js'
 import { TranslateLyricsUseCase } from '../application/use-cases/translate-lyrics.js'
 import type { MusicSearchProvider } from '../domain/ports/music-search.js'
 import { OpenRouterTextGenerator } from '../infrastructure/ai/openrouter-text.js'
@@ -116,7 +116,7 @@ export function createContainer(): AppContainer {
   // Use cases
   const getOrCreateUser = new GetOrCreateUserUseCase(userRepository)
   const startLogin = new StartLoginUseCase(tempStateStore, config.web.WEB_BASE_URL)
-  const unlinkLastfm = new UnlinkLastfmUseCase(userRepository)
+  const deleteAccount = new DeleteAccountUseCase(userRepository)
   const getLyrics = new GetLyricsUseCase(lyricsProviders, cacheStore, logger)
   const getNowPlaying = new GetNowPlayingUseCase({
     recentTracks: lastFmClient,
@@ -181,7 +181,7 @@ export function createContainer(): AppContainer {
     createStartCommand({ getOrCreateUser }),
     createHelpCommand(),
     createLoginCommand({ getOrCreateUser, startLogin }),
-    createForgetMeCommand({ getOrCreateUser, unlinkLastfm }),
+    createForgetMeCommand({ getOrCreateUser, deleteAccount }),
     createPlayingNowCommand({
       getOrCreateUser,
       getNowPlaying,
@@ -227,6 +227,7 @@ export function createContainer(): AppContainer {
     token: config.telegram.BOT_TOKEN,
     logger,
     rateLimiter,
+    userRepository,
     errorLogRepository,
     commands,
     listeners,

@@ -22,7 +22,13 @@ describe('session', () => {
   })
 
   it('rejeita sessão expirada', () => {
-    const payload = { telegramUserId: 42, firstName: 'João', exp: 1000 }
+    const payload = {
+      telegramUserId: 42,
+      firstName: 'João',
+      username: null,
+      photoUrl: null,
+      exp: 1000,
+    }
     const cookie = encodeSession(payload, SECRET)
     expect(decodeSession(cookie, SECRET, 1001)).toBeNull()
   })

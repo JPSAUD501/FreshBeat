@@ -34,6 +34,7 @@ describe('validateTelegramLogin', () => {
       telegramUserId: 42,
       firstName: 'João',
       username: 'joao',
+      photoUrl: null,
     })
   })
 

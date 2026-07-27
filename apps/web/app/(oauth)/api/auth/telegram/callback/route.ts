@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { negotiateLocale } from '../../../../../../lib/negotiate-locale'
-import { getConfig } from '../../../../../../lib/server'
+import { resolveWebLocale } from '../../../../../../lib/locale'
+import { getConfig, getUserRepository } from '../../../../../../lib/server'
 import {
   encodeSession,
   newSessionPayload,
@@ -11,12 +11,16 @@ import { validateTelegramLogin } from '../../../../../../lib/telegram-auth'
 
 /**
  * Callback do Telegram Login Widget: valida a assinatura HMAC dos
- * dados, cria a sessão (cookie httpOnly) e manda para o dashboard.
+ * dados, cria a sessão (cookie httpOnly) e manda para o dashboard
+ * no idioma resolvido (preferência salva > Telegram > navegador).
  */
 export async function GET(request: NextRequest): Promise<NextResponse> {
   const config = getConfig()
-  const locale = negotiateLocale(request.headers.get('accept-language'))
-  const dashboardUrl = (suffix: string) => `${config.web.WEB_BASE_URL}/${locale}/dashboard${suffix}`
+  const fallbackLocale = resolveWebLocale({
+    acceptLanguage: request.headers.get('accept-language'),
+  })
+  const dashboardUrl = (locale: string, suffix: string) =>
+    `${config.web.WEB_BASE_URL}/${locale}/dashboard${suffix}`
 
   const data: Record<string, string> = {}
   request.nextUrl.searchParams.forEach((value, key) => {
@@ -25,14 +29,28 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
   const profile = validateTelegramLogin(data, config.telegram.BOT_TOKEN)
   if (profile === null) {
-    return NextResponse.redirect(dashboardUrl('?error=login'))
+    return NextResponse.redirect(dashboardUrl(fallbackLocale, '?error=login'))
   }
 
-  const response = NextResponse.redirect(dashboardUrl(''))
+  const user = await getUserRepository()
+    .findByTelegramId(profile.telegramUserId)
+    .catch(() => null)
+  const locale = resolveWebLocale({
+    preferredLocale: user?.preferredLocale,
+    telegramLocale: user?.telegramLocale,
+    acceptLanguage: request.headers.get('accept-language'),
+  })
+
+  const response = NextResponse.redirect(dashboardUrl(locale, ''))
   response.cookies.set(
     SESSION_COOKIE,
     encodeSession(
-      newSessionPayload(profile.telegramUserId, profile.firstName),
+      newSessionPayload(
+        profile.telegramUserId,
+        profile.firstName,
+        profile.username,
+        profile.photoUrl,
+      ),
       config.web.WEB_SESSION_SECRET,
     ),
     {
