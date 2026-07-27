@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { SUPPORTED_LOCALES, lang, type Locale } from '@freshbeat/i18n'
 import { Bot, type Composer } from 'grammy'
 import type { LanguageCode } from 'grammy/types'
@@ -7,7 +8,7 @@ import { createErrorHandler, type ErrorHandlerDeps } from './error-handler.js'
 import { createLocaleMiddleware } from './middlewares/locale.middleware.js'
 import { createObservabilityMiddleware } from './middlewares/observability.middleware.js'
 import { createRateLimitMiddleware } from './middlewares/rate-limit.middleware.js'
-import type { RateLimiter } from '@freshbeat/cache'
+import type { CacheStore, RateLimiter } from '@freshbeat/cache'
 import type { Logger } from '@freshbeat/logging'
 import type { UserRepository } from '../domain/ports/user-repository.js'
 
@@ -44,18 +45,45 @@ export function createBot(deps: BotDeps): Bot<FreshBeatContext> {
   return bot
 }
 
+const FINGERPRINT_KEY = 'meta:bot_commands_fingerprint'
+const FINGERPRINT_TTL_SECONDS = 30 * 24 * 60 * 60 // 30 dias
+
+/** Hash do conteúdo registrado (nomes + descrições por idioma) — muda junto com o catálogo. */
+function commandsFingerprint(commands: CommandModule[]): string {
+  const payload = SUPPORTED_LOCALES.map((locale) => [
+    localeToTelegramLanguageCode(locale),
+    commands.map((command) => [command.name, lang(locale, command.description)]),
+  ])
+  return createHash('sha256').update(JSON.stringify(payload)).digest('hex').slice(0, 16)
+}
+
 /**
  * Registra os comandos no Telegram com descrições traduzidas
  * por idioma. Os NOMES ficam sempre em inglês.
  *
- * Falha aqui (ex.: 429 de rate limit) não pode derrubar o boot —
- * sem o registro o bot continua respondendo normalmente.
+ * Duas proteções de robustez:
+ * - falha aqui (ex.: 429 de rate limit) não derruba o boot — sem o
+ *   registro o bot continua respondendo normalmente;
+ * - quando um `cache` é informado, guarda o fingerprint dos comandos
+ *   e pula o registro se nada mudou — em ambientes com restarts
+ *   frequentes, evita martelar a API do Telegram a cada boot.
  */
 export async function registerBotCommands(
   bot: Bot<FreshBeatContext>,
   commands: CommandModule[],
   logger: Logger,
+  cache?: CacheStore,
 ): Promise<void> {
+  const fingerprint = commandsFingerprint(commands)
+
+  if (cache !== undefined) {
+    const stored = await cache.get<string>(FINGERPRINT_KEY).catch(() => undefined)
+    if (stored === fingerprint) {
+      logger.info('commands unchanged — skipping Telegram registration')
+      return
+    }
+  }
+
   try {
     // Descrição padrão (pt-BR) para clientes sem idioma definido
     await bot.api.setMyCommands(
@@ -76,6 +104,8 @@ export async function registerBotCommands(
     }
 
     logger.info({ commands: commands.map((c) => c.name) }, 'commands registered')
+    // Só marca como registrado em caso de sucesso — senão o próximo boot tenta de novo
+    await cache?.set(FINGERPRINT_KEY, fingerprint, { ttlSeconds: FINGERPRINT_TTL_SECONDS })
   } catch (error) {
     logger.warn({ err: error }, 'falha ao registrar comandos (o bot segue funcionando)')
   }

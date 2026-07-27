@@ -1,4 +1,10 @@
-import { createRedisClient, RateLimiter, RedisCacheStore, TempStateStore } from '@freshbeat/cache'
+import {
+  createRedisClient,
+  RateLimiter,
+  RedisCacheStore,
+  TempStateStore,
+  type CacheStore,
+} from '@freshbeat/cache'
 import { loadConfig, type Config } from '@freshbeat/config'
 import { createDatabase, DrizzleUserRepository } from '@freshbeat/database'
 import { createLogger, type Logger } from '@freshbeat/logging'
@@ -48,6 +54,8 @@ export interface AppContainer {
   logger: Logger
   bot: Bot<FreshBeatContext>
   commands: CommandModule[]
+  /** Cache compartilhado (Redis) — usado no boot p/ pular setMyCommands. */
+  cache: CacheStore
   /** Encerra recursos (banco, redis) no shutdown gracioso. */
   close: () => Promise<void>
 }
@@ -235,6 +243,7 @@ export function createContainer(): AppContainer {
     logger,
     bot,
     commands,
+    cache: cacheStore,
     close: async () => {
       redis.disconnect()
       await closeDatabase()

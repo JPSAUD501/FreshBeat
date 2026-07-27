@@ -8,9 +8,9 @@ import { registerBotCommands } from './presentation/bot.js'
  */
 async function main(): Promise<void> {
   const container = createContainer()
-  const { bot, logger, commands } = container
+  const { bot, logger, commands, cache } = container
 
-  await registerBotCommands(bot, commands, logger)
+  await registerBotCommands(bot, commands, logger, cache)
 
   // Garante que não há webhook configurado atrapalhando o polling
   await bot.api.deleteWebhook()

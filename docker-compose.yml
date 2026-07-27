@@ -32,6 +32,9 @@ services:
   redis:
     image: redis:7-alpine
     restart: unless-stopped
+    # AOF: sobrevive a kill -9/reboot do host perdendo no máx. 1s de writes
+    # (estados de login e cache do Last.fm não podem sumir num restart)
+    command: ['redis-server', '--appendonly', 'yes', '--appendfsync', 'everysec']
     ports:
       - '6379:6379'
     volumes:
