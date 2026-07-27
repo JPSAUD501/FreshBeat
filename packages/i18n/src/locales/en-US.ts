@@ -2,8 +2,8 @@ import type { BaseMessages } from './pt-BR.js'
 
 export const enUS: BaseMessages = {
   'common.loading': '⏳ Loading…',
-  'common.error_with_code':
-    '😕 Something went wrong on our side. Our team has been notified!\n\nError code: <code>/support_error_{{errorId}}</code>',
+  'common.error_request_id':
+    '😕 Something went wrong on our side. Our team has been notified!\n\nIf you need help, share this code: <code>{{requestId}}</code>',
   'common.rate_limited': '🐌 Slow down! Try again in {{seconds}}s.',
 
   'cmd.start.description': 'Welcome to FreshBeat',

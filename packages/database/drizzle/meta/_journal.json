@@ -15,6 +15,13 @@
       "when": 1785129989651,
       "tag": "0001_dapper_wolfpack",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1785153350226,
+      "tag": "0002_cool_prodigy",
+      "breakpoints": true
     }
   ]
 }

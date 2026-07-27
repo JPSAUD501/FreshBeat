@@ -4,8 +4,8 @@ import type { LanguageCode } from 'grammy/types'
 import type { FreshBeatContext } from './context.js'
 import type { CommandModule } from './commands/command-module.js'
 import { createErrorHandler, type ErrorHandlerDeps } from './error-handler.js'
-import { createInteractionLogMiddleware } from './middlewares/interaction-log.middleware.js'
 import { createLocaleMiddleware } from './middlewares/locale.middleware.js'
+import { createObservabilityMiddleware } from './middlewares/observability.middleware.js'
 import { createRateLimitMiddleware } from './middlewares/rate-limit.middleware.js'
 import type { RateLimiter } from '@freshbeat/cache'
 import type { Logger } from '@freshbeat/logging'
@@ -28,9 +28,9 @@ export interface BotDeps extends ErrorHandlerDeps {
 export function createBot(deps: BotDeps): Bot<FreshBeatContext> {
   const bot = new Bot<FreshBeatContext>(deps.token)
 
+  bot.use(createObservabilityMiddleware(deps.logger))
   bot.use(createLocaleMiddleware(deps.userRepository))
   bot.use(createRateLimitMiddleware(deps.rateLimiter))
-  bot.use(createInteractionLogMiddleware(deps.logger))
 
   for (const command of deps.commands) {
     bot.use(command.composer)

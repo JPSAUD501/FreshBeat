@@ -2,8 +2,8 @@ import type { BaseMessages } from './pt-BR.js'
 
 export const esES: BaseMessages = {
   'common.loading': '⏳ Cargando…',
-  'common.error_with_code':
-    '😕 Algo salió mal por aquí. ¡Nuestro equipo ya fue avisado!\n\nCódigo del error: <code>/support_error_{{errorId}}</code>',
+  'common.error_request_id':
+    '😕 Algo salió mal por aquí. ¡Nuestro equipo ya fue avisado!\n\nSi necesitas ayuda, comparte este código: <code>{{requestId}}</code>',
   'common.rate_limited': '🐌 ¡Más despacio! Inténtalo de nuevo en {{seconds}}s.',
 
   'cmd.start.description': 'Bienvenido a FreshBeat',

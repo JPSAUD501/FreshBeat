@@ -110,7 +110,7 @@ async function sendLyricsImage(
     })
     await ctx.api.deleteMessage(placeholder.chat.id, placeholder.message_id)
   } catch (error) {
-    // A explicação já foi entregue — falha na imagem vira mensagem amigável, não /support_error
+    // A explicação já foi entregue — falha na imagem vira mensagem amigável, não erro genérico
     logger.error({ err: error }, 'falha ao gerar imagem da letra')
     await ctx.api.editMessageText(
       placeholder.chat.id,

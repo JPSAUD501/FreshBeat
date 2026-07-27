@@ -26,7 +26,6 @@ import { LrclibProvider } from '../infrastructure/lyrics/lrclib.provider.js'
 import { LyricsOvhProvider } from '../infrastructure/lyrics/lyrics-ovh.provider.js'
 import { DeezerClient } from '../infrastructure/music/deezer-client.js'
 import { SpotifyClient } from '../infrastructure/music/spotify-client.js'
-import { DrizzleErrorLogRepository } from '../infrastructure/persistence/drizzle-error-log-repository.js'
 import { S3ImageStorage } from '../infrastructure/storage/s3-image-storage.js'
 import { createBot } from '../presentation/bot.js'
 import { createExplainLyricsCallback } from '../presentation/callbacks/explain-lyrics.callback.js'
@@ -75,7 +74,6 @@ export function createContainer(): AppContainer {
 
   // Repositories (adapters de persistência)
   const userRepository = new DrizzleUserRepository(db)
-  const errorLogRepository = new DrizzleErrorLogRepository(db)
 
   // Adapters externos
   const lastFmClient = new LastFmClient(config.lastfm.LASTFM_API_KEY)
@@ -228,7 +226,6 @@ export function createContainer(): AppContainer {
     logger,
     rateLimiter,
     userRepository,
-    errorLogRepository,
     commands,
     listeners,
   })

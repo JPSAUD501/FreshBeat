@@ -2,7 +2,7 @@
  * Erros de aplicação. Qualquer erro que "faz parte do negócio"
  * (conta não vinculada, letra não encontrada…) deve estender AppError
  * com uma chave i18n, para a camada de apresentação traduzir.
- * Erros inesperados viram /support_error_{id}.
+ * Erros inesperados viram log estruturado + requestId ao usuário.
  */
 export abstract class AppError extends Error {
   abstract readonly i18nKey: string
@@ -22,13 +22,6 @@ export class LastfmNotLinkedError extends AppError {
   readonly i18nKey = 'lastfm.not_linked'
   constructor() {
     super('Usuário sem conta Last.fm vinculada')
-  }
-}
-
-export class UserNotFoundError extends AppError {
-  readonly i18nKey = 'common.error_with_code'
-  constructor(public readonly telegramUserId: number) {
-    super(`Usuário não encontrado: ${telegramUserId}`)
   }
 }
 

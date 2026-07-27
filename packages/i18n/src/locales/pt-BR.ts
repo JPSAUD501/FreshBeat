@@ -8,8 +8,8 @@
 export const ptBR = {
   // Geral
   'common.loading': '⏳ Carregando…',
-  'common.error_with_code':
-    '😕 Algo deu errado por aqui. Nossa equipe já foi avisada!\n\nCódigo do erro: <code>/support_error_{{errorId}}</code>',
+  'common.error_request_id':
+    '😕 Algo deu errado por aqui. Nossa equipe já foi avisada!\n\nSe precisar de ajuda, informe o código: <code>{{requestId}}</code>',
   'common.rate_limited': '🐌 Calma aí! Tente de novo em {{seconds}}s.',
 
   // Descrições dos comandos (setMyCommands) — nomes ficam em inglês, descrições traduzem

@@ -7,14 +7,12 @@ import {
   LyricsNotFoundError,
   NotListeningError,
   RateLimitedError,
-  UserNotFoundError,
 } from './app-error.js'
 
 describe('AppError', () => {
   it('todo erro de negócio tem chave i18n e nome da classe', () => {
     const errors: AppError[] = [
       new LastfmNotLinkedError(),
-      new UserNotFoundError(42),
       new RateLimitedError(30),
       new LyricsNotFoundError('Bohemian Rhapsody', 'Queen'),
       new NotListeningError(),
@@ -26,12 +24,6 @@ describe('AppError', () => {
       expect(error.name).toBe(error.constructor.name)
       expect(error.message).toBeTruthy()
     }
-  })
-
-  it('UserNotFoundError carrega o telegramUserId', () => {
-    const error = new UserNotFoundError(42)
-    expect(error.telegramUserId).toBe(42)
-    expect(error.i18nKey).toBe('common.error_with_code')
   })
 
   it('RateLimitedError expõe os segundos para a mensagem traduzida', () => {

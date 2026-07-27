@@ -2,8 +2,8 @@ import type { BaseMessages } from './pt-BR.js'
 
 export const jaJP: BaseMessages = {
   'common.loading': '⏳ 読み込み中…',
-  'common.error_with_code':
-    '😕 問題が発生しました。チームにはすでに通知済みです！\n\nエラーコード: <code>/support_error_{{errorId}}</code>',
+  'common.error_request_id':
+    '😕 問題が発生しました。チームにはすでに通知済みです！\n\nサポートが必要な場合は、このコードをお知らせください: <code>{{requestId}}</code>',
   'common.rate_limited': '🐌 少し落ち着いて！{{seconds}}秒後に再試行してください。',
 
   'cmd.start.description': 'FreshBeatへようこそ',
