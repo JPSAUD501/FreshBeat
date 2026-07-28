@@ -7,13 +7,13 @@ services:
       POSTGRES_PASSWORD: freshbeat
       POSTGRES_DB: freshbeat
     expose:
-    - '5432'
+      - '5432'
     volumes:
-    - pgdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     healthcheck:
       test:
-      - CMD-SHELL
-      - pg_isready -U freshbeat -d freshbeat
+        - CMD-SHELL
+        - pg_isready -U freshbeat -d freshbeat
       interval: 5s
       timeout: 3s
       retries: 10
@@ -21,20 +21,20 @@ services:
     image: redis:7-alpine
     restart: unless-stopped
     command:
-    - redis-server
-    - --appendonly
-    - 'yes'
-    - --appendfsync
-    - everysec
+      - redis-server
+      - --appendonly
+      - 'yes'
+      - --appendfsync
+      - everysec
     expose:
-    - '6379'
+      - '6379'
     volumes:
-    - redisdata:/data
+      - redisdata:/data
     healthcheck:
       test:
-      - CMD
-      - redis-cli
-      - ping
+        - CMD
+        - redis-cli
+        - ping
       interval: 5s
       timeout: 3s
       retries: 10
@@ -46,16 +46,16 @@ services:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?defina MINIO_ROOT_PASSWORD no .env — sem default por segurança}
     expose:
-    - '9000'
-    - '9001'
+      - '9000'
+      - '9001'
     volumes:
-    - miniodata:/data
+      - miniodata:/data
     healthcheck:
       test:
-      - CMD
-      - curl
-      - -f
-      - http://localhost:9000/minio/health/live
+        - CMD
+        - curl
+        - -f
+        - http://localhost:9000/minio/health/live
       interval: 5s
       timeout: 3s
       retries: 10
@@ -65,9 +65,9 @@ services:
     environment:
       MC_HOST_local: http://${MINIO_ROOT_USER:-minioadmin}:${MINIO_ROOT_PASSWORD}@minio:9000
     entrypoint:
-    - /bin/sh
-    - -c
-    - mc mb --ignore-existing local/freshbeat && mc anonymous set download local/freshbeat
+      - /bin/sh
+      - -c
+      - mc mb --ignore-existing local/freshbeat && mc anonymous set download local/freshbeat
     depends_on:
       minio:
         condition: service_healthy
@@ -109,8 +109,17 @@ services:
       REDIS_URL: redis://redis:6379
       WEB_BASE_URL: ${WEB_BASE_URL:-http://localhost:3000}
       NODE_ENV: production
+      # S3_* completas: o .env compartilhado do Coolify traz S3_PUBLIC_URL, o que
+      # ativa o grupo s3 "tudo ou nada" do loadConfig — sem o resto o web sobe mas
+      # toda rota dinâmica (ex.: /auth/lastfm) quebra com ConfigError/500.
+      S3_ENDPOINT: http://minio:9000
+      S3_REGION: us-east-1
+      S3_BUCKET: freshbeat
+      S3_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
+      S3_SECRET_KEY: ${MINIO_ROOT_PASSWORD:?Defina MINIO_ROOT_PASSWORD no .env — sem default por segurança}
+      S3_PUBLIC_URL: ${S3_PUBLIC_URL}
     expose:
-    - '3000'
+      - '3000'
     depends_on:
       postgres:
         condition: service_healthy
