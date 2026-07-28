@@ -1,0 +1,154 @@
+# ============================================================================
+# docker-compose.coolify.yml — MERGED (base + all) para deploy no Coolify
+# Gerado a partir de docker-compose.yml + docker-compose.all.yml
+# Motivo: Coolify nao resolve o atributo `include:` — este arquivo contem tudo
+# ============================================================================
+# Stack principal do FreshBeat: Postgres + Redis + MinIO + bot (polling).
+# SEM o site — é o stack de PRODUÇÃO no Coolify (o site fica na Vercel).
+#
+# Uso:
+#   cp .env.example .env   # preencha as chaves
+#   docker compose up --build
+#
+# Para subir TUDO incluindo o site (dev/hml no Coolify ou local):
+#   docker compose -f docker-compose.all.yml up --build
+#
+# One-shots: `migrate` roda as migrations e `minio-init` cria o bucket
+# de imagens (leitura pública) — ambos antes do bot subir.
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: freshbeat
+      POSTGRES_PASSWORD: freshbeat
+      POSTGRES_DB: freshbeat
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U freshbeat -d freshbeat']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    # AOF: sobrevive a kill -9/reboot do host perdendo no máx. 1s de writes
+    # (estados de login e cache do Last.fm não podem sumir num restart)
+    command: ['redis-server', '--appendonly', 'yes', '--appendfsync', 'everysec']
+    ports:
+      - '6379:6379'
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  minio:
+    image: minio/minio:latest
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?defina MINIO_ROOT_PASSWORD no .env — sem default por segurança}
+    ports:
+      - '9000:9000' # API S3
+      - '9001:9001' # console web
+    volumes:
+      - miniodata:/data
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:9000/minio/health/live']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  minio-init:
+    image: minio/mc:latest
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?defina MINIO_ROOT_PASSWORD no .env — sem default por segurança}
+      S3_BUCKET: ${S3_BUCKET:-freshbeat}
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set local http://minio:9000 $${MINIO_ROOT_USER} $${MINIO_ROOT_PASSWORD} &&
+      mc mb --ignore-existing local/$${S3_BUCKET} &&
+      mc anonymous set download local/$${S3_BUCKET}
+      "
+    depends_on:
+      minio:
+        condition: service_healthy
+
+  migrate:
+    build:
+      context: .
+      dockerfile: apps/bot/Dockerfile
+    command: npm run db:migrate --workspace @freshbeat/database
+    env_file: .env
+    environment:
+      # Dentro da rede do compose, o host é o nome do serviço
+      DATABASE_URL: postgres://freshbeat:freshbeat@postgres:5432/freshbeat
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  bot:
+    build:
+      context: .
+      dockerfile: apps/bot/Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://freshbeat:freshbeat@postgres:5432/freshbeat
+      REDIS_URL: redis://redis:6379
+      # MinIO: storage S3-compatível dentro do compose.
+      # S3_PUBLIC_URL precisa ser alcançável de FORA (o Telegram baixa a
+      # imagem por ela) — ajuste no .env em produção, ex.:
+      # S3_PUBLIC_URL=https://s3.seudominio.com/freshbeat
+      S3_ENDPOINT: http://minio:9000
+      S3_REGION: ${S3_REGION:-us-east-1}
+      S3_BUCKET: ${S3_BUCKET:-freshbeat}
+      S3_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
+      S3_SECRET_KEY: ${MINIO_ROOT_PASSWORD:?defina MINIO_ROOT_PASSWORD no .env — sem default por segurança}
+      S3_PUBLIC_URL: ${S3_PUBLIC_URL:-http://localhost:9000/freshbeat}
+      NODE_ENV: production
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        # NEXT_PUBLIC_* são embutidos no build do Next — passar como args
+        NEXT_PUBLIC_BOT_USERNAME: ${BOT_USERNAME:-FreshBeatBot}
+        NEXT_PUBLIC_GITHUB_URL: ${NEXT_PUBLIC_GITHUB_URL:-https://github.com/JPSAUD501/FreshBeat}
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://freshbeat:freshbeat@postgres:5432/freshbeat
+      REDIS_URL: redis://redis:6379
+      WEB_BASE_URL: ${WEB_BASE_URL:-http://localhost:3000}
+      NODE_ENV: production
+    ports:
+      - '3000:3000'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  redisdata:
+  miniodata:
