@@ -24,8 +24,8 @@ services:
       POSTGRES_USER: freshbeat
       POSTGRES_PASSWORD: freshbeat
       POSTGRES_DB: freshbeat
-    ports:
-      - '5432:5432'
+    expose:
+      - '5432'
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -40,8 +40,8 @@ services:
     # AOF: sobrevive a kill -9/reboot do host perdendo no máx. 1s de writes
     # (estados de login e cache do Last.fm não podem sumir num restart)
     command: ['redis-server', '--appendonly', 'yes', '--appendfsync', 'everysec']
-    ports:
-      - '6379:6379'
+    expose:
+      - '6379'
     volumes:
       - redisdata:/data
     healthcheck:
@@ -57,9 +57,9 @@ services:
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?defina MINIO_ROOT_PASSWORD no .env — sem default por segurança}
-    ports:
-      - '9000:9000' # API S3
-      - '9001:9001' # console web
+    expose:
+      - '9000' # API S3
+      - '9001' # console web
     volumes:
       - miniodata:/data
     healthcheck:
@@ -140,8 +140,8 @@ services:
       REDIS_URL: redis://redis:6379
       WEB_BASE_URL: ${WEB_BASE_URL:-http://localhost:3000}
       NODE_ENV: production
-    ports:
-      - '3000:3000'
+    expose:
+      - '3000'
     depends_on:
       postgres:
         condition: service_healthy
